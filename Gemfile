@@ -51,3 +51,6 @@ group :production do
   gem 'pg'
   gem 'rails_12factor'
 end
+
+# Facebook認証
+gem 'omniauth-facebook', '1.4.0'
