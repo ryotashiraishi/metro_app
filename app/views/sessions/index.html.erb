@@ -1,2 +1,10 @@
-<h1>Sessions#index</h1>
-<p>Find me in app/views/sessions/index.html.erb</p>
+<div>
+  <p>Tokyo Metro App
+</div>
+<div>
+  <% if session[:name].nil? %>
+    <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
+  <% else %>
+  <% end %>
+</div>
+

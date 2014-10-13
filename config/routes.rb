@@ -6,6 +6,8 @@ MetroApp::Application.routes.draw do
   # root 'welcome#index'
   root 'sessions#index'
 
+  match 'auth/:provider/callback', to: 'sessions#create', via: [:get]
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
