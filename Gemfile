@@ -9,7 +9,7 @@ group :development do
 end
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.2'
+gem 'sass-rails', :git => 'https://github.com/zakelfassi/sass-rails' # Until the gem is officially updated.
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -54,3 +54,13 @@ end
 
 # Facebook認証
 gem 'omniauth-facebook', '1.4.0'
+
+# デバッグ用
+group :development do
+  gem 'pry'
+  gem 'pry-remote'
+  gem 'pry-nav'
+end
+
+# Bootflatの導入
+gem 'bootflat-rails', '~> 0.1.9'

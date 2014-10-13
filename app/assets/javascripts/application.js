@@ -13,4 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require bootstrap
+//= require icheck.min
+//= require bootflat_icheck
 //= require_tree .
