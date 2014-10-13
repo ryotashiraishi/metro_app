@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
     session[:last_name] = auth['info']['last_name']
     session[:image_url] = auth['info']['image']
 
-    redirect_to root_path, notice: 'Authentication is completed.'
+    redirect_to settings_index_path, notice: 'Authentication is completed.'
   end
 
   def destroy
