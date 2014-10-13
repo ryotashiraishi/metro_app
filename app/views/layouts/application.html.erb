@@ -7,15 +7,39 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <div id="wrap">
+    <%= render 'layouts/header' %>
 
-<% flash.each do |key, value| %>
-  <div class="alert alert-dismissable alert-warning" style="margin: 0px;">
-    <!-- <button type="button" class="close" data-dismiss="alert">x</button> -->
-    <h4><%= value %></h4>
+    <% flash.each do |key, value| %>
+      <div class="alert alert-dismissable alert-warning" style="margin: 0px;">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <h4><%= value %></h4>
+      </div>
+    <% end %>
+
+    <div id="contents" style="height: 100%;">
+      <%= yield %>
+    </div>
+
+    <%= render 'layouts/footer' %>
   </div>
-<% end %>
-
-<%= yield %>
-
 </body>
+<style>
+html, body {
+	height: 100%;
+}
+#wrap {
+    width: 100%;
+    position: relative;
+    min-height: 100%;	
+}
+#contents {
+	padding-bottom: 100px;
+}
+#footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+</style>
 </html>
