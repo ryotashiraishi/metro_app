@@ -5,6 +5,7 @@
   <% if session[:name].nil? %>
     <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
   <% else %>
+    <%= link_to "Sign out", signout_path, id: "sign_out", method: "delete" %>
   <% end %>
 </div>
 

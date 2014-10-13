@@ -20,6 +20,17 @@ class SessionsController < ApplicationController
     redirect_to root_path, notice: 'Authentication is completed.'
   end
 
-  def destory
+  def destroy
+    session[:oauth_token] = nil
+    session[:oauth_token_secret] = nil
+    session[:oauth_access_token] = nil
+    session[:uid] = nil
+    session[:provider] = nil
+    session[:name] = nil
+    session[:first_name] = nil
+    session[:last_name] = nil
+    session[:image_url] = nil
+
+    redirect_to root_path, notice: 'Signed out.'
   end
 end

@@ -7,6 +7,7 @@ MetroApp::Application.routes.draw do
   root 'sessions#index'
 
   match 'auth/:provider/callback', to: 'sessions#create', via: [:get]
+  match 'signout', to: 'sessions#destroy', as: 'signout', via: [:delete]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
