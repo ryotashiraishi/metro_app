@@ -19,7 +19,9 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a class="nav-link" href="#">menu 1</a></li>
         <li><a class="nav-link" href="#">menu 2</a></li>
-        <li><a class="nav-link" href="#">menu 3</a></li>
+        <% if session[:name].present? %>
+          <li><%= link_to "Sign out", signout_path, method: "delete", class: "nav-link text-center" %></li>
+        <% end %>
       </ul>
     </div>
   </div>
