@@ -1,6 +1,28 @@
-<h1>Missions#index</h1>
-<p>Find me in app/views/missions/index.html.erb</p>
+<div style="height: 50px; width: 100%; margin: 10px;">
+  <div style="height: 100%; width: 80%; margin: 0 auto; background-color: blueviolet; color: white;">
+    <p>ここに時刻表を表示する</p>
+  </div>
+</div>
 
-<%= link_to "detail", missions_show_path(id: 1) %>
+<div style="height: 100px; width: 100%; margin: 10px;">
+  <div style="height: 100%; width: 80%; margin: 0 auto; background-color: pink; color: white;">
+    <p>ここに路線図を表示する</p>
+  </div>
+</div>
 
-<%= link_to "top", root_path %>
+<div style="margin: 10px;">
+  <%= link_to "shake the dice", missions_show_path(id: 1), class: "btn btn-primary",
+              style: "margin: 0 auto; display: block; width: 50%;" %>
+</div>
+
+<div style="height: 200px; width: 100%; margin: 10px;">
+  <div style="height: 100%; width: 80%; margin: 0 auto; background-color: skyblue; color: white;">
+    <p>ミッションの一覧などを表示する</p>
+    <div style="border: 1px solid white; height: 37px;">
+      <span>ミッション１(仮)</span>
+      <span style="float: right;">
+        <%= link_to "detail", missions_show_path(id: 1), class: "btn btn-primary" %>
+      </span>
+    </div>
+  </div>
+</div>
