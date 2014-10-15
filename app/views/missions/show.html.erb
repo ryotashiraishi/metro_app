@@ -1,5 +1,32 @@
-<h1>Missions#show</h1>
-<p>Find me in app/views/missions/show.html.erb</p>
+<div style="background-color: white; padding-top: 1px; margin: 10px;">
+  <div class="title" style="background-color: blueviolet; height: 50px;
+                            color: white; margin: 10px;">
+    <p>ここにミッションのタイトルを表示する</p>
+  </div>
 
-<%= link_to "cancel", missions_index_path %>
-<%= link_to "ok", missions_progress_path %>
+  <div class="destination-info" style="background-color: pink; height: 80px; color: white; margin: 10px;">
+    <p>ここに目的地の写真,住所などを表示する</p>
+  </div>
+
+  <div class="mission-detail" style="background-color: skyblue; height: 200px;
+                                     color: white; margin: 10px; overflow: auto;">
+  	<div class="mission-abstract">
+  	  <p>ここにミッションの詳細を表示する</p>
+  	</div>
+  	<div class="mission-pr1" style="background-color: gray; height: 50px; margin: 10px;">
+  	  <p>ここに補足情報その1を表示する</p>
+  	</div>
+  	<div class="mission-pr2" style="background-color: gray; height: 50px; margin: 10px;">
+  	  <p>ここに補足情報その2を表示する</p>
+  	</div>
+  	<div class="mission-pr3" style="background-color: gray; height: 50px; margin: 10px;">
+  	  <p>ここに補足情報その3を表示する</p>
+  	</div>
+  </div>
+
+  <div class="btn-field" style="margin: 5px; padding: 5px;">
+    <%= link_to "cancel", missions_index_path, class: "btn btn-primary" %>
+    <%= link_to "ok", missions_progress_path, class: "btn btn-primary" %>
+  </div>
+</div>
+
