@@ -1,4 +1,15 @@
-<h1>Settings#index</h1>
-<p>Find me in app/views/settings/index.html.erb</p>
+<div class="panel panel-primary"
+     style="width: 90%; margin: 20px auto;">
+  <div class="panel-heading">
+    <h3 class="panel-title">設定</h3>
+  </div>
 
-<%= link_to "next", missions_index_path %>
+  <div class="panel-body">
+    <p>Panel content</p>
+    <p>ここに設定を載せる</p>
+    <div style="margin: 0 auto;">
+      <%= link_to "next", missions_index_path, class: "btn btn-info",
+                          style: "display: block; width: 80%; margin: 0 auto;" %>
+    </div>
+  </div>
+

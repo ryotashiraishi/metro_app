@@ -3,12 +3,7 @@
   <h2 style="text-align: center; color: white;">App</h2>
 </div>
 <div class="col-xs-12" style="height: 200px; padding: 83px 0;">
-  <% if session[:name].nil? %>
-    <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in",
+  <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in",
                 class: "btn btn-primary", style: "display: block; margin: 0 auto; width: 60%;" %>
-  <% else %>
-    <%= link_to "Sign out", signout_path, id: "sign_out", method: "delete",
-                class: "btn btn-primary", style: "display: block; margin: 0 auto; width: 60%;" %>
-  <% end %>
 </div>
 
