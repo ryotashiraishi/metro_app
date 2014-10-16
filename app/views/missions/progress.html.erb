@@ -1,4 +1,51 @@
-<h1>Missions#progress</h1>
-<p>Find me in app/views/missions/progress.html.erb</p>
+<div>
+  <div style="height: 50px; width: 100%; margin: 10px;">
+    <div style="height: 100%; width: 80%; margin: 0 auto; background-color: blueviolet; color: white;">
+      <p>ここに時刻表を表示する</p>
+    </div>
+  </div>
 
-<%= link_to "complete", missions_index_path %>
+  <div style="height: 100px; width: 100%; margin: 10px;">
+    <div style="height: 100%; width: 80%; margin: 0 auto; background-color: pink; color: white;">
+      <p>ここに路線図を表示する</p>
+    </div>
+  </div>
+
+  <div style="background-color: white; padding-top: 1px; overflow: auto;
+              height: 200px; margin: 0 10px;">
+    <div class="title" style="background-color: blueviolet; height: 50px;
+                              color: white; margin: 10px;">
+      <p>ここにミッションのタイトルを表示する</p>
+    </div>
+
+    <div class="destination-info" style="background-color: pink; height: 80px;
+                                         color: white; margin: 10px;">
+      <p>ここに目的地の写真,住所などを表示する</p>
+    </div>
+
+    <div class="mission-detail" style="background-color: skyblue; height: 200px;
+                                       color: white; margin: 10px; overflow: auto;">
+  	  <div class="mission-abstract">
+  	    <p>ここにミッションの詳細を表示する</p>
+  	  </div>
+  	  <div class="mission-pr1" style="background-color: gray; height: 50px; margin: 10px;">
+  	    <p>ここに補足情報その1を表示する</p>
+      </div>
+      <div class="mission-pr2" style="background-color: gray; height: 50px; margin: 10px;">
+  	    <p>ここに補足情報その2を表示する</p>
+  	  </div>
+  	  <div class="mission-pr3" style="background-color: gray; height: 50px; margin: 10px;">
+  	    <p>ここに補足情報その3を表示する</p>
+  	  </div>
+    </div>
+
+  </div>
+
+  <div class="btn-field" style="margin: 5px; padding: 5px;">
+  	<div style="width: 60%; margin: 0 auto;">
+      <%= link_to "Give up", missions_index_path, class: "btn btn-primary", confirm: "Are you sure?" %>
+      <%= link_to "Satisfied", missions_index_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+
+</div>
