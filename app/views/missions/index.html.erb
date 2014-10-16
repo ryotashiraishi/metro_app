@@ -1,6 +1,17 @@
 <div style="height: 50px; width: 100%; margin: 10px;">
   <div style="height: 100%; width: 80%; margin: 0 auto; background-color: blueviolet; color: white;">
-    <p>ここに時刻表を表示する</p>
+    <div>
+      <span>浅草方面</span>
+      <% @train_time[:up].each do |up_time| %>
+        <span><%= up_time %></span>
+      <% end %>
+    </div>
+    <div>
+      <span>渋谷方面</span>
+      <% @train_time[:down].each do |down_time| %>
+        <span><%= down_time %></span>
+      <% end %>
+    </div>
   </div>
 </div>
 
