@@ -64,3 +64,6 @@ end
 
 # Bootflatの導入
 gem 'bootflat-rails', '~> 0.1.9'
+
+# Httpクライアント
+gem 'faraday'
