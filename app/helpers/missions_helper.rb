@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module MissionsHelper
   # 東京メトロAPIへリクエストするクライアント
   def metro_client(url)
@@ -65,4 +67,46 @@ module MissionsHelper
     result = { up: up_time_array,
     	       down: down_time_array }
   end
+
+  # 駅名の一覧を取得
+  def acquire_station_name
+    client = metro_client(DATAPOINTS_URL)
+
+    target_railway = '銀座'
+    response = client.get DATAPOINTS_URL,
+                 {'rdf:type' => 'odpt:Railway',
+                  'dc:title' => target_railway,
+                  'acl:consumerKey' => ACCESS_TOKEN} 
+    result = JSON.parse(response.body)[0]["odpt:stationOrder"]
+  end
+
+  # 駅名を保持するハッシュを生成する
+  def acquire_station_name_hash
+    result = {}
+
+    prefix = 'odpt.Station:TokyoMetro.Ginza.'
+
+    result = {
+        prefix + "Shibuya" => "渋谷",
+        prefix + "OmoteSando" => "表参道",
+        prefix + "Gaiemmae" => "外苑前",
+        prefix + "AoyamaItchome" => "青山一丁目",
+        prefix + "AkasakaMitsuke" => "赤坂見附",
+        prefix + "TameikeSanno" => "溜池山王",
+        prefix + "Toranomon" => "虎ノ門",
+        prefix + "Shimbashi" => "新橋",
+        prefix + "Ginza" => "銀座",
+        prefix + "Kyobashi" => "京橋",
+        prefix + "Nihombashi" => "日本橋",
+        prefix + "Mitsukoshimae" => "三越前",
+        prefix + "Kanda" => "神田",
+        prefix + "Suehirocho" => "末広町",
+        prefix + "UenoHirokoji" => "上野広小路",
+        prefix + "Ueno" => "上野",
+        prefix + "Inaricho" => "稲荷町",
+        prefix + "Tawaramachi" => "田原町",
+        prefix + "Asakusa" => "浅草"
+    }
+  end
+
 end
