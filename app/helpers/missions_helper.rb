@@ -1,8 +1,8 @@
 # encoding: utf-8
 
 module MissionsHelper
-  # 東京メトロAPIへリクエストするクライアント
-  def metro_client(url)
+  # 東京メトロAPI, 柳岡APIへリクエストするクライアント
+  def http_client(url)
     client = Faraday.new(:url => url) do |faraday|
       faraday.request  :url_encoded             # form-encode POST params
       faraday.response :logger                  # log requests to STDOUT
@@ -20,7 +20,7 @@ module MissionsHelper
     day = now_time.strftime("%w")  # 0-6 日曜が0
 
 
-    client = metro_client(DATAPOINTS_URL)
+    client = http_client(DATAPOINTS_URL)
 
     response = client.get DATAPOINTS_URL,
                  {'rdf:type' => 'odpt:StationTimetable',
@@ -70,7 +70,7 @@ module MissionsHelper
 
   # 駅名の一覧を取得
   def acquire_station_name
-    client = metro_client(DATAPOINTS_URL)
+    client = http_client(DATAPOINTS_URL)
 
     target_railway = '銀座'
     response = client.get DATAPOINTS_URL,
