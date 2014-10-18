@@ -30,13 +30,22 @@ ready = ->
     # サイコロストップ 
     if img.hasClass('stop-dice') 
       dice_value = eval(Math.floor(Math.random() * 5) + 1)
+
+      # TODO: ajaxで非同期に決定した駅のミッション一覧情報を取得する
+      # TODO: 取得した情報で$('#mission_div')領域を更新する
+
       select_dice_img_path = "/assets/dice/" + "dice_" + dice_value + ".png"
       img.attr('src', select_dice_img_path)
       img.toggleClass('stop-dice')
-      img.toggleClass('ready-dice')
-      $('#dice_btn').text('shake the dice')
+      img.toggleClass('show-mission')
+      $('#dice_btn').text('show the mission')
       return
-    
+
+    # ミッション一覧を表示 
+    if img.hasClass('show-mission') 
+      $('#mission_div').toggleClass('display-none-style')
+      $('#dice_div').css('display', 'none')
+
 
 # Turbolinksによるajaxページ遷移のため再度イベントを設定
 $(document).ready(ready)
