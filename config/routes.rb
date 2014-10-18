@@ -1,4 +1,5 @@
 MetroApp::Application.routes.draw do
+  get "missions/mission_list_api"
   get "missions/progress"
   get "missions/index"
   get "missions/show"

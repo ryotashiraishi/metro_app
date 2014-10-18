@@ -1,0 +1,12 @@
+<div id="mission_div" class="display-none-style" style="height: 100%; width: 80%; margin: 0 auto;
+                             background-color: skyblue; color: white;">
+  <% @json.each do |mission| %>
+  <div style="border: 1px solid white; height: 37px;">
+    <span><%= mission[:title] %></span>
+    <span style="float: right;">
+      <%= link_to image_tag('mission/image_'+mission[:station_no]+'_'+mission[:target_place_no]+'.jpg', border: 0, size: '40x33'), missions_show_path(station_no: mission[:station_no], mission_id: mission[:target_place_no]),
+                            class: "btn btn-primary", style: "padding: 0px; margin: 0px;" %>
+    </span>
+  </div>
+  <% end %>
+</div>
