@@ -109,4 +109,41 @@ module MissionsHelper
     }
   end
 
+  # 引数に指定した駅のミッションの一覧を取得する
+  def get_mission_list(station_no)
+    url = ''
+
+#    client = http_client(url)
+#    # TODO: もしかしたらgetのあとにurlが必要かも
+#    response = client.get '',
+#                 {'station_no' => station_no}
+#    parse_result = JSON.parse(response.body)
+
+    # TODO: 柳岡APIと連携するまでテストデータを返す
+    parse_result = []
+    mission1 = {
+    	station_no: station_no,
+    	target_place_no: "1",
+    	title: "XXXで◯◯◯を食べよう",
+    	image_url: "/asset/mission/image_01.jpg"
+    }
+    mission2 = {
+    	station_no: station_no,
+    	target_place_no: "2",
+    	title: "XXXで同じ写真を撮ろう",
+    	image_url: "/asset/mission/image_02.jpg"
+    }
+    mission3 = {
+    	station_no: station_no,
+    	target_place_no: "3",
+    	title: "XXXで◯◯◯を食べよう",
+    	image_url: "/asset/mission/image_03.jpg"
+    }
+    parse_result << mission1
+    parse_result << mission2
+    parse_result << mission3
+
+    parse_result
+  end
+	
 end
