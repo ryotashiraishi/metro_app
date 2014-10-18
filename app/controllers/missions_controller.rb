@@ -16,4 +16,7 @@ class MissionsController < ApplicationController
 
   def progress
   end
+
+  def mission_list_api
+  end
 end

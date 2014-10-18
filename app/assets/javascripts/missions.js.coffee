@@ -31,8 +31,20 @@ ready = ->
     if img.hasClass('stop-dice') 
       dice_value = eval(Math.floor(Math.random() * 5) + 1)
 
-      # TODO: ajaxで非同期に決定した駅のミッション一覧情報を取得する
-      # TODO: 取得した情報で$('#mission_div')領域を更新する
+      # ajaxで非同期に決定した駅のミッション一覧情報を取得する
+      $.ajax
+        type: 'GET'
+        url: '/missions/mission_list_api'
+        dataType: 'html'
+        data: 
+          'dice_no': dice_value
+        success: (data, status, xhr) ->
+          # 取得した情報で$('#dynamic_div')領域を更新する
+          mission_div = $(data).find('#mission_div')
+          $('#dynamic_div').prepend(mission_div)
+        error: (xhr, status, error) -> 
+        complete: (xhr, status) -> 
+
 
       select_dice_img_path = "/assets/dice/" + "dice_" + dice_value + ".png"
       img.attr('src', select_dice_img_path)
