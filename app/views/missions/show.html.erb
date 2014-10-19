@@ -43,9 +43,11 @@
   	</div>
   </div>
 
-  <div class="btn-field" style="margin: 0 auto; padding: 5px; width: 40%;">
-    <%= link_to "取消", missions_index_path, class: "btn btn-primary" %>
-    <%= link_to "決定", missions_progress_path, class: "btn btn-primary" %>
+  <div class="btn-field" style="margin: 0 auto; padding: 5px; width: 50%;">
+    <%= link_to "取消", missions_index_path, class: "btn btn-primary",
+        style: "margin-right: 10px; float: left;" %>
+    <%= button_to "決定", missions_create_path(station_no: @target_place_detail[:station_no], target_place_no: @target_place_detail[:target_place_no]), class: "btn btn-primary",
+        confirm: "ミッションを決定してもいいですか？" %>
   </div>
 </div>
 
