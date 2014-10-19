@@ -146,4 +146,38 @@ module MissionsHelper
     parse_result
   end
 	
+
+  # 引数に駅と目的地番号を指定し、詳細情報を取得する
+  def get_target_place_info_detail(station_no, target_place_no)
+    url = ''
+
+#    client = http_client(url)
+#    # TODO: もしかしたらgetのあとにurlが必要かも
+#    response = client.get '',
+#                 {'station_no' => station_no,
+#                  'target_place_no' => target_place_no}
+#    parse_result = JSON.parse(response.body)
+
+    # TODO: 柳岡APIと連携するまでテストデータを返す
+    detail = {
+    	station_no: station_no,
+    	target_place_no: target_place_no,
+    	name: "XXXで◯◯◯を食べよう",
+    	address: "東京都品川区XXXXXXX",
+    	tel: "0120-444-444",
+    	business_hours: "平日: 10:00-20:00 土日祝日: 店休日",
+    	map_url: "http://xxxxxxxxxxxxx",
+    	station_exit: "どういった形で値を持とう？？",
+    	image_url: "mission/image_4_1.jpg",
+    	abustract: "創業何年XXXXXX的な？",
+    	pr1: "XXXXX",
+    	pr2: "XXXXX",
+    	pr3: "XXXXX",
+    	created_at: "2014-10-19 15:00:00",
+    	updated_at: "2014-10-19 16:00:00",
+    	deleted_at: ""
+    }
+
+    return detail
+  end
 end
