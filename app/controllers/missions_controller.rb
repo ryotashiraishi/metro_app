@@ -21,6 +21,23 @@ class MissionsController < ApplicationController
 
   end
 
+  def create
+    # 目的地情報を表示するため必要なパラメータを取得する
+    data = {
+    	station_no: params[:station_no],
+    	target_place_no: params[:target_place_no]
+    }
+ 
+    # TODO: 行動番号を登録する処理
+
+    # ミッション進行中画面へリダイレクト
+    respond_to do |format|
+      format.html { 
+      	redirect_to missions_progress_path(data)
+      }
+    end
+  end
+
   def progress
   end
 
