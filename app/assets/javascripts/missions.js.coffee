@@ -40,8 +40,9 @@ ready = ->
           'dice_no': dice_value
         success: (data, status, xhr) ->
           # 取得した情報で$('#dynamic_div')領域を更新する
-          mission_div = $(data).find('#mission_div')
-          $('#dynamic_div').prepend(mission_div)
+          mission_div = $(data).find('#mission_data')
+          $('#mission_data').remove()
+          $('#mission_div').prepend(mission_div)
         error: (xhr, status, error) -> 
         complete: (xhr, status) -> 
 
@@ -58,6 +59,26 @@ ready = ->
       $('#mission_div').toggleClass('display-none-style')
       $('#dice_div').css('display', 'none')
 
+  # ミッションをランダムに決定する処理 
+  $('#random_btn').on 'click', -> 
+    # 前回に選択していたミッションの色を戻す
+    $('.select-mission').toggleClass('select-mission')
+
+    # ミッションの一覧の数を取得
+    total_mission = $('.mission-info')
+    # ランダムでミッション一覧から番号を選ぶ
+    mission_no = eval(Math.floor(Math.random() * total_mission.length) + 1)
+    # ミッションを選んだエフェクトを付ける
+    $(total_mission.get(mission_no - 1)).toggleClass('select-mission')
+
+    if confirm('このミッションで決定していいですか？')
+      # ミッション進行中画面へ遷移する
+      data = $(total_mission.get(mission_no - 1)).data()
+      next_page = '/missions/show?' + 'station_no=' + data.stationNo + '&target_place_no=' + data.targetPlaceNo
+      location.href = next_page
+    else
+      # ミッションを選択し直す
+      $('.select-mission').toggleClass('select-mission')
 
 # Turbolinksによるajaxページ遷移のため再度イベントを設定
 $(document).ready(ready)

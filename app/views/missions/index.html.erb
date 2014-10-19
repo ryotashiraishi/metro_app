@@ -36,6 +36,15 @@
 </div>
 
 <div id="dynamic_div" style="height: 200px; width: 100%; margin: 10px;">
+  <div id="mission_div" class="display-none-style" style="height: 100%; width: 80%; margin: 0 auto;
+                             background-color: skyblue; color: white;">
+
+    <div class="btn-field" style="background-color: white; height: 40px; width: 100%; padding: 3px;">
+        <%= link_to 'at random', '#', id: "random_btn", class: "btn btn-primary", style: "float: right;" %>
+
+    </div>
+  </div>
+
   <div id="dice_div" style="height: 100%; width: 80%; margin: 0 auto;
                             background-color: antiquewhite; color: white; display: none;">
     <%= image_tag "dice/dice_1.png", id: "dice_img", class: "ready-dice", alt: "サイコロ画像",
@@ -85,7 +94,12 @@ div.tate-line-arrow{
   direction:ltr;
   margin-bottom: 5px;
 }
+
 .display-none-style {
   display: none;
+}
+
+.select-mission {
+  background-color: orange;
 }
 </style>
