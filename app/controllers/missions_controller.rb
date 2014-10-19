@@ -12,6 +12,13 @@ class MissionsController < ApplicationController
   end
 
   def show
+    # 目的地情報を表示するため必要なパラメータを取得する
+    station_no = params[:station_no]
+    target_place_no = params[:target_place_no]
+
+    # 柳岡APIに目的地情報をリクエストする
+    @target_place_detail = get_target_place_info_detail(station_no, target_place_no)
+
   end
 
   def progress
