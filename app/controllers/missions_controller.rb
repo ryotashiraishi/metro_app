@@ -39,6 +39,20 @@ class MissionsController < ApplicationController
   end
 
   def progress
+    req = {
+    	station_no: params[:station_no],
+    	target_place_no: params[:target_place_no]
+    }
+
+  	# TODO: 駅番号から駅名(key)に変換する処理
+    target_station = 'TokyoMetro.Ginza.Suehirocho' 
+
+    @train_time = {}
+    @train_time = acquire_train_time(target_station)
+
+    @station_name_array = acquire_station_name
+    @station_name_hash = acquire_station_name_hash
+
   end
 
   def mission_list_api
