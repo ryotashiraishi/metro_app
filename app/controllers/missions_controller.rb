@@ -53,6 +53,13 @@ class MissionsController < ApplicationController
     @station_name_array = acquire_station_name
     @station_name_hash = acquire_station_name_hash
 
+    # 目的地情報を表示するため必要なパラメータを取得する
+    station_no = req[:station_no]
+    target_place_no = req[:target_place_no]
+
+    # 柳岡APIに目的地情報をリクエストする
+    @target_place_detail = get_target_place_info_detail(station_no, target_place_no)
+
   end
 
   def mission_list_api
