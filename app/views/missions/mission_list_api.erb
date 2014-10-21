@@ -6,7 +6,7 @@
     <span style="float: right;">
       <%= link_to image_tag('mission/image_' + mission[:station_no] + '_' + mission[:target_place_no] + '.jpg',
                              border: 0, size: '40x33'),
-          missions_show_path(station_no: mission[:station_no], target_place_no: mission[:target_place_no]),
+          missions_show_path(station_no: mission[:station_no], mission_no: mission[:mission_no], target_place_no: mission[:target_place_no]),
           class: "btn btn-primary", style: "padding: 0px; margin: 0px;" %>
     </span>
   </div>
