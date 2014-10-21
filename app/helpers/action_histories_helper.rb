@@ -1,0 +1,2 @@
+module ActionHistoriesHelper
+end
