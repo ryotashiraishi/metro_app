@@ -7,7 +7,7 @@
   <div class="destination-info" style="background-color: pink; height: 80px; color: white; margin: 10px;">
   	<div style="height: 100%;">
   	  <div style="height: 60px; width: 60px; float: left;">
-  	  	<%=  image_tag 'mission/image_' + @target_place_detail[:station_no] + '_' + @target_place_detail[:target_place_no] + '.jpg', border: 0, size: '60x60' %>
+  	  	<%=  image_tag 'mission/image_' + @data[:station_no] + '_' + @data[:target_place_no] + '.jpg', border: 0, size: '60x60' %>
   	  	<%#= image_tag @target_place_detail[:image_url], border: 0, size: '60x60' %>
   	  </div>
   	  <div style="margin-left: 80px;">
@@ -46,7 +46,7 @@
   <div class="btn-field" style="margin: 0 auto; padding: 5px; width: 50%;">
     <%= link_to "取消", missions_index_path, class: "btn btn-primary",
         style: "margin-right: 10px; float: left;" %>
-    <%= button_to "決定", missions_create_path(station_no: @target_place_detail[:station_no], target_place_no: @target_place_detail[:target_place_no]), class: "btn btn-primary",
+    <%= button_to "決定", missions_create_path(@data), class: "btn btn-primary",
         confirm: "ミッションを決定してもいいですか？" %>
   </div>
 </div>

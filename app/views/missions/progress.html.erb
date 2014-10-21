@@ -84,8 +84,11 @@
   </div>
 
   <div class="btn-field" style="margin: 5px; padding: 5px;">
-  	<div style="width: 60%; margin: 0 auto;">
-      <%= link_to "Give up", missions_index_path, class: "btn btn-primary", confirm: "Are you sure?" %>
+  	<div style="width: 90%; margin: 0 auto;">
+      <%= link_to "ミッションを変更する",
+          missions_destroy_path(staion_no: @target_place_detail[:station_no], mission_no: @target_place_detail[:mission_no]),
+          method: :delete, class: "btn btn-primary",
+          confirm: "進行中のミッションを変更しますか？" %>
       <%= link_to "Satisfied", missions_index_path, class: "btn btn-primary" %>
     </div>
   </div>

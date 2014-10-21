@@ -124,18 +124,21 @@ module MissionsHelper
     mission1 = {
     	station_no: station_no,
     	target_place_no: "1",
+    	mission_no: "1",
     	title: "XXXで◯◯◯を食べよう",
     	image_url: "/asset/mission/image_01.jpg"
     }
     mission2 = {
     	station_no: station_no,
     	target_place_no: "2",
+    	mission_no: "2",
     	title: "XXXで同じ写真を撮ろう",
     	image_url: "/asset/mission/image_02.jpg"
     }
     mission3 = {
     	station_no: station_no,
     	target_place_no: "3",
+    	mission_no: "3",
     	title: "XXXで◯◯◯を食べよう",
     	image_url: "/asset/mission/image_03.jpg"
     }
