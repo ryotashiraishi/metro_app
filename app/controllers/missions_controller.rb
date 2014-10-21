@@ -53,7 +53,7 @@ class MissionsController < ApplicationController
     # ミッション進行中画面へリダイレクト
     respond_to do |format|
       format.html { 
-      	redirect_to missions_index_path(@data[:station_no])
+      	redirect_to missions_index_path(station_no: @data[:station_no])
       }
     end
   end
@@ -76,6 +76,25 @@ class MissionsController < ApplicationController
 
     # 柳岡APIに目的地情報をリクエストする
     @target_place_detail = get_target_place_info_detail(@data[:station_no], @data[:target_place_no])
+  end
+
+  def complete
+    # 目的地情報を表示するため必要なパラメータを取得する
+    @data = {
+    	station_no: params[:station_no],
+    	target_place_no: params[:target_place_no],
+    	mission_no: params[:mission_no]
+    } 
+
+    # TODO: ミッションを達成した処理が必要
+    # TODO: 行動履歴に情報を登録する
+
+    # トップ画面へリダイレクト
+    respond_to do |format|
+      format.html { 
+      	redirect_to missions_index_path(station_no: @data[:station_no])
+      }
+    end
   end
 
   def mission_list_api
