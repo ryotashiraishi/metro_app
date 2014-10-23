@@ -8,7 +8,7 @@ MetroApp::Application.routes.draw do
   post "missions/create"
   delete "missions/destroy"
   post "missions/complete"
-  get "settings/index"
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
