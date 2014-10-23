@@ -1,5 +1,6 @@
 MetroApp::Application.routes.draw do
   get "action_histories/index"
+  get "action_histories/trip_histories_api"
   get "missions/mission_list_api"
   get "missions/progress"
   get "missions/index"

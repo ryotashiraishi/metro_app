@@ -1,0 +1,24 @@
+<div id="trip_histories" class="panel panel-primary" style="margin: 0 auto;">
+  <div class="panel-heading">
+    <h3 class="panel-title"><%= @recent_action_history.first[:created_at].in_time_zone('Tokyo').strftime('%Y/%m/%d') %>の旅</h3>
+  </div>
+  <div class="panel-body" style="overflow: auto; height: 180px;">
+    <% @recent_action_history.each_with_index do |action, index| %>
+      <div class="list-box">
+        <div class="list-box-div" style="border: 3px solid skyblue; border-radius: 10px; text-align: center;">
+        	<%= action[:station_name] %>
+        </div>
+        <div class="list-box-div" style="text-align: center;">
+        	<%= DateTime.parse(action[:created_at]).in_time_zone('Tokyo').to_s(:time) %>
+        </div>
+        <div class="list-box-div">
+        	<%= action[:title] %>
+        </div>
+      </div>
+      <% unless @recent_action_history.length == (index + 1) %>
+        <div style="background-color: gray; height: 15px; width: 15px; margin-left: 25px;">
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

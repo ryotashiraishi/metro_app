@@ -1,2 +1,26 @@
-<h1>ActionHistories#index</h1>
-<p>Find me in app/views/action_histories/index.html.erb</p>
+<div id="trip_div" style="padding: 15px;">
+  <%= render 'action_histories/trip_histories_api' %>
+</div>
+
+<div class="mission-detail" style="background-color: skyblue; height: 200px; padding: 10px;
+                                   color: white; margin: 10px; overflow: auto;">
+  <% @all_trip_info.each do |trip| %>
+  <div class="past-trip" style="background-color: darkblue; height: 50px;
+                                border: 1px solid white;"
+        data-trip-no=<%= trip[:trip_no] %> >
+    <%= DateTime.parse(trip[:created_at]).in_time_zone('Tokyo').strftime('%Y/%m/%d') %>
+    <span>の旅</span>
+  </div>
+  <% end %>
+</div>
+
+<style>
+.list-box {
+  display: table;
+  width: 100%;
+}
+
+.list-box-div {
+  display: table-cell;
+}
+</style>
