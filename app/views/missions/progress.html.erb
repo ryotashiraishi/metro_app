@@ -1,39 +1,5 @@
 <div>
-  <div style="height: 50px; width: 100%; margin: 10px;">
-    <div style="height: 100%; width: 80%; margin: 0 auto;
-                background-color: blueviolet; color: white;">
-      <div>
-        <span>浅草方面</span>
-        <% @train_time[:up].each do |up_time| %>
-          <span><%= up_time %></span>
-        <% end %>
-      </div>
-      <div>
-        <span>渋谷方面</span>
-        <% @train_time[:down].each do |down_time| %>
-          <span><%= down_time %></span>
-        <% end %>
-      </div>
-    </div>
-  </div>
-
-  <div style="height: 100px; width: 100%; margin: 10px;">
-    <div style="height: 100%; width: 80%; margin: 0 auto;
-                background-color: pink; color: white;">
-      <div class="tate-area">
-        <% @station_name_array.each_with_index do |station, index| %>
-          <div class="tate-line">
-            <div class="station-mark"></div>
-            <%= @station_name_hash[station["odpt:station"]] %>
-          </div>
-
-          <% unless index == @station_name_array.size-1%>
-            <div class="tate-line-arrow"><div class="station-mark-arrow">→</div></div>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-  </div>
+  <%= render 'missions/station_info' %>
 
   <div style="background-color: white; padding-top: 1px; overflow: auto;
               height: 200px; margin: 0 10px;">

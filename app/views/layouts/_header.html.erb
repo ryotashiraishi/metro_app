@@ -17,10 +17,12 @@
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
-        <li><a class="nav-link" href="#">menu 1</a></li>
         <% if session[:uid].present? %>
+          <li><%= link_to "Top", missions_index_path(@data), class: "nav-link text-center" %></li>
           <li><%= link_to "Travel Histories", action_histories_index_path(@data), class: "nav-link text-center" %></li>
           <li><%= link_to "Sign out", signout_path, method: "delete", class: "nav-link text-center" %></li>
+        <% else %>
+          <li><%= link_to "Sign in with Facebook", "/auth/facebook", class: "nav-link text-center" %></li>
         <% end %>
       </ul>
     </div>
