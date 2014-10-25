@@ -15,7 +15,7 @@ module MissionsHelper
   def acquire_train_time(station)
     result = Hash.new
 
-    now_time = Time.now 
+    now_time = Time.now.in_time_zone('Tokyo') 
     hour_minute = now_time.strftime("%H:%M") 
     day = now_time.strftime("%w")  # 0-6 日曜が0
 
