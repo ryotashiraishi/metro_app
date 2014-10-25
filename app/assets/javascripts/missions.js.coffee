@@ -4,6 +4,15 @@
 
 ready = ->
 
+  # ミッション中じゃない場合
+  if $(location).attr('pathname') == "/missions/index"
+    $('#before_start_app').css('display', '')
+    $('#wrap').css('opacity', 0.25)
+    $('#getting_start_app').click ->
+      $('#before_start_app').css('display', 'none')
+      $('#wrap').css('opacity', 1)
+      # TODO: 旅情報登録APIの追加処理
+
   # サイコロを振るボタンのイベント処理
   $('#dice_btn').click ->
 
