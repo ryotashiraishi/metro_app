@@ -80,14 +80,19 @@ ready = ->
     # ミッションを選んだエフェクトを付ける
     $(total_mission.get(mission_no - 1)).toggleClass('select-mission')
 
-    if confirm('このミッションで決定していいですか？')
-      # ミッション進行中画面へ遷移する
-      data = $(total_mission.get(mission_no - 1)).data()
-      next_page = '/missions/show?' + 'station_no=' + data.stationNo + '&target_place_no=' + data.targetPlaceNo
-      location.href = next_page
-    else
-      # ミッションを選択し直す
-      $('.select-mission').toggleClass('select-mission')
+    # スマホでの表示用に時間を遅らせる
+    setTimeout (->
+      if confirm('このミッションで決定していいですか？')
+        # ミッション進行中画面へ遷移する
+        data = $(total_mission.get(mission_no - 1)).data()
+        next_page = '/missions/show?' + 'station_no=' + data.stationNo + '&target_place_no=' + data.targetPlaceNo
+        location.href = next_page
+      else
+        # ミッションを選択し直す
+        $('.select-mission').toggleClass('select-mission')
+      return
+    ), "500"
+
 
 # Turbolinksによるajaxページ遷移のため再度イベントを設定
 $(document).ready(ready)
