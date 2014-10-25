@@ -16,15 +16,15 @@
 </div>
 
 <div style="height: 130px; width: 100%; margin: 10px 0;">
-  <div style="height: 100%; width: 95%; margin: 0 auto; background-color: pink; color: white;">
-    <div class="list-box">
+  <div style="height: 100%; width: 95%; margin: 0 auto; background-color: pink; color: white; overflow-x: scroll; overflow-y: hidden;">
+    <ul class="list-box" style="padding: 0px 10px;">
       <% @station_name_array.each_with_index do |station, index| %>
-        <div class="list-text">
+        <li class="list-text">
           <div style="background-color: orange; width: 5px; height: 10px; margin: 3px auto;">&nbsp;</div>
           <%= @station_name_hash[station["odpt:station"]] %>
-        </div>
+        </li>
       <% end %>
-    </div>
+    </ul>
   </div>
 </div>
 
@@ -74,7 +74,7 @@ div.tate-line-arrow{
 .list-box {
   display: table;
   height: 100%;
-  width: 100%;
+  width: 150%;
 }
 .list-img,
 .list-text {
