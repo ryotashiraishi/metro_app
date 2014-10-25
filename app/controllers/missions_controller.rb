@@ -1,13 +1,7 @@
 class MissionsController < ApplicationController
+  before_action :set_current_info, only: [:index, :progress]
+
   def index
-  	# TODO: 動的に駅情報を取得する
-    target_station = 'TokyoMetro.Ginza.Suehirocho' 
-
-    @train_time = acquire_train_time(target_station)
-
-    @station_name_array = acquire_station_name
-    @station_name_hash = acquire_station_name_hash
-
   end
 
   def show
@@ -66,14 +60,6 @@ class MissionsController < ApplicationController
     	mission_no: params[:mission_no]
     }
 
-  	# TODO: 駅番号から駅名(key)に変換する処理
-    target_station = 'TokyoMetro.Ginza.Suehirocho' 
-
-    @train_time = acquire_train_time(target_station)
-
-    @station_name_array = acquire_station_name
-    @station_name_hash = acquire_station_name_hash
-
     # 柳岡APIに目的地情報をリクエストする
     @target_place_detail = get_target_place_info_detail(@data[:station_no], @data[:target_place_no])
   end
@@ -107,4 +93,19 @@ class MissionsController < ApplicationController
 
     @json = get_mission_list(station_no.to_s)
   end
+
+    private
+
+    # 現在の位置(駅)や進行中のミッション番号を設定する
+    def set_current_info
+
+      # 動的に駅情報を取得する
+      target_station_key = get_current_station
+
+      @train_time = acquire_train_time(target_station_key)
+
+      @station_name_array = acquire_station_name
+      @station_name_hash = acquire_station_name_hash
+    end
+
 end

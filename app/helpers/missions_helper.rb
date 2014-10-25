@@ -183,4 +183,43 @@ module MissionsHelper
 
     return detail
   end
+
+  # 現在の駅を取得する
+  def get_current_station
+    # TODO: 旅履歴取得APIから最新の旅履歴を取得し,駅名を取得する
+
+    station_no = 2
+    target_station = get_station_key(station_no)
+  end
+
+  # 駅番号に対応する駅キーを返す
+  def get_station_key(station_no)
+    # 銀座線で固定
+    prefix = 'TokyoMetro.Ginza.'
+
+    # 駅のキーを初期化
+    station_map = {
+        1 => prefix + "Shibuya",
+        2 => prefix + "OmoteSando",
+        3 => prefix + "Gaiemmae",
+        4 => prefix + "AoyamaItchome",
+        5 => prefix + "AkasakaMitsuke",
+        6 => prefix + "TameikeSanno",
+        7 => prefix + "Toranomon",
+        8 => prefix + "Shimbashi",
+        9 => prefix + "Ginza",
+        10 => prefix + "Kyobashi",
+        11 => prefix + "Nihombashi",
+        12 => prefix + "Mitsukoshimae",
+        13 => prefix + "Kanda",
+        14 => prefix + "Suehirocho",
+        15 => prefix + "UenoHirokoji",
+        16 => prefix + "Ueno",
+        17 => prefix + "Inaricho",
+        18 => prefix + "Tawaramachi",
+        19 => prefix + "Asakusa"
+    }
+
+    station_map[station_no]
+  end
 end
