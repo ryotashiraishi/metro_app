@@ -1,4 +1,5 @@
 class ApisController < ApplicationController
+  # 旅情報登録API
   def trip_infomations_post
   	user_no = params[:user_no]
 
