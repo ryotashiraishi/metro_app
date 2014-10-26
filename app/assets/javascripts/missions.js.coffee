@@ -4,14 +4,29 @@
 
 ready = ->
 
+  # TODO: ミッション中か判定処理が必要
   # ミッション中じゃない場合
   if $(location).attr('pathname') == "/missions/index"
     $('#before_start_app').css('display', '')
     $('#wrap').css('opacity', 0.25)
     $('#getting_start_app').click ->
-      $('#before_start_app').css('display', 'none')
-      $('#wrap').css('opacity', 1)
-      # TODO: 旅情報登録APIの追加処理
+      # 旅情報登録APIの追加処理
+      $.ajax
+        type: 'POST'
+        url: '/apis/trip_infomations_post'
+        dataType: 'json'
+        data:
+          user_no: '1111' 
+        success: (data, status, xhr) ->
+          $('#before_start_app').css('display', 'none')
+          $('#wrap').css('opacity', 1)
+        error: (xhr, status, error) -> 
+          alert 'ネットワーク障害が発生している可能性があります。\nしばらく時間を置いて再度アクセスして下さい。'
+          # デバッグ作業のため追加しているけど後で消します ↓
+          $('#before_start_app').css('display', 'none')
+          $('#wrap').css('opacity', 1)
+          #####
+        complete: (xhr, status) -> 
 
   # サイコロを振るボタンのイベント処理
   $('#dice_btn').click ->
