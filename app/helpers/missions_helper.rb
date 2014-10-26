@@ -42,30 +42,66 @@ module MissionsHelper
       days = "odpt:holidays"
     end
 
-    # TODO: 始発駅と終着駅は方面がひとつなので判定が必要
-    # 0 渋谷方面
-    up_time_array = []
-    parse_result[0][days].each do |hash|
-      time_table = hash["odpt:departureTime"]
+    # TODO: 時刻の取り方をメソッドに切り出したい
+    if station == 'TokyoMetro.Ginza.Shibuya'
+      # 0 渋谷方面
+      up_time_array = []
+      parse_result[0][days].each do |hash|
+        time_table = hash["odpt:departureTime"]
 
-      if hour_minute < time_table
-        up_time_array << time_table
-        break if up_time_array.size == 3
+        if hour_minute < time_table
+          up_time_array << time_table
+          break if up_time_array.size == 3
+        end
+      end
+
+      down_time_array = []
+      3.times do 
+        down_time_array << '--:--'
+      end
+    elsif station == 'TokyoMetro.Ginza.Asakusa'
+      # 1 浅草方面
+      down_time_array = []
+      parse_result[0][days].each do |hash|
+        time_table = hash["odpt:departureTime"]
+
+        if hour_minute < time_table
+          down_time_array << time_table
+          break if down_time_array.size == 3
+        end
+      end
+
+      up_time_array = []
+      3.times do 
+        up_time_array << '--:--'
+      end
+    else
+      # 0 渋谷方面
+      up_time_array = []
+      parse_result[0][days].each do |hash|
+        time_table = hash["odpt:departureTime"]
+
+        if hour_minute < time_table
+          up_time_array << time_table
+          break if up_time_array.size == 3
+        end
+      end
+      # 1 浅草方面
+      down_time_array = []
+      parse_result[1][days].each do |hash|
+        time_table = hash["odpt:departureTime"]
+
+        if hour_minute < time_table
+          down_time_array << time_table
+          break if down_time_array.size == 3
+        end
       end
     end
-    # 1 浅草方面
-    down_time_array = []
-    parse_result[1][days].each do |hash|
-      time_table = hash["odpt:departureTime"]
 
-      if hour_minute < time_table
-        down_time_array << time_table
-        break if down_time_array.size == 3
-      end
-    end
-
-    result = { up: up_time_array,
-    	       down: down_time_array }
+    result = {
+      up: up_time_array,
+      down: down_time_array
+    }
   end
 
   # 駅名の一覧を取得
@@ -111,42 +147,17 @@ module MissionsHelper
 
   # 引数に指定した駅のミッションの一覧を取得する
   def get_mission_list(station_no)
-    url = ''
 
-#    client = http_client(url)
-#    # TODO: もしかしたらgetのあとにurlが必要かも
-#    response = client.get '',
-#                 {'station_no' => station_no}
-#    parse_result = JSON.parse(response.body)
+    parse_result = mission_infomations_get(station_no: station_no)
 
-    # TODO: 柳岡APIと連携するまでテストデータを返す
-    parse_result = []
-    mission1 = {
-    	station_no: station_no,
-    	target_place_no: "1",
-    	mission_no: "1",
-    	title: "XXXで◯◯◯を食べよう",
-    	image_url: "/asset/mission/image_01.jpg"
-    }
-    mission2 = {
-    	station_no: station_no,
-    	target_place_no: "2",
-    	mission_no: "2",
-    	title: "XXXで同じ写真を撮ろう",
-    	image_url: "/asset/mission/image_02.jpg"
-    }
-    mission3 = {
-    	station_no: station_no,
-    	target_place_no: "3",
-    	mission_no: "3",
-    	title: "XXXで◯◯◯を食べよう",
-    	image_url: "/asset/mission/image_03.jpg"
-    }
-    parse_result << mission1
-    parse_result << mission2
-    parse_result << mission3
+    result = []
+    parse_result.each do | mission |
+      # キーをシンボルに変換
+      # TODO: 第二階層目以降は変換されない
+      result << mission.symbolize_keys
+    end
 
-    parse_result
+    result
   end
 	
 
