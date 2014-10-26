@@ -1,5 +1,6 @@
 class MissionsController < ApplicationController
   before_action :set_current_info, only: [:index, :progress]
+  before_action :set_current_user, only: [:index, :progress]
 
   def index
   end
@@ -108,4 +109,16 @@ class MissionsController < ApplicationController
       @station_name_hash = acquire_station_name_hash
     end
 
+    # ユーザー情報を取得する
+    def set_current_user
+      binding.pry
+      # ユーザー情報の取得
+      response = user_infomations_get(uid: session[:uid])
+      # シンボルに変換
+      @user = {
+        uid: response["uid"],
+        user_no: response["user_no"],
+        user_name: response["user_name"]
+      }
+    end
 end

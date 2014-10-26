@@ -30,6 +30,14 @@
                               style: "display: block; margin: 0 auto; width: 50%;" %>
 </div>
 
+<div class="display-none-style">
+  <div id="user_info"
+    data-user-no="<%= @user[:user_no] %>"
+    data-uid="<%= @user[:uid] %>"
+    data-user-name="<%= @user[:user_name] %>" >
+  </div>
+</div>
+
 <style>
 div.tate-area{
   float: left;
