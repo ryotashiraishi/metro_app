@@ -3,6 +3,9 @@ class MissionsController < ApplicationController
   before_action :set_current_user, only: [:index, :progress]
 
   def index
+    # 最新の旅情報を取得し、ステータス値を渡す
+    current_trip = trip_infomations_get(@user).first
+    @progress_trip = current_trip["status"] if current_trip.present?
   end
 
   def show
@@ -111,7 +114,6 @@ class MissionsController < ApplicationController
 
     # ユーザー情報を取得する
     def set_current_user
-      binding.pry
       # ユーザー情報の取得
       response = user_infomations_get(uid: session[:uid])
       # シンボルに変換
