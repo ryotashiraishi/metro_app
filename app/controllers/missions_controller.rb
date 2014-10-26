@@ -1,6 +1,6 @@
 class MissionsController < ApplicationController
+  before_action :set_current_user, only: [:index, :progress, :mission_list_api]
   before_action :set_current_info, only: [:index, :progress]
-  before_action :set_current_user, only: [:index, :progress]
 
   def index
     # 最新の旅情報を取得し、ステータス値を渡す
@@ -90,27 +90,21 @@ class MissionsController < ApplicationController
   def mission_list_api
     dice_no = params["dice_no"]
 
-    # TODO: 現在の駅の位置にサイコロの目を加算する
-    # TODO: 現在の駅の位置を取得する処理が必要
-    current_station = "2"
-    station_no = current_station.to_i + dice_no.to_i
+    # 現在の駅の位置にサイコロの目を加算する
+    station_no = current_station + dice_no.to_i
 
     @json = get_mission_list(station_no.to_s)
   end
 
+  def trip_infomations_api
+    user_no = params[:user_no]
+
+    result = trip_infomations_api(user_no: user_no)
+ 
+    render :json => result
+  end
+
     private
-
-    # 現在の位置(駅)や進行中のミッション番号を設定する
-    def set_current_info
-
-      # 動的に駅情報を取得する
-      target_station_key = get_current_station
-
-      @train_time = acquire_train_time(target_station_key)
-
-      @station_name_array = acquire_station_name
-      @station_name_hash = acquire_station_name_hash
-    end
 
     # ユーザー情報を取得する
     def set_current_user
@@ -122,5 +116,17 @@ class MissionsController < ApplicationController
         user_no: response["user_no"],
         user_name: response["user_name"]
       }
+    end
+
+    # 現在の位置(駅)や進行中のミッション番号を設定する
+    def set_current_info
+
+      # 動的に駅情報を取得する
+      target_station_key = get_station_key(current_station)
+
+      @train_time = acquire_train_time(target_station_key)
+
+      @station_name_array = acquire_station_name
+      @station_name_hash = acquire_station_name_hash
     end
 end

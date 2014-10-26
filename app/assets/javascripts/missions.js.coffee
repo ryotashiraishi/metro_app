@@ -17,7 +17,7 @@ ready = ->
         # 旅情報登録APIの追加処理
         $.ajax
           type: 'POST'
-          url: '/apis/trip_infomations_post'
+          url: '/missions/trip_infomations_api'
           dataType: 'json'
           data:
             user_no: $('#user_info').data('user-no')
