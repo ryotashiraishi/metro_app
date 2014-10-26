@@ -195,12 +195,22 @@ module MissionsHelper
     return detail
   end
 
-  # 現在の駅を取得する
-  def get_current_station
-    # TODO: 旅履歴取得APIから最新の旅履歴を取得し,駅名を取得する
+  # 現在の駅番号を取得する
+  def current_station
+    # 旅履歴取得APIから最新の旅履歴を取得し,駅名を取得する
+    current_trip = trip_infomations_get(@user).first
 
-    station_no = 2
-    target_station = get_station_key(station_no)
+    if current_trip[:status] == 1
+      req = {
+        user_no: @user[:user_no],
+        trip_no: current_trip[:trip_no]
+      }
+      current_trip_histories = trip_histories_get(req).first
+      station_no = current_trip_histories[:station_no]
+    else
+      station_no = 1
+    end
+
   end
 
   # 駅番号に対応する駅キーを返す

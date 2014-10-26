@@ -13,3 +13,6 @@ TRIP_HISTORIES = 'trip/histories'
 
 ### ユーザー情報関連
 USER_INFOMATIONS = 'user/infomations'
+
+### ミッション情報関連
+MISSION_INFOMATIONS = 'mission/infomations'

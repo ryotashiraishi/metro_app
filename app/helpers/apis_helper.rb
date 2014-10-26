@@ -67,4 +67,18 @@ module ApisHelper
     response = client.get url, param
     parse_result = JSON.parse(response.body)
   end
+
+  # ミッション情報取得API
+  def mission_infomations_get(req)
+    url = AWS_API_ENDPOINT + MISSION_INFOMATIONS
+
+    client = http_client(url)
+    param = {
+    	station_no: req[:station_no],
+        mission_no: req[:mission_no]
+    }
+
+    response = client.get url, param
+    parse_result = JSON.parse(response.body)
+  end
 end

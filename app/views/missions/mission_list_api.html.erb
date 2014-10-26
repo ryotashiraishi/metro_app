@@ -2,7 +2,7 @@
   <% @json.each do |mission| %>
   <div class="mission-info" style="border: 1px solid white; height: 37px;" 
        data-station-no=<%= mission[:station_no]%> data-target-place-no=<%= mission[:target_place_no]%> >
-    <span><%= mission[:title] %></span>
+    <span><%= mission[:mission_title] %></span>
     <span style="float: right;">
       <%= link_to image_tag('mission/image_' + mission[:station_no] + '_' + mission[:target_place_no] + '.jpg',
                              border: 0, size: '40x33'),
