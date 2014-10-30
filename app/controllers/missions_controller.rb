@@ -90,8 +90,27 @@ class MissionsController < ApplicationController
     	mission_no: params[:mission_no]
     } 
 
-    # TODO: ミッションを達成した処理が必要
-    # TODO: 行動履歴に情報を登録する
+    # 旅履歴を完了で更新する処理
+    ## ユーザー情報の取得
+    user = user_infomations_get(uid: session[:uid]).symbolize_keys
+    ## 最新の旅情報の取得
+    trip = trip_infomations_get(user_no: user[:user_no]).first.symbolize_keys
+    ## 最新の旅履歴情報の取得
+    param = {
+      user_no: user[:user_no],
+      trip_no: trip[:trip_no]
+    }
+    trip_history = trip_histories_get(param).first.symbolize_keys
+    ## リクエストパラメータの設定
+    req = {
+      user_no: user[:user_no],
+      trip_no: trip[:trip_no],
+      station_no: @data[:station_no],
+      mission_no: @data[:mission_no],
+      do_no: trip_history[:do_no],
+      status: 2
+    }
+    trip_histories_put(req)
 
     # トップ画面へリダイレクト
     respond_to do |format|
