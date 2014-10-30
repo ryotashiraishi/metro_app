@@ -5,7 +5,14 @@ class MissionsController < ApplicationController
   def index
     # 最新の旅情報を取得し、ステータス値を渡す
     current_trip = trip_infomations_get(@user).first
-    @progress_trip = current_trip["status"] if current_trip.present?
+    @progress_trip = current_trip.symbolize_keys[:status] if !current_trip.nil?
+
+    # 現在の駅番号を取得する
+    @station_info = {
+      station_no: current_station,
+      station_name: get_station_name(current_station)
+    }
+
   end
 
   def show

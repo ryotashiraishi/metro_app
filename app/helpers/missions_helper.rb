@@ -164,6 +164,7 @@ module MissionsHelper
   def current_station
     # 旅履歴取得APIから最新の旅履歴を取得し,駅名を取得する
     current_trip = trip_infomations_get(@user).first
+    current_trip = current_trip.symbolize_keys if !current_trip.nil?
 
     if current_trip[:status] == 1
       req = {
@@ -171,6 +172,7 @@ module MissionsHelper
         trip_no: current_trip[:trip_no]
       }
       current_trip_histories = trip_histories_get(req).first
+      current_trip_histories = current_trip_histories.symbolize_keys if !current_trip_histories.nil?
       station_no = current_trip_histories[:station_no]
     else
       station_no = 1
@@ -207,5 +209,31 @@ module MissionsHelper
     }
 
     station_map[station_no]
+  end
+
+  # 駅番号に対応する駅名を返す
+  def get_station_name(station_no)
+    nameMap = {
+        1 => "渋谷",
+        2 => "表参道",
+        3 => "外苑前",
+        4 => "青山一丁目",
+        5 => "赤坂見附",
+        6 => "溜池山王",
+        7 => "虎ノ門",
+        8 => "新橋",
+        9 => "銀座",
+        10 => "京橋",
+        11 => "日本橋",
+        12 => "三越前",
+        13 => "神田",
+        14 => "末広町",
+        15 => "上野広小路",
+        16 => "上野",
+        17 => "稲荷町",
+        18 => "田原町",
+        19 => "浅草"
+    }
+    nameMap[station_no]
   end
 end
