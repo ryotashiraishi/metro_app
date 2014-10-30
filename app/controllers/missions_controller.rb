@@ -16,8 +16,9 @@ class MissionsController < ApplicationController
       mission_no: params[:mission_no]
     }
 
-    # 柳岡APIに目的地情報をリクエストする
-    @target_place_detail = get_target_place_info_detail(@data[:station_no], @data[:target_place_no])
+    # AWS APIにミッション(目的地)情報をリクエストする
+    mission_info = mission_infomations_get(@data).first.symbolize_keys
+    @target_place_detail = mission_info[:target_place_info].symbolize_keys
   end
 
   def create
@@ -28,7 +29,19 @@ class MissionsController < ApplicationController
     	mission_no: params[:mission_no]
     }
  
-    # TODO: 行動番号を登録する処理
+    # 旅履歴を登録する処理
+    ## ユーザー情報の取得
+    user = user_infomations_get(uid: session[:uid]).symbolize_keys
+    ## 最新の旅情報の取得
+    trip = trip_infomations_get(user_no: user[:user_no]).first.symbolize_keys
+    ## リクエストパラメータの設定
+    req = {
+      user_no: user[:user_no],
+      trip_no: trip[:trip_no],
+      station_no: @data[:station_no],
+      mission_no: @data[:mission_no]
+    }
+    trip_histories_post(req)
 
     # ミッション進行中画面へリダイレクト
     respond_to do |format|
@@ -65,7 +78,8 @@ class MissionsController < ApplicationController
     }
 
     # 柳岡APIに目的地情報をリクエストする
-    @target_place_detail = get_target_place_info_detail(@data[:station_no], @data[:target_place_no])
+    mission_info = mission_infomations_get(@data).first.symbolize_keys
+    @target_place_detail = mission_info[:target_place_info].symbolize_keys
   end
 
   def complete
@@ -99,7 +113,7 @@ class MissionsController < ApplicationController
   def trip_infomations_api
     user_no = params[:user_no]
 
-    result = trip_infomations_api(user_no: user_no)
+    result = trip_infomations_post(user_no: user_no)
  
     render :json => result
   end
@@ -109,13 +123,7 @@ class MissionsController < ApplicationController
     # ユーザー情報を取得する
     def set_current_user
       # ユーザー情報の取得
-      response = user_infomations_get(uid: session[:uid])
-      # シンボルに変換
-      @user = {
-        uid: response["uid"],
-        user_no: response["user_no"],
-        user_name: response["user_name"]
-      }
+      @user = user_infomations_get(uid: session[:uid]).symbolize_keys
     end
 
     # 現在の位置(駅)や進行中のミッション番号を設定する

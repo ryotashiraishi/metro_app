@@ -101,10 +101,11 @@ ready = ->
 
     # スマホでの表示用に時間を遅らせる
     setTimeout (->
-      if confirm('このミッションで決定していいですか？')
-        # ミッション進行中画面へ遷移する
+      if confirm('このミッションの詳細を見ますか？')
         data = $(total_mission.get(mission_no - 1)).data()
-        next_page = '/missions/show?' + 'station_no=' + data.stationNo + '&target_place_no=' + data.targetPlaceNo
+
+        next_page =
+         '/missions/show?' + 'station_no=' + data.stationNo + '&target_place_no=' + data.targetPlaceNo
         location.href = next_page
       else
         # ミッションを選択し直す

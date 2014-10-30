@@ -16,3 +16,6 @@ USER_INFOMATIONS = 'user/infomations'
 
 ### ミッション情報関連
 MISSION_INFOMATIONS = 'mission/infomations'
+
+### 目的地情報関連
+TARGET_PLACE_INFOMATIONS = 'target-place/infomations'
