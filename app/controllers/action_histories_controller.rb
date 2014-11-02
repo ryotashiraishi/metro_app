@@ -1,5 +1,7 @@
 # encoding: utf-8
 class ActionHistoriesController < ApplicationController
+  before_action :set_current_user, only: [:index]
+
   def index
     # 目的地情報を表示するため必要なパラメータを取得する
     @data = {
@@ -8,12 +10,19 @@ class ActionHistoriesController < ApplicationController
       mission_no: params[:mission_no]
     }
 
+    # 旅情報を取得する
+    trips = trip_infomations_get(user_no: @user[:user_no])
+
+    current_trip = trips.first
+    current_trip = current_trip.symbolize_keys if !current_trip.nil?
+
+    # 最新の旅履歴情報を取得し、表示用に整形する
+    @recent_action_history = get_trip_histories(@user[:user_no], current_trip[:trip_no])
+
     # 旅情報取得APIからすべての旅情報を取得する
     # TODO: 取得時のソート順を更新日の新しい順にする
     @all_trip_info = get_all_trip_info
 
-    # TODO: ユーザーNo, 旅Noから旅履歴情報を取り出す
-    @recent_action_history = get_trip_histories(session[:uid], @all_trip_info.first[:trip_no])
 
   end
 
@@ -79,5 +88,13 @@ class ActionHistoriesController < ApplicationController
 
     render :partial => 'trip_histories_api'
   end
+
+    private
+
+    # ユーザー情報を取得する
+    def set_current_user
+      # ユーザー情報の取得
+      @user = user_infomations_get(uid: session[:uid]).symbolize_keys
+    end
 
 end
