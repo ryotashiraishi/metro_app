@@ -4,13 +4,15 @@
 
 <div class="mission-detail" style="background-color: skyblue; height: 200px; padding: 10px;
                                    color: white; margin: 10px; overflow: auto;">
-  <% @all_trip_info.each do |trip| %>
-  <div class="past-trip" style="background-color: darkblue; height: 50px;
-                                border: 1px solid white;"
-        data-trip-no=<%= trip[:trip_no] %> >
-    <%= DateTime.parse(trip[:created_at]).in_time_zone('Tokyo').strftime('%Y/%m/%d') %>
-    <span>の旅</span>
-  </div>
+  <% if @all_trip_info.present? %>
+    <% @all_trip_info.each do |trip| %>
+    <div class="past-trip" style="background-color: darkblue; height: 50px;
+                                  border: 1px solid white;"
+         data-trip-no=<%= trip[:trip_no] %> >
+      <%= DateTime.parse(trip[:created_at]).in_time_zone('Tokyo').strftime('%Y/%m/%d') %>
+      <span>の旅</span>
+    </div>
+    <% end %>
   <% end %>
 </div>
 

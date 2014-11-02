@@ -173,9 +173,10 @@ class MissionsController < ApplicationController
   def trip_infomations_api
     user_no = params[:user_no]
 
-    result = trip_infomations_post(user_no: user_no)
- 
-    render :json => result
+    # 新規旅情報の取得
+    new_trip = trip_infomations_post(user_no: user_no)
+
+    render :json => new_trip
   end
 
     private

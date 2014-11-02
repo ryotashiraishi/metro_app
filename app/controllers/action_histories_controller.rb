@@ -1,6 +1,6 @@
 # encoding: utf-8
 class ActionHistoriesController < ApplicationController
-  before_action :set_current_user, only: [:index]
+  before_action :set_current_user, only: [:index, :trip_histories_api]
 
   def index
     # 目的地情報を表示するため必要なパラメータを取得する
@@ -19,10 +19,11 @@ class ActionHistoriesController < ApplicationController
     # 最新の旅履歴情報を取得し、表示用に整形する
     @recent_action_history = get_trip_histories(@user[:user_no], current_trip[:trip_no])
 
-    # 旅情報取得APIからすべての旅情報を取得する
-    # TODO: 取得時のソート順を更新日の新しい順にする
-    @all_trip_info = get_all_trip_info
-
+    # 旅情報を表示用に整形する
+    @all_trip_info = []
+    trips.each do |trip|
+      @all_trip_info << trip.symbolize_keys
+    end
 
   end
 
@@ -68,23 +69,13 @@ class ActionHistoriesController < ApplicationController
   end
 
   def trip_histories_api
-    # 目的地情報を表示するため必要なパラメータを取得する
+    # パラメータを取得する
     @data = {
       trip_no: params[:trip_no]
     }
 
-    # TODO: ユーザーNo, 旅Noから旅履歴情報を取り出す
-    @recent_action_history = get_trip_histories(session[:uid], @data[:trip_no])
-
-    # TODO: 疎通テストのため以下の処理を付加。あとで削除すること
-    action = {
-    	station_name: "駅名" + @data[:trip_no].to_s,
-        created_at: "2014/10/10 09:00",
-        title: "XXXで◯◯◯しよう",
-        image_url: "mission/image_4_" + 1.to_s + ".jpg"
-    }
-    @recent_action_history << action
-    ####
+    # 旅履歴情報を取り出す
+    @recent_action_history = get_trip_histories(@user[:user_no], @data[:trip_no])
 
     render :partial => 'trip_histories_api'
   end

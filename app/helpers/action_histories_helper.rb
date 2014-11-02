@@ -41,21 +41,29 @@ module ActionHistoriesHelper
       user_no: user_no,
       trip_no: trip_no
     }
+    # スタート駅(渋谷)の情報を追加する
+    trip = trip_infomations_get(req).first
+    trip = trip.symbolize_keys if !trip.nil?
+    first_action = {
+        station_name: get_station_name(0),
+        created_at: trip[:created_at],
+        title: "旅スタート!"
+    }
+    result << first_action
+
     current_trip_histories = trip_histories_get(req)
     current_trip_histories = current_trip_histories.reverse
 
     current_trip_histories.each do |history|
       history = history.symbolize_keys
 
-      # station_noから駅情報を取得する
-      station_name = get_station_name(history[:station_no].to_i)
       # mission_noからミッション情報を取得する
       mission = mission_infomations_get(history).first.symbolize_keys
       mission_title = mission[:target_place_info].symbolize_keys[:name]
 
       # 取得した情報を整形する
       action = {
-        station_name: station_name,
+        station_name: get_station_name(history[:station_no].to_i),
         created_at: history[:created_at],
         title: mission_title
       }
