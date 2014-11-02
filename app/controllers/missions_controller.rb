@@ -33,6 +33,11 @@ class MissionsController < ApplicationController
       end
     end
 
+    # 既に駅番号が決まっている場合はミッションの一覧を表示する
+    if session[:station_no].present?
+      # パラメータの駅番号のミッションの一覧を取得する
+      @json = get_mission_list(session[:station_no].to_s) 
+    end
   end
 
   def show
@@ -46,6 +51,9 @@ class MissionsController < ApplicationController
     # AWS APIにミッション(目的地)情報をリクエストする
     mission_info = mission_infomations_get(@data).first.symbolize_keys
     @target_place_detail = mission_info[:target_place_info].symbolize_keys
+
+    # 一時的に駅番号を記録する
+    session[:station_no] = @data[:station_no]
   end
 
   def create
@@ -70,6 +78,10 @@ class MissionsController < ApplicationController
     }
 
     trip_histories_post(req)
+
+
+    # 一時的に記録した駅番号を破棄する
+    session[:station_no] = nil
 
     # ミッション進行中画面へリダイレクト
     respond_to do |format|
@@ -98,6 +110,9 @@ class MissionsController < ApplicationController
     current_trip_history[:status] = "3"
 
     trip_histories_put(current_trip_history)
+
+    # 一時的に駅番号を記録する
+    session[:station_no] = @data[:station_no]
 
     # トップ画面へリダイレクト
     respond_to do |format|
