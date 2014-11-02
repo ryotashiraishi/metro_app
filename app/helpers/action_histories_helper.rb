@@ -47,7 +47,8 @@ module ActionHistoriesHelper
     first_action = {
         station_name: get_station_name(0),
         created_at: trip[:created_at],
-        title: "旅スタート!"
+        title: "旅スタート!",
+        status: ""
     }
     result << first_action
 
@@ -65,7 +66,8 @@ module ActionHistoriesHelper
       action = {
         station_name: get_station_name(history[:station_no].to_i),
         created_at: history[:created_at],
-        title: mission_title
+        title: mission_title,
+        status: status_map(history[:status]),
       }
 
       # 情報を詰める
@@ -75,4 +77,13 @@ module ActionHistoriesHelper
     result
   end
 
+  # ステータスの名称を保持するハッシュ
+  def status_map(status)
+    status_map = {
+      "1" => "進行中",
+      "2" => "完了",
+      "3" => "取消"
+    }
+    status_map[status]
+  end
 end

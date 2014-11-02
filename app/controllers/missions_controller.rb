@@ -1,5 +1,5 @@
 class MissionsController < ApplicationController
-  before_action :set_current_user, only: [:index, :progress, :mission_list_api]
+  before_action :set_current_user, only: [:index, :progress, :destroy, :mission_list_api]
   before_action :set_current_info, only: [:index, :progress]
 
   def index
@@ -87,10 +87,19 @@ class MissionsController < ApplicationController
     	mission_no: params[:mission_no]
     }
 
-    # TODO: 進行中のミッションを取りやめる処理が必要
-    # TODO: 行動履歴に情報を登録する
+    # 最新の旅情報を取得する
+    current_trip = trip_infomations_get(user_no: @user[:user_no]).first
+    current_trip = current_trip.symbolize_keys if !current_trip.nil?
 
-    # ミッション進行中画面へリダイレクト
+    # 最新の旅履歴を取得する
+    current_trip_history = trip_histories_get(current_trip).first
+    current_trip_history = current_trip_history.symbolize_keys if !current_trip_history.nil?
+
+    current_trip_history[:status] = "3"
+
+    trip_histories_put(current_trip_history)
+
+    # トップ画面へリダイレクト
     respond_to do |format|
       format.html { 
       	redirect_to missions_index_path(station_no: @data[:station_no])
@@ -106,7 +115,7 @@ class MissionsController < ApplicationController
     	mission_no: params[:mission_no]
     }
 
-    # 柳岡APIに目的地情報をリクエストする
+    # ミッション情報取得APIから目的地情報を取得する
     mission_info = mission_infomations_get(@data).first.symbolize_keys
     @target_place_detail = mission_info[:target_place_info].symbolize_keys
 
