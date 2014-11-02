@@ -53,6 +53,21 @@ module ApisHelper
     parse_result = JSON.parse(response.body)
   end
 
+  # 旅情報更新API
+  def trip_infomations_put(req)
+    url = AWS_API_ENDPOINT + TRIP_INFOMATIONS
+
+    client = http_client(url)
+    param = {
+    	user_no: req[:user_no],
+    	trip_no: req[:trip_no],
+    	status: req[:status]
+    }
+
+    response = client.put url, param
+    parse_result = JSON.parse(response.body)
+  end
+
   # 旅履歴取得API
   def trip_histories_get(req)
     url = AWS_API_ENDPOINT + TRIP_HISTORIES

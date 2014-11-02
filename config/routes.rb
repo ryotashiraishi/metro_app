@@ -1,4 +1,5 @@
 MetroApp::Application.routes.draw do
+  delete "action_histories/destroy"
   post "missions/trip_infomations_api"
   get "action_histories/index"
   get "action_histories/trip_histories_api"
