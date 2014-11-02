@@ -1,7 +1,7 @@
 <div style="width: 100%; margin: 10px 0;">
   <div style="height: 100%; width: 95%; margin: 0 auto; background-color: blueviolet; color: white;">
     <div>
-      <span>現在の位置は</span><span><%= @station_info[:station_name] %></span><span>駅です。</span>
+      <span>現在の位置は</span><span><%= @current_station_info[:station_name] %></span><span>駅です。</span>
     </div>
     <div>
       <span>浅草方面</span>
@@ -21,16 +21,21 @@
 <div style="height: 130px; width: 100%; margin: 10px 0;">
   <div style="height: 100%; width: 95%; margin: 0 auto; background-color: pink; color: white; overflow-x: scroll; overflow-y: hidden;">
     <ul class="list-box" style="padding: 0px 10px;">
-      <% @station_name_array.each_with_index do |station, index| %>
+      <% @station_name_array.each_with_index do |station| %>
         <li class="list-text">
-          <div style="background-color: orange; width: 5px; height: 10px; margin: 3px auto;">&nbsp;</div>
-          <%= @station_name_hash[station["odpt:station"]] %>
+          <% if @station_name_hash[station["odpt:station"]][:enable] %>
+            <div class="enable-station"
+                 style="background-color: orange; width: 5px; height: 10px; margin: 3px auto;">&nbsp;</div>
+          <% else %>
+            <div style="border: 1px solid orange; background-color: white; width: 5px; height: 10px; margin: 3px auto;">&nbsp;</div>
+          <% end %>
+          <%= @station_name_hash[station["odpt:station"]][:name] %>
         </li>
       <% end %>
     </ul>
   </div>
   <div id="station_info" class="display-none-style"
-    data-station-no="<%= @station_info[:station_no] %>" >
+    data-station-no="<%= @current_station_info[:station_no] %>" >
   </div>
 </div>
 

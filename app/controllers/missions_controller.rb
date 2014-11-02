@@ -5,13 +5,33 @@ class MissionsController < ApplicationController
   def index
     # 最新の旅情報を取得し、ステータス値を渡す
     current_trip = trip_infomations_get(@user).first
+    current_trip = current_trip.symbolize_keys if !current_trip.nil?
     @progress_trip = current_trip.symbolize_keys[:status] if !current_trip.nil?
 
     # 現在の駅番号を取得する
-    @station_info = {
+    @current_station_info = {
       station_no: current_station,
       station_name: get_station_name(current_station)
     }
+
+    # 進行中のミッションがある場合は進行中画面へリダイレクトする
+    ## 最新のミッション情報を取得する
+    trip_history = trip_histories_get(user_no: @user[:user_no], trip_no: current_trip[:trip_no]).first if !current_trip.nil?
+    trip_history = trip_history.symbolize_keys if !trip_history.nil?
+
+    if trip_history.present? && trip_history[:status].to_s == "1" 
+      # 目的地情報を表示するため必要なパラメータを取得する
+      @data = {
+        station_no: trip_history[:station_no],
+        target_place_no: trip_history[:target_place_no],
+        mission_no: trip_history[:mission_no]
+      }
+      respond_to do |format|
+        format.html { 
+          redirect_to missions_progress_path(@data)
+        }
+      end
+    end
 
   end
 
@@ -35,7 +55,7 @@ class MissionsController < ApplicationController
     	target_place_no: params[:target_place_no],
     	mission_no: params[:mission_no]
     }
- 
+
     # 旅履歴を登録する処理
     ## ユーザー情報の取得
     user = user_infomations_get(uid: session[:uid]).symbolize_keys
@@ -48,6 +68,7 @@ class MissionsController < ApplicationController
       station_no: @data[:station_no],
       mission_no: @data[:mission_no]
     }
+
     trip_histories_post(req)
 
     # ミッション進行中画面へリダイレクト
@@ -58,6 +79,7 @@ class MissionsController < ApplicationController
     end
   end
 
+  # ミッションを取りやめる
   def destroy
     # 目的地情報を表示するため必要なパラメータを取得する
     @data = {
@@ -87,6 +109,12 @@ class MissionsController < ApplicationController
     # 柳岡APIに目的地情報をリクエストする
     mission_info = mission_infomations_get(@data).first.symbolize_keys
     @target_place_detail = mission_info[:target_place_info].symbolize_keys
+
+    # 現在の駅番号を取得する
+    @current_station_info = {
+      station_no: current_station,
+      station_name: get_station_name(current_station)
+    }
   end
 
   def complete
@@ -107,6 +135,7 @@ class MissionsController < ApplicationController
       user_no: user[:user_no],
       trip_no: trip[:trip_no]
     }
+
     trip_history = trip_histories_get(param).first.symbolize_keys
     ## リクエストパラメータの設定
     req = {
@@ -132,6 +161,11 @@ class MissionsController < ApplicationController
 
     # 現在の駅の位置にサイコロの目を加算する
     station_no = current_station + dice_no.to_i
+
+    # 浅草駅を超えた数字になったら強制的に駅番号を9(終着)にする
+    if station_no > 9
+      station_no = 9 
+    end
 
     @json = get_mission_list(station_no.to_s)
   end

@@ -123,25 +123,25 @@ module MissionsHelper
     prefix = 'odpt.Station:TokyoMetro.Ginza.'
 
     result = {
-        prefix + "Shibuya" => "渋谷",
-        prefix + "OmoteSando" => "表参道",
-        prefix + "Gaiemmae" => "外苑前",
-        prefix + "AoyamaItchome" => "青山一丁目",
-        prefix + "AkasakaMitsuke" => "赤坂見附",
-        prefix + "TameikeSanno" => "溜池山王",
-        prefix + "Toranomon" => "虎ノ門",
-        prefix + "Shimbashi" => "新橋",
-        prefix + "Ginza" => "銀座",
-        prefix + "Kyobashi" => "京橋",
-        prefix + "Nihombashi" => "日本橋",
-        prefix + "Mitsukoshimae" => "三越前",
-        prefix + "Kanda" => "神田",
-        prefix + "Suehirocho" => "末広町",
-        prefix + "UenoHirokoji" => "上野広小路",
-        prefix + "Ueno" => "上野",
-        prefix + "Inaricho" => "稲荷町",
-        prefix + "Tawaramachi" => "田原町",
-        prefix + "Asakusa" => "浅草"
+        prefix + "Shibuya" => { name: "渋谷", enable: true },
+        prefix + "OmoteSando" => { name: "表参道", enable: true },
+        prefix + "Gaiemmae" => { name: "外苑前", enable: false },
+        prefix + "AoyamaItchome" => { name: "青山一丁目", enable: true },
+        prefix + "AkasakaMitsuke" => { name: "赤坂見附", enable: false },
+        prefix + "TameikeSanno" => { name: "溜池山王", enable: false },
+        prefix + "Toranomon" => { name: "虎ノ門", enable: true },
+        prefix + "Shimbashi" => { name: "新橋", enable: false },
+        prefix + "Ginza" => { name: "銀座", enable: true },
+        prefix + "Kyobashi" => { name: "京橋", enable: false },
+        prefix + "Nihombashi" => { name: "日本橋", enable: true },
+        prefix + "Mitsukoshimae" => { name: "三越前", enable: false },
+        prefix + "Kanda" => { name: "神田", enable: false },
+        prefix + "Suehirocho" => { name: "末広町", enable: true },
+        prefix + "UenoHirokoji" => { name: "上野広小路", enable: true },
+        prefix + "Ueno" => { name: "上野", enable: false },
+        prefix + "Inaricho" => { name: "稲荷町", enable: true },
+        prefix + "Tawaramachi" => { name: "田原町", enable: false },
+        prefix + "Asakusa" => { name: "浅草", enable: true }
     }
   end
 
@@ -166,16 +166,17 @@ module MissionsHelper
     current_trip = trip_infomations_get(@user).first
     current_trip = current_trip.symbolize_keys if !current_trip.nil?
 
-    if current_trip[:status] == 1
+    if current_trip.present? && current_trip[:status].to_i == 1
       req = {
         user_no: @user[:user_no],
         trip_no: current_trip[:trip_no]
       }
+
       current_trip_histories = trip_histories_get(req).first
       current_trip_histories = current_trip_histories.symbolize_keys if !current_trip_histories.nil?
-      station_no = current_trip_histories[:station_no]
+      station_no = (current_trip_histories[:station_no].to_i if !current_trip_histories.nil?) || 0
     else
-      station_no = 1
+      station_no = 0
     end
 
   end
@@ -186,6 +187,28 @@ module MissionsHelper
     prefix = 'TokyoMetro.Ginza.'
 
     # 駅のキーを初期化
+    station_map = {
+        0 => prefix + "Shibuya",
+        1 => prefix + "OmoteSando",
+        2 => prefix + "Gaiemmae",
+        3 => prefix + "AoyamaItchome",
+        4 => prefix + "AkasakaMitsuke",
+        5 => prefix + "TameikeSanno",
+        6 => prefix + "Toranomon",
+        7 => prefix + "Shimbashi",
+        8 => prefix + "Ginza",
+        9 => prefix + "Kyobashi",
+        10 => prefix + "Nihombashi",
+        11 => prefix + "Mitsukoshimae",
+        12 => prefix + "Kanda",
+        13 => prefix + "Suehirocho",
+        14 => prefix + "UenoHirokoji",
+        15 => prefix + "Ueno",
+        16 => prefix + "Inaricho",
+        17 => prefix + "Tawaramachi",
+        18 => prefix + "Asakusa"
+    }
+=begin
     station_map = {
         1 => prefix + "Shibuya",
         2 => prefix + "OmoteSando",
@@ -207,12 +230,26 @@ module MissionsHelper
         18 => prefix + "Tawaramachi",
         19 => prefix + "Asakusa"
     }
+=end
 
-    station_map[station_no]
+    station_map[station_no.to_i]
   end
 
   # 駅番号に対応する駅名を返す
   def get_station_name(station_no)
+    nameMap = {
+        0 => "渋谷",
+        1 => "表参道",
+        2 => "青山一丁目",
+        3 => "虎ノ門",
+        4 => "銀座",
+        5 => "日本橋",
+        6 => "末広町",
+        7 => "上野広小路",
+        8 => "稲荷町",
+        9 => "浅草"
+    }
+=begin
     nameMap = {
         1 => "渋谷",
         2 => "表参道",
@@ -234,6 +271,7 @@ module MissionsHelper
         18 => "田原町",
         19 => "浅草"
     }
+=end
     nameMap[station_no]
   end
 end

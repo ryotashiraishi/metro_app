@@ -34,8 +34,8 @@ ready = ->
 
   # 現在の駅の表示を強調する
   current_station_no = $('#station_info').data('station-no')
-  current_station = $('.list-text').get(current_station_no - 1)
-  $(current_station).css('color', 'red')
+  current_station = $('.enable-station').get(current_station_no)
+  $(current_station).parent().css('color', 'red')
 
   # サイコロを振るボタンのイベント処理
   $('#dice_btn').click ->

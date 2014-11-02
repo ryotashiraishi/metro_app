@@ -75,7 +75,7 @@ module ApisHelper
     client = http_client(url)
     param = {
     	user_no: req[:user_no],
-    	mission_no: req[:mission_no],
+    	trip_no: req[:trip_no],
     	do_no: req[:do_no]
     }
 
