@@ -6,11 +6,14 @@
   <ul>
     <% @upload_photos.each do |photo| %>
     <li>
-      <img src="<%= photo[:photo_content] %>" width="50" height="50" >
+      <!--
+      <%= image_tag action_histories_get_image_path(photo), :size => '100x100' %>
+    -->
+      <%= image_tag url_for(:action => 'get_image', data: photo), :size => '100x100' %>
     </li>
     <% end %>
   </ul>
-<div>
+</div>
 
 <div class="mission-detail" style="background-color: skyblue; height: 200px; padding: 10px;
                                    color: white; margin: 10px; overflow: auto;">

@@ -33,7 +33,9 @@ class ActionHistoriesController < ApplicationController
     @upload_photos = []
     photo_list = trip_photos_get(req)
     photo_list.each do |photo|
-      @upload_photos << photo.symbolize_keys
+      photo = photo.symbolize_keys
+      photo.delete(:photo_content)
+      @upload_photos << photo
     end
 
   end
@@ -89,6 +91,26 @@ class ActionHistoriesController < ApplicationController
     @recent_action_history = get_trip_histories(@user[:user_no], @data[:trip_no])
 
     render :partial => 'trip_histories_api'
+  end
+
+  # 旅写真をバイナリからviewで表示できる形に変換する
+  def get_image
+    # TODO: バイナリを取得する
+    binding.pry
+    data = params[:data].symbolize_keys
+    req = {
+      user_no: data[:user_no],
+      trip_no: data[:trip_no],
+      do_no: data[:do_no],
+      photo_no: data[:photo_no]
+    }
+    photo = trip_photos_get(req).first
+    photo = photo.symbolize_keys if !photo.nil?
+
+    photo_content = photo[:photo_content]
+    photo_name = photo[:photo_name]
+    send_data(photo_content, :disposition => "inline")
+#    send_data(photo_content, :disposition => "inline", :type => photo_name)
   end
 
     private

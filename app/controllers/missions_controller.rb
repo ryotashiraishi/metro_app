@@ -139,6 +139,18 @@ class MissionsController < ApplicationController
       station_no: current_station,
       station_name: get_station_name(current_station)
     }
+
+    current_trip = trip_infomations_get(@user).first
+    current_trip = current_trip.symbolize_keys if !current_trip.nil?
+
+    current_trip_history = trip_histories_get(current_trip).first
+    current_trip_history = current_trip_history.symbolize_keys if !current_trip_history.nil?
+
+    @current_trip_info = {
+      user_no: @user[:user_no],
+      trip_no: current_trip[:trip_no],
+      do_no: current_trip_history[:do_no]
+    }
   end
 
   def complete
@@ -212,19 +224,24 @@ class MissionsController < ApplicationController
       user_no: user_no,
       trip_no: trip_no,
       do_no: do_no,
-      photo_name: photo_name,
-      photo_content: params[:photo_content],
+      photo_name: params[:photo_content].content_type,
+      photo_content: params[:photo_content].read,
     }
     save_photo = trip_photos_post(req)
 
     # TODO: 駅番号を追加する
     # TODO: ミッション番号を追加する
-    save_photo << {
+    save_photo = {
             station_no: current_trip_history[:station_no],
             mission_no: current_trip_history[:mission_no]
             }
 
-    render :json => save_photo
+        # トップ画面へリダイレクト
+    respond_to do |format|
+      format.html { 
+        redirect_to missions_progress_path(save_photo)
+      }
+    end
   end
 
   def mission_list_api
