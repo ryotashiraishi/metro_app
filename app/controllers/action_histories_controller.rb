@@ -96,7 +96,6 @@ class ActionHistoriesController < ApplicationController
   # 旅写真をバイナリからviewで表示できる形に変換する
   def get_image
     # TODO: バイナリを取得する
-    binding.pry
     data = params[:data].symbolize_keys
     req = {
       user_no: data[:user_no],
