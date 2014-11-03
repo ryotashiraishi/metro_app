@@ -32,35 +32,42 @@ module ActionHistoriesHelper
     result
   end
 
+  # 履歴表示用にデータを整形する
   def get_trip_histories(user_no, trip_no)
-
     result = []
-    
-    # TODO: trip_info(user_no,trip_no)を基に旅履歴APIから情報を取得する(渋谷から浅草までの道のり)
-    trip_action_histories = ["a", "b", "c", "d", "e"]
 
-    trip_action_histories.each_with_index do |action, index|
-    # TODO: user_no,trip_no,indexを基に旅履歴APIから情報を取得する(一つの駅での行動履歴)
+    # 旅履歴APIから情報を取得する(渋谷から浅草までの道のり)
+    req = {
+      user_no: user_no,
+      trip_no: trip_no
+    }
+    # スタート駅(渋谷)の情報を追加する
+    trip = trip_infomations_get(req).first
+    trip = trip.symbolize_keys if !trip.nil?
+    first_action = {
+        station_name: get_station_name(0),
+        created_at: trip[:created_at],
+        title: "旅スタート!",
+        status: ""
+    }
+    result << first_action
 
-      trip = {
-        user_no: "12345",
-        trip_no: (index + 1).to_s,
-        station_no: (index + 2).to_s,
-        mission_no: (index + 1).to_s,
-        do_no: "",
-        created_at: "2014/10/10 09:30"
-      }
+    current_trip_histories = trip_histories_get(req)
+    current_trip_histories = current_trip_histories.reverse
 
-      # TODO: station_noから駅情報を取得する
+    current_trip_histories.each do |history|
+      history = history.symbolize_keys
 
-      # TODO: mission_noからミッション情報を取得する
+      # mission_noからミッション情報を取得する
+      mission = mission_infomations_get(history).first.symbolize_keys
+      mission_title = mission[:target_place_info].symbolize_keys[:name]
 
-      # TODO: 取得した情報を整形する
+      # 取得した情報を整形する
       action = {
-        station_name: "駅名" + (index + 1).to_s,
-        created_at: "2014/10/10 09:00",
-        title: "XXXで◯◯◯しよう",
-        image_url: "mission/image_4_" + (index + 1).to_s + ".jpg"
+        station_name: get_station_name(history[:station_no].to_i),
+        created_at: history[:created_at],
+        title: mission_title,
+        status: status_map(history[:status]),
       }
 
       # 情報を詰める
@@ -70,4 +77,13 @@ module ActionHistoriesHelper
     result
   end
 
+  # ステータスの名称を保持するハッシュ
+  def status_map(status)
+    status_map = {
+      "1" => "進行中",
+      "2" => "完了",
+      "3" => "取消"
+    }
+    status_map[status]
+  end
 end

@@ -42,30 +42,66 @@ module MissionsHelper
       days = "odpt:holidays"
     end
 
-    # TODO: 始発駅と終着駅は方面がひとつなので判定が必要
-    # 0 渋谷方面
-    up_time_array = []
-    parse_result[0][days].each do |hash|
-      time_table = hash["odpt:departureTime"]
+    # TODO: 時刻の取り方をメソッドに切り出したい
+    if station == 'TokyoMetro.Ginza.Shibuya'
+      # 0 渋谷方面
+      up_time_array = []
+      parse_result[0][days].each do |hash|
+        time_table = hash["odpt:departureTime"]
 
-      if hour_minute < time_table
-        up_time_array << time_table
-        break if up_time_array.size == 3
+        if hour_minute < time_table
+          up_time_array << time_table
+          break if up_time_array.size == 3
+        end
+      end
+
+      down_time_array = []
+      3.times do 
+        down_time_array << '--:--'
+      end
+    elsif station == 'TokyoMetro.Ginza.Asakusa'
+      # 1 浅草方面
+      down_time_array = []
+      parse_result[0][days].each do |hash|
+        time_table = hash["odpt:departureTime"]
+
+        if hour_minute < time_table
+          down_time_array << time_table
+          break if down_time_array.size == 3
+        end
+      end
+
+      up_time_array = []
+      3.times do 
+        up_time_array << '--:--'
+      end
+    else
+      # 0 渋谷方面
+      up_time_array = []
+      parse_result[0][days].each do |hash|
+        time_table = hash["odpt:departureTime"]
+
+        if hour_minute < time_table
+          up_time_array << time_table
+          break if up_time_array.size == 3
+        end
+      end
+      # 1 浅草方面
+      down_time_array = []
+      parse_result[1][days].each do |hash|
+        time_table = hash["odpt:departureTime"]
+
+        if hour_minute < time_table
+          down_time_array << time_table
+          break if down_time_array.size == 3
+        end
       end
     end
-    # 1 浅草方面
-    down_time_array = []
-    parse_result[1][days].each do |hash|
-      time_table = hash["odpt:departureTime"]
 
-      if hour_minute < time_table
-        down_time_array << time_table
-        break if down_time_array.size == 3
-      end
-    end
-
-    result = { up: up_time_array,
-    	       down: down_time_array }
+    result = {
+      up: up_time_array,
+      down: down_time_array
+    }
   end
 
   # 駅名の一覧を取得
@@ -87,109 +123,62 @@ module MissionsHelper
     prefix = 'odpt.Station:TokyoMetro.Ginza.'
 
     result = {
-        prefix + "Shibuya" => "渋谷",
-        prefix + "OmoteSando" => "表参道",
-        prefix + "Gaiemmae" => "外苑前",
-        prefix + "AoyamaItchome" => "青山一丁目",
-        prefix + "AkasakaMitsuke" => "赤坂見附",
-        prefix + "TameikeSanno" => "溜池山王",
-        prefix + "Toranomon" => "虎ノ門",
-        prefix + "Shimbashi" => "新橋",
-        prefix + "Ginza" => "銀座",
-        prefix + "Kyobashi" => "京橋",
-        prefix + "Nihombashi" => "日本橋",
-        prefix + "Mitsukoshimae" => "三越前",
-        prefix + "Kanda" => "神田",
-        prefix + "Suehirocho" => "末広町",
-        prefix + "UenoHirokoji" => "上野広小路",
-        prefix + "Ueno" => "上野",
-        prefix + "Inaricho" => "稲荷町",
-        prefix + "Tawaramachi" => "田原町",
-        prefix + "Asakusa" => "浅草"
+        prefix + "Shibuya" => { name: "渋谷", enable: true },
+        prefix + "OmoteSando" => { name: "表参道", enable: true },
+        prefix + "Gaiemmae" => { name: "外苑前", enable: false },
+        prefix + "AoyamaItchome" => { name: "青山一丁目", enable: true },
+        prefix + "AkasakaMitsuke" => { name: "赤坂見附", enable: false },
+        prefix + "TameikeSanno" => { name: "溜池山王", enable: false },
+        prefix + "Toranomon" => { name: "虎ノ門", enable: true },
+        prefix + "Shimbashi" => { name: "新橋", enable: false },
+        prefix + "Ginza" => { name: "銀座", enable: true },
+        prefix + "Kyobashi" => { name: "京橋", enable: false },
+        prefix + "Nihombashi" => { name: "日本橋", enable: true },
+        prefix + "Mitsukoshimae" => { name: "三越前", enable: false },
+        prefix + "Kanda" => { name: "神田", enable: false },
+        prefix + "Suehirocho" => { name: "末広町", enable: true },
+        prefix + "UenoHirokoji" => { name: "上野広小路", enable: true },
+        prefix + "Ueno" => { name: "上野", enable: false },
+        prefix + "Inaricho" => { name: "稲荷町", enable: true },
+        prefix + "Tawaramachi" => { name: "田原町", enable: false },
+        prefix + "Asakusa" => { name: "浅草", enable: true }
     }
   end
 
   # 引数に指定した駅のミッションの一覧を取得する
   def get_mission_list(station_no)
-    url = ''
 
-#    client = http_client(url)
-#    # TODO: もしかしたらgetのあとにurlが必要かも
-#    response = client.get '',
-#                 {'station_no' => station_no}
-#    parse_result = JSON.parse(response.body)
+    parse_result = mission_infomations_get(station_no: station_no)
 
-    # TODO: 柳岡APIと連携するまでテストデータを返す
-    parse_result = []
-    mission1 = {
-    	station_no: station_no,
-    	target_place_no: "1",
-    	mission_no: "1",
-    	title: "XXXで◯◯◯を食べよう",
-    	image_url: "/asset/mission/image_01.jpg"
-    }
-    mission2 = {
-    	station_no: station_no,
-    	target_place_no: "2",
-    	mission_no: "2",
-    	title: "XXXで同じ写真を撮ろう",
-    	image_url: "/asset/mission/image_02.jpg"
-    }
-    mission3 = {
-    	station_no: station_no,
-    	target_place_no: "3",
-    	mission_no: "3",
-    	title: "XXXで◯◯◯を食べよう",
-    	image_url: "/asset/mission/image_03.jpg"
-    }
-    parse_result << mission1
-    parse_result << mission2
-    parse_result << mission3
+    result = []
+    parse_result.each do | mission |
+      # キーをシンボルに変換
+      # TODO: 第二階層目以降は変換されない
+      result << mission.symbolize_keys
+    end
 
-    parse_result
-  end
-	
-
-  # 引数に駅と目的地番号を指定し、詳細情報を取得する
-  def get_target_place_info_detail(station_no, target_place_no)
-    url = ''
-
-#    client = http_client(url)
-#    # TODO: もしかしたらgetのあとにurlが必要かも
-#    response = client.get '',
-#                 {'station_no' => station_no,
-#                  'target_place_no' => target_place_no}
-#    parse_result = JSON.parse(response.body)
-
-    # TODO: 柳岡APIと連携するまでテストデータを返す
-    detail = {
-    	station_no: station_no,
-    	target_place_no: target_place_no,
-    	name: "XXXで◯◯◯を食べよう",
-    	address: "東京都品川区XXXXXXX",
-    	tel: "0120-444-444",
-    	business_hours: "平日: 10:00-20:00 土日祝日: 店休日",
-    	map_url: "http://xxxxxxxxxxxxx",
-    	station_exit: "どういった形で値を持とう？？",
-    	image_url: "mission/image_4_1.jpg",
-    	abustract: "創業何年XXXXXX的な？",
-    	pr1: "XXXXX",
-    	pr2: "XXXXX",
-    	pr3: "XXXXX",
-    	created_at: "2014-10-19 15:00:00",
-    	updated_at: "2014-10-19 16:00:00",
-    	deleted_at: ""
-    }
-
-    return detail
+    result
   end
 
-  # 現在の駅を取得する
-  def get_current_station
-    # TODO: 旅履歴取得APIから最新の旅履歴を取得し,駅名を取得する
+  # 現在の駅番号を取得する
+  def current_station
+    # 旅履歴取得APIから最新の旅履歴を取得し,駅名を取得する
+    current_trip = trip_infomations_get(@user).first
+    current_trip = current_trip.symbolize_keys if !current_trip.nil?
 
-    station_no = 2
-    target_station = get_station_key(station_no)
+    if current_trip.present? && current_trip[:status].to_i == 1
+      req = {
+        user_no: @user[:user_no],
+        trip_no: current_trip[:trip_no]
+      }
+
+      current_trip_histories = trip_histories_get(req).first
+      current_trip_histories = current_trip_histories.symbolize_keys if !current_trip_histories.nil?
+      station_no = (current_trip_histories[:station_no].to_i if !current_trip_histories.nil?) || 0
+    else
+      station_no = 0
+    end
+
   end
 
   # 駅番号に対応する駅キーを返す
@@ -198,6 +187,28 @@ module MissionsHelper
     prefix = 'TokyoMetro.Ginza.'
 
     # 駅のキーを初期化
+    station_map = {
+        0 => prefix + "Shibuya",
+        1 => prefix + "OmoteSando",
+        2 => prefix + "Gaiemmae",
+        3 => prefix + "AoyamaItchome",
+        4 => prefix + "AkasakaMitsuke",
+        5 => prefix + "TameikeSanno",
+        6 => prefix + "Toranomon",
+        7 => prefix + "Shimbashi",
+        8 => prefix + "Ginza",
+        9 => prefix + "Kyobashi",
+        10 => prefix + "Nihombashi",
+        11 => prefix + "Mitsukoshimae",
+        12 => prefix + "Kanda",
+        13 => prefix + "Suehirocho",
+        14 => prefix + "UenoHirokoji",
+        15 => prefix + "Ueno",
+        16 => prefix + "Inaricho",
+        17 => prefix + "Tawaramachi",
+        18 => prefix + "Asakusa"
+    }
+=begin
     station_map = {
         1 => prefix + "Shibuya",
         2 => prefix + "OmoteSando",
@@ -219,7 +230,48 @@ module MissionsHelper
         18 => prefix + "Tawaramachi",
         19 => prefix + "Asakusa"
     }
+=end
 
-    station_map[station_no]
+    station_map[station_no.to_i]
+  end
+
+  # 駅番号に対応する駅名を返す
+  def get_station_name(station_no)
+    nameMap = {
+        0 => "渋谷",
+        1 => "表参道",
+        2 => "青山一丁目",
+        3 => "虎ノ門",
+        4 => "銀座",
+        5 => "日本橋",
+        6 => "末広町",
+        7 => "上野広小路",
+        8 => "稲荷町",
+        9 => "浅草"
+    }
+=begin
+    nameMap = {
+        1 => "渋谷",
+        2 => "表参道",
+        3 => "外苑前",
+        4 => "青山一丁目",
+        5 => "赤坂見附",
+        6 => "溜池山王",
+        7 => "虎ノ門",
+        8 => "新橋",
+        9 => "銀座",
+        10 => "京橋",
+        11 => "日本橋",
+        12 => "三越前",
+        13 => "神田",
+        14 => "末広町",
+        15 => "上野広小路",
+        16 => "上野",
+        17 => "稲荷町",
+        18 => "田原町",
+        19 => "浅草"
+    }
+=end
+    nameMap[station_no]
   end
 end

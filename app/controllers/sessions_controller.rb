@@ -17,6 +17,12 @@ class SessionsController < ApplicationController
     session[:last_name] = auth['info']['last_name']
     session[:image_url] = auth['info']['image']
 
+    # AWSのDBに未登録のユーザーであれば登録する
+    ## ユーザー情報の取得
+    user = user_infomations_get(uid: session[:uid])
+    ## ユーザーがnilの場合、ユーザー情報を登録する 
+    user_infomations_post(session) if user.nil?
+
     redirect_to missions_index_path
   end
 

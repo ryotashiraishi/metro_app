@@ -4,14 +4,38 @@
 
 ready = ->
 
-  # ミッション中じゃない場合
-  if $(location).attr('pathname') == "/missions/index"
-    $('#before_start_app').css('display', '')
-    $('#wrap').css('opacity', 0.25)
-    $('#getting_start_app').click ->
-      $('#before_start_app').css('display', 'none')
-      $('#wrap').css('opacity', 1)
-      # TODO: 旅情報登録APIの追加処理
+  # 進行中の旅があるか確認
+  if $('#user_info').data('progress-trip') == 1
+    $('#before_start_app').css('display', 'none')
+    $('#wrap').css('opacity', 1)
+  else
+    # 旅が進行中じゃない場合
+    if $(location).attr('pathname') == "/missions/index"
+      $('#before_start_app').css('display', '')
+      $('#wrap').css('opacity', 0.25)
+      $('#getting_start_app').click ->
+        # 旅情報登録APIの追加処理
+        $.ajax
+          type: 'POST'
+          url: '/missions/trip_infomations_api'
+          dataType: 'json'
+          data:
+            user_no: $('#user_info').data('user-no')
+          success: (data, status, xhr) ->
+            $('#before_start_app').css('display', 'none')
+            $('#wrap').css('opacity', 1)
+          error: (xhr, status, error) -> 
+            alert 'ネットワーク障害が発生している可能性があります。\nしばらく時間を置いて再度アクセスして下さい。'
+            # デバッグ作業のため追加しているけど後で消します ↓
+            $('#before_start_app').css('display', 'none')
+            $('#wrap').css('opacity', 1)
+            #####
+          complete: (xhr, status) -> 
+
+  # 現在の駅の表示を強調する
+  current_station_no = $('#station_info').data('station-no')
+  current_station = $('.enable-station').get(current_station_no)
+  $(current_station).parent().css('color', 'red')
 
   # サイコロを振るボタンのイベント処理
   $('#dice_btn').click ->
@@ -82,10 +106,11 @@ ready = ->
 
     # スマホでの表示用に時間を遅らせる
     setTimeout (->
-      if confirm('このミッションで決定していいですか？')
-        # ミッション進行中画面へ遷移する
+      if confirm('このミッションの詳細を見ますか？')
         data = $(total_mission.get(mission_no - 1)).data()
-        next_page = '/missions/show?' + 'station_no=' + data.stationNo + '&target_place_no=' + data.targetPlaceNo
+
+        next_page =
+         '/missions/show?' + 'station_no=' + data.stationNo + '&target_place_no=' + data.targetPlaceNo
         location.href = next_page
       else
         # ミッションを選択し直す

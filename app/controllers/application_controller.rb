@@ -5,5 +5,6 @@ class ApplicationController < ActionController::Base
 
   include MissionsHelper
   include ActionHistoriesHelper
+  include ApisHelper
 
 end
