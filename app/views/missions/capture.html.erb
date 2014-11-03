@@ -1,0 +1,35 @@
+<div>
+  <video id="video" width="400" height="300" autoplay="1" ></video>
+</div>
+<div>
+  <img id="view" class="display-none-style" src="" width="400" height="300" >
+</div>
+<div>
+  <canvas style="display:none;" width="400" height="300"></canvas>
+</div>
+
+<div id="capture_ready"> 
+  <button id="capture" class="btn btn-primary">写真を撮る</button>
+</div>
+ 
+<div id="capture_done" class="display-none-style"> 
+  <button id="retry" class="btn btn-primary">撮り直す</button>
+  <%= link_to "戻る", missions_progress_path(@data), class: "btn btn-primary" %>
+  <button id="upload" class="btn btn-primary">アップロードする</button>
+</div>
+
+<script>
+  $(function(){
+  // ヘッダーを削除する
+  $('nav').remove();
+  // フッターを削除する
+  $('#footer').remove();
+
+  })
+</script>
+<style>
+.display-none-style {
+	display: none;
+}
+
+</style>

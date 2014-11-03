@@ -2,6 +2,16 @@
   <%= render 'action_histories/trip_histories_api' %>
 </div>
 
+<div>
+  <ul>
+    <% @upload_photos.each do |photo| %>
+    <li>
+      <img src="<%= photo[:photo_content] %>" width="50" height="50" >
+    </li>
+    <% end %>
+  </ul>
+<div>
+
 <div class="mission-detail" style="background-color: skyblue; height: 200px; padding: 10px;
                                    color: white; margin: 10px; overflow: auto;">
   <% if @all_trip_info.present? %>

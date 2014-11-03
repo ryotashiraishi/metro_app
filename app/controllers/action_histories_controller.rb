@@ -25,6 +25,17 @@ class ActionHistoriesController < ApplicationController
       @all_trip_info << trip.symbolize_keys
     end
 
+    # アップロードした写真を取得する
+    req = {
+      user_no: @user[:user_no],
+      trip_no: current_trip[:trip_no]
+    }
+    @upload_photos = []
+    photo_list = trip_photos_get(req)
+    photo_list.each do |photo|
+      @upload_photos << photo.symbolize_keys
+    end
+
   end
 
   # 旅を取りやめる
