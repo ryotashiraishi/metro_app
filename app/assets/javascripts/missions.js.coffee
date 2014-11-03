@@ -139,10 +139,11 @@ ready = ->
       document.querySelector("#view").src = canvas.toDataURL("image/webp")
     return
 
-  if hasGetUserMedia()
-    console.log "カメラ OK"
-  else
-    alert "未対応ブラウザです。"
+#  if hasGetUserMedia()
+#    console.log "カメラ OK"
+#  else
+#    alert "未対応ブラウザです。"
+
   window.URL = window.URL or window.webkitURL
   navigator.getUserMedia = navigator.getUserMedia or navigator.webkitGetUserMedia or navigator.mozGetUserMedia or navigator.msGetUserMedia
   navigator.getUserMedia
