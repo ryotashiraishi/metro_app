@@ -3,7 +3,7 @@
 </div>
 
 <div>
-  <ul>
+  <ul id="myGallery">
     <% @upload_photos.each do |photo| %>
     <li>
       <img src="data:<%= photo[:photo_name] %>;base64, <%= photo[:photo_content] %>" 
@@ -13,6 +13,18 @@
   </ul>
 </div>
 
+<script>
+  $(function(){
+    $('#myGallery').galleryView({
+      panel_width: 300,
+      //panel_height: 300,
+      panel_scale: 'fit',
+      frame_height: 32,
+      show_captions: true,
+      show_filmstrip_nav: false
+    });
+  })
+</script>
 <div class="mission-detail" style="background-color: skyblue; height: 200px; padding: 10px;
                                    color: white; margin: 10px; overflow: auto;">
   <% if @all_trip_info.present? %>
@@ -44,5 +56,13 @@
 }
 .list-box-mission-title {
   width: 35%;
+}
+
+div.gv_galleryWrap {
+  width: 100% !important;
+}
+
+div.gv_panel > img {
+  top: 10px !important;
 }
 </style>

@@ -34,6 +34,9 @@ class ActionHistoriesController < ApplicationController
     photo_list = trip_photos_get(req)
     photo_list.each do |photo|
       photo = photo.symbolize_keys
+      # TODO: photo_contentを削除せず、get_image()メソッドでcontent部分を取得する?
+      # send_dataはしない
+      # photo.delete(:photo_content)
       @upload_photos << photo
     end
 
