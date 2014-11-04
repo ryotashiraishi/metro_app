@@ -49,12 +49,6 @@
 
   </div>
 
-  <form action="missions/upload" method="post" enctype="multipart/form-data">
-    <!--カメラにアクセスする-->
-    <input type="hidden" value="">
-    <input type="submit" value="送信">
-  </form>
-
   <%= form_tag 'upload', enctype: "multipart/form-data" do %>
     <%= hidden_field_tag 'user_no', @current_trip_info[:user_no] %>
     <%= hidden_field_tag 'trip_no', @current_trip_info[:trip_no] %>

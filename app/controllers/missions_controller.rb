@@ -201,31 +201,33 @@ class MissionsController < ApplicationController
   end
 
   def upload
-    # TODO: ユーザー情報取得(ユーザーNo取得)
-#    user = user_infomations_get(uid: session[:uid]).symbolize_keys
+    # ユーザー情報取得(ユーザーNo取得)
     user_no = @user[:user_no]
 
-    # TODO: 最新の旅情報取得(旅No取得)
+    # 最新の旅情報取得(旅No取得)
     current_trip = trip_infomations_get(@user).first
     current_trip = current_trip.symbolize_keys if !current_trip.nil?
     trip_no = current_trip[:trip_no]
 
-    # TODO: 最新の旅旅履歴情報取得(行動履歴No取得)
+    # 最新の旅旅履歴情報取得(行動履歴No取得)
     current_trip_history = trip_histories_get(current_trip).first
     current_trip_history = current_trip_history.symbolize_keys if !current_trip_history.nil?
     do_no = current_trip_history[:do_no]
 
-    # TODO: ファイル名を年月日時分秒ミリ秒
+    # ファイル名を年月日時分秒
     nowtime = Time.now
     photo_name = nowtime.strftime("%Y%H%M%S")
 
-    # TODO: バイナリデータ取得
+    # バイナリデータ取得
+    binary = params[:photo_content].read
+    encoded_binary = CGI.escape(Base64.encode64(binary))
+
     req = {
       user_no: user_no,
       trip_no: trip_no,
       do_no: do_no,
       photo_name: params[:photo_content].content_type,
-      photo_content: params[:photo_content].read,
+      photo_content: encoded_binary
     }
     save_photo = trip_photos_post(req)
 

@@ -6,10 +6,8 @@
   <ul>
     <% @upload_photos.each do |photo| %>
     <li>
-      <!--
-      <%= image_tag action_histories_get_image_path(photo), :size => '100x100' %>
-    -->
-      <%= image_tag url_for(:action => 'get_image', data: photo), :size => '100x100' %>
+      <img src="data:<%= photo[:photo_name] %>;base64, <%= photo[:photo_content] %>" 
+           style="width: 80px; height: 80px;">
     </li>
     <% end %>
   </ul>
