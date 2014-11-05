@@ -19,7 +19,6 @@ module MissionsHelper
     hour_minute = now_time.strftime("%H:%M") 
     day = now_time.strftime("%w")  # 0-6 日曜が0
 
-
     client = http_client(DATAPOINTS_URL)
 
     response = client.get DATAPOINTS_URL,
@@ -42,7 +41,6 @@ module MissionsHelper
       days = "odpt:holidays"
     end
 
-    # TODO: 時刻の取り方をメソッドに切り出したい
     if station == 'TokyoMetro.Ginza.Shibuya'
       # 0 渋谷方面
       up_time_array = []
@@ -118,8 +116,6 @@ module MissionsHelper
 
   # 駅名を保持するハッシュを生成する
   def acquire_station_name_hash
-    result = {}
-
     prefix = 'odpt.Station:TokyoMetro.Ginza.'
 
     result = {
@@ -162,23 +158,52 @@ module MissionsHelper
 
   # 現在の駅番号を取得する
   def current_station
-    # 旅履歴取得APIから最新の旅履歴を取得し,駅名を取得する
-    current_trip = trip_infomations_get(@user).first
-    current_trip = current_trip.symbolize_keys if !current_trip.nil?
+    current_trip = current_trip(@user[:user_no])
 
     if current_trip.present? && current_trip[:status].to_i == 1
       req = {
         user_no: @user[:user_no],
         trip_no: current_trip[:trip_no]
       }
-
-      current_trip_histories = trip_histories_get(req).first
-      current_trip_histories = current_trip_histories.symbolize_keys if !current_trip_histories.nil?
+      current_trip_histories = current_trip_history(@user[:user_no], current_trip[:trip_no])
       station_no = (current_trip_histories[:station_no].to_i if !current_trip_histories.nil?) || 0
     else
       station_no = 0
     end
+  end
 
+  # 直前の駅番号を取得する
+  def before_station(user_no)
+    current_trip = current_trip(user_no)
+
+    req = {
+      user_no: user_no,
+      trip_no: current_trip[:trip_no]
+    }
+    # 旅履歴から2番目の履歴を取得する
+    before_trip_history = trip_histories_get(req)[1]
+
+    if before_trip_history.present? 
+      station_no = before_trip_history[:station_no].to_i 
+    else
+      station_no = 0
+    end
+  end
+
+  # 最新の旅情報を取得する
+  def current_trip(user_no)
+    current_trip = trip_infomations_get(user_no: user_no).first
+    current_trip = current_trip.symbolize_keys if !current_trip.nil?
+  end
+
+  # 最新の旅履歴情報を取得する
+  def current_trip_history(user_no, trip_no)
+    req = {
+      user_no: user_no,
+      trip_no: trip_no
+    }
+    current_trip_histories = trip_histories_get(req).first
+    current_trip_histories = current_trip_histories.symbolize_keys if !current_trip_histories.nil?
   end
 
   # 駅番号に対応する駅キーを返す

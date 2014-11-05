@@ -1,11 +1,10 @@
 class MissionsController < ApplicationController
-  before_action :set_current_user, only: [:index, :progress, :destroy, :upload, :mission_list_api]
+  before_action :set_current_user, only: [:index, :progress, :destroy, :create, :complete, :upload, :mission_list_api]
   before_action :set_current_info, only: [:index, :progress]
 
   def index
     # 最新の旅情報を取得し、ステータス値を渡す
-    current_trip = trip_infomations_get(@user).first
-    current_trip = current_trip.symbolize_keys if !current_trip.nil?
+    current_trip = current_trip(@user[:user_no])
     @progress_trip = current_trip.symbolize_keys[:status] if !current_trip.nil?
 
     # 現在の駅番号を取得する
@@ -16,14 +15,12 @@ class MissionsController < ApplicationController
 
     # 進行中のミッションがある場合は進行中画面へリダイレクトする
     ## 最新のミッション情報を取得する
-    trip_history = trip_histories_get(user_no: @user[:user_no], trip_no: current_trip[:trip_no]).first if !current_trip.nil?
-    trip_history = trip_history.symbolize_keys if !trip_history.nil?
+    trip_history = current_trip_history(@user[:user_no], current_trip[:trip_no])
 
     if trip_history.present? && trip_history[:status].to_s == "1" 
       # 目的地情報を表示するため必要なパラメータを取得する
       @data = {
         station_no: trip_history[:station_no],
-        target_place_no: trip_history[:target_place_no],
         mission_no: trip_history[:mission_no]
       }
       respond_to do |format|
@@ -65,20 +62,17 @@ class MissionsController < ApplicationController
     }
 
     # 旅履歴を登録する処理
-    ## ユーザー情報の取得
-    user = user_infomations_get(uid: session[:uid]).symbolize_keys
     ## 最新の旅情報の取得
-    trip = trip_infomations_get(user_no: user[:user_no]).first.symbolize_keys
+    trip = current_trip(@user[:user_no])
     ## リクエストパラメータの設定
     req = {
-      user_no: user[:user_no],
+      user_no: @user[:user_no],
       trip_no: trip[:trip_no],
       station_no: @data[:station_no],
       mission_no: @data[:mission_no]
     }
 
     trip_histories_post(req)
-
 
     # 一時的に記録した駅番号を破棄する
     session[:station_no] = nil
@@ -100,12 +94,10 @@ class MissionsController < ApplicationController
     }
 
     # 最新の旅情報を取得する
-    current_trip = trip_infomations_get(user_no: @user[:user_no]).first
-    current_trip = current_trip.symbolize_keys if !current_trip.nil?
+    current_trip = current_trip(@user[:user_no])
 
     # 最新の旅履歴を取得する
-    current_trip_history = trip_histories_get(current_trip).first
-    current_trip_history = current_trip_history.symbolize_keys if !current_trip_history.nil?
+    current_trip_history = current_trip_history(@user[:user_no], current_trip[:trip_no])
 
     current_trip_history[:status] = "3"
 
@@ -126,7 +118,6 @@ class MissionsController < ApplicationController
     # 目的地情報を表示するため必要なパラメータを取得する
     @data = {
     	station_no: params[:station_no],
-#    	target_place_no: params[:target_place_no],
     	mission_no: params[:mission_no]
     }
 
@@ -140,11 +131,9 @@ class MissionsController < ApplicationController
       station_name: get_station_name(current_station)
     }
 
-    current_trip = trip_infomations_get(@user).first
-    current_trip = current_trip.symbolize_keys if !current_trip.nil?
+    current_trip = current_trip(@user[:user_no])
 
-    current_trip_history = trip_histories_get(current_trip).first
-    current_trip_history = current_trip_history.symbolize_keys if !current_trip_history.nil?
+    current_trip_history = current_trip_history(@user[:user_no], current_trip[:trip_no])
 
     @current_trip_info = {
       user_no: @user[:user_no],
@@ -162,20 +151,18 @@ class MissionsController < ApplicationController
     } 
 
     # 旅履歴を完了で更新する処理
-    ## ユーザー情報の取得
-    user = user_infomations_get(uid: session[:uid]).symbolize_keys
     ## 最新の旅情報の取得
-    trip = trip_infomations_get(user_no: user[:user_no]).first.symbolize_keys
+    trip = current_trip(@user[:user_no])
     ## 最新の旅履歴情報の取得
     param = {
-      user_no: user[:user_no],
+      user_no: @user[:user_no],
       trip_no: trip[:trip_no]
     }
 
-    trip_history = trip_histories_get(param).first.symbolize_keys
+    trip_history = current_trip_history(@user[:user_no], trip[:trip_no])
     ## リクエストパラメータの設定
     req = {
-      user_no: user[:user_no],
+      user_no: @user[:user_no],
       trip_no: trip[:trip_no],
       station_no: @data[:station_no],
       mission_no: @data[:mission_no],
@@ -193,31 +180,22 @@ class MissionsController < ApplicationController
   end
 
   def upload
-    # ユーザー情報取得(ユーザーNo取得)
-    user_no = @user[:user_no]
 
     # 最新の旅情報取得(旅No取得)
-    current_trip = trip_infomations_get(@user).first
-    current_trip = current_trip.symbolize_keys if !current_trip.nil?
-    trip_no = current_trip[:trip_no]
-
+    current_trip = current_trip(@user[:user_no])
     # 最新の旅旅履歴情報取得(行動履歴No取得)
-    current_trip_history = trip_histories_get(current_trip).first
-    current_trip_history = current_trip_history.symbolize_keys if !current_trip_history.nil?
-    do_no = current_trip_history[:do_no]
-
+    current_trip_history = current_trip_history(@user[:user_no], current_trip[:trip_no])
     # ファイル名を年月日時分秒
     nowtime = Time.now
     photo_name = nowtime.strftime("%Y%H%M%S")
-
     # バイナリデータ取得
     binary = params[:photo_content].read
     encoded_binary = CGI.escape(Base64.encode64(binary))
 
     req = {
-      user_no: user_no,
-      trip_no: trip_no,
-      do_no: do_no,
+      user_no: @user[:user_no],
+      trip_no: current_trip[:trip_no],
+      do_no: current_trip_history[:do_no],
       photo_name: params[:photo_content].content_type,
       photo_content: encoded_binary
     }
