@@ -58,20 +58,25 @@ class ActionHistoriesController < ApplicationController
     ## 最新の旅履歴情報を取得する
     trip_history = current_trip_history(params[:user_no], trip[:trip_no])
 
-    param = {
-      user_no: trip_history[:user_no],
-      trip_no: trip_history[:trip_no],
-      station_no: trip_history[:station_no],
-      mission_no: trip_history[:mission_no],
-      do_no: trip_history[:do_no],
-      status: 2
-    }
-    trip_histories_put(param)
+    if trip_history.present?
+      param = {
+        user_no: trip_history[:user_no],
+        trip_no: trip_history[:trip_no],
+        station_no: trip_history[:station_no],
+        mission_no: trip_history[:mission_no],
+        do_no: trip_history[:do_no],
+        status: 2
+      }
+      trip_histories_put(param)
+    end
 
     data = {
       user_no: params[:user_no],
       trip_no: params[:trip_no]
     }
+
+    # セッション情報を初期化
+    session[:station_no] = nil
 
     # ミッション進行中画面へリダイレクト
     respond_to do |format|
