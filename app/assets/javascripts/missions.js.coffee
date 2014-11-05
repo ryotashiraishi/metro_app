@@ -118,6 +118,82 @@ ready = ->
       return
     ), "500"
 
+#  video = document.querySelector("video")
+#  canvas = document.querySelector("canvas")
+#  ctx = canvas.getContext("2d")
+#  localMediaStream = null
+
+#  #カメラ使えるかチェック
+#  hasGetUserMedia = ->
+#    !!(navigator.getUserMedia or navigator.webkitGetUserMedia or navigator.mozGetUserMedia or navigator.msGetUserMedia)
+
+#  #エラー
+#  onFailSoHard = (e) ->
+#    console.log "エラー!", e
+#    return
+
+#  #カメラ画像キャプチャ
+#  snapshot = ->
+#    if localMediaStream
+#      ctx.drawImage video, 0, 0, 400, 300
+#      document.querySelector("#view").src = canvas.toDataURL("image/webp")
+#    return
+
+#  if hasGetUserMedia()
+#    console.log "カメラ OK"
+#  else
+#    alert "未対応ブラウザです。"
+
+#  window.URL = window.URL or window.webkitURL
+#  navigator.getUserMedia = navigator.getUserMedia or navigator.webkitGetUserMedia or navigator.mozGetUserMedia or navigator.msGetUserMedia
+#  navigator.getUserMedia
+#    video: true, ((stream) ->
+#      video.src = window.URL.createObjectURL(stream)
+#      localMediaStream = stream
+#      return
+#    ), onFailSoHard
+
+#  # シャッターボタン
+#  $("#capture").click ->
+#    snapshot()
+#    switch_display()
+#    return
+
+#  # 撮り直しボタン
+#  $("#retry").click ->
+#    #localMediaStream.stop()
+#    switch_display()
+#    return
+
+#  # アップロードボタン
+#  $("#upload").click ->
+#    # snapshot()
+#    # TODO: confirmダイアログ
+#    # TODO: ajaxでPOST
+#    if confirm "この画像をアップロードしますか？"
+#      # ajaxで非同期に決定した駅のミッション一覧情報を取得する
+#      $.ajax
+#        type: 'POST'
+#        url: '/missions/upload'
+#        dataType: 'json'
+#        data: 
+#          'photo_content': $('#view').attr('src')
+#        success: (data, status, xhr) ->
+#          # ミッション進行中画面へ遷移させる
+#          next_page =
+#            '/missions/progress?' + 'station_no=' + data[1].station_no + '&mission_no=' + data[1].mission_no
+#          location.href = next_page
+#        error: (xhr, status, error) -> 
+#        complete: (xhr, status) -> 
+
+#    return
+
+#  # 撮影時の表示切り替え処理
+#  switch_display = ->
+#    $('#video').toggleClass('display-none-style')
+#    $('#view').toggleClass('display-none-style')
+#    $('#capture_ready').toggleClass('display-none-style')
+#    $('#capture_done').toggleClass('display-none-style')
 
 # Turbolinksによるajaxページ遷移のため再度イベントを設定
 $(document).ready(ready)

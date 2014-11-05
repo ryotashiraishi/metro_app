@@ -124,7 +124,40 @@ module ApisHelper
     client = http_client(url)
     param = {
     	station_no: req[:station_no],
-        mission_no: req[:mission_no]
+      mission_no: req[:mission_no]
+    }
+
+    response = client.get url, param
+    parse_result = JSON.parse(response.body)
+  end
+
+  # 旅写真登録API
+  def trip_photos_post(req)
+    url = AWS_API_ENDPOINT + TRIP_PHOTOS
+
+    client = http_client(url)
+    param = {
+      user_no: req[:user_no],
+      trip_no: req[:trip_no],
+      do_no: req[:do_no],
+      photo_name: req[:photo_name],
+      photo_content: req[:photo_content]
+    }
+
+    response = client.post url, param
+    parse_result = JSON.parse(response.body)
+  end
+
+  # 旅写真取得API
+  def trip_photos_get(req)
+    url = AWS_API_ENDPOINT + TRIP_PHOTOS
+
+    client = http_client(url)
+    param = {
+      user_no: req[:user_no],
+      trip_no: req[:trip_no],
+      do_no: req[:do_no],
+      photo_no: req[:photo_no]
     }
 
     response = client.get url, param

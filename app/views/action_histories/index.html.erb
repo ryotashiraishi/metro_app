@@ -2,6 +2,20 @@
   <%= render 'action_histories/trip_histories_api' %>
 </div>
 
+
+<script>
+  $(function(){
+    $('#myGallery').galleryView({
+      panel_width: 300,
+      panel_scale: 'fit',
+      //show_panels: false,
+      show_panel_nav: false,
+      frame_height: 32,
+      show_captions: true,
+      show_filmstrip_nav: true
+    });
+  })
+</script>
 <div class="mission-detail" style="background-color: skyblue; height: 200px; padding: 10px;
                                    color: white; margin: 10px; overflow: auto;">
   <% if @all_trip_info.present? %>

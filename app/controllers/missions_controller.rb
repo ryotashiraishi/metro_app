@@ -1,5 +1,5 @@
 class MissionsController < ApplicationController
-  before_action :set_current_user, only: [:index, :progress, :destroy, :mission_list_api]
+  before_action :set_current_user, only: [:index, :progress, :destroy, :upload, :mission_list_api]
   before_action :set_current_info, only: [:index, :progress]
 
   def index
@@ -126,7 +126,7 @@ class MissionsController < ApplicationController
     # 目的地情報を表示するため必要なパラメータを取得する
     @data = {
     	station_no: params[:station_no],
-    	target_place_no: params[:target_place_no],
+#    	target_place_no: params[:target_place_no],
     	mission_no: params[:mission_no]
     }
 
@@ -138,6 +138,18 @@ class MissionsController < ApplicationController
     @current_station_info = {
       station_no: current_station,
       station_name: get_station_name(current_station)
+    }
+
+    current_trip = trip_infomations_get(@user).first
+    current_trip = current_trip.symbolize_keys if !current_trip.nil?
+
+    current_trip_history = trip_histories_get(current_trip).first
+    current_trip_history = current_trip_history.symbolize_keys if !current_trip_history.nil?
+
+    @current_trip_info = {
+      user_no: @user[:user_no],
+      trip_no: current_trip[:trip_no],
+      do_no: current_trip_history[:do_no]
     }
   end
 
@@ -176,6 +188,50 @@ class MissionsController < ApplicationController
     respond_to do |format|
       format.html { 
       	redirect_to missions_index_path(station_no: @data[:station_no])
+      }
+    end
+  end
+
+  def upload
+    # ユーザー情報取得(ユーザーNo取得)
+    user_no = @user[:user_no]
+
+    # 最新の旅情報取得(旅No取得)
+    current_trip = trip_infomations_get(@user).first
+    current_trip = current_trip.symbolize_keys if !current_trip.nil?
+    trip_no = current_trip[:trip_no]
+
+    # 最新の旅旅履歴情報取得(行動履歴No取得)
+    current_trip_history = trip_histories_get(current_trip).first
+    current_trip_history = current_trip_history.symbolize_keys if !current_trip_history.nil?
+    do_no = current_trip_history[:do_no]
+
+    # ファイル名を年月日時分秒
+    nowtime = Time.now
+    photo_name = nowtime.strftime("%Y%H%M%S")
+
+    # バイナリデータ取得
+    binary = params[:photo_content].read
+    encoded_binary = CGI.escape(Base64.encode64(binary))
+
+    req = {
+      user_no: user_no,
+      trip_no: trip_no,
+      do_no: do_no,
+      photo_name: params[:photo_content].content_type,
+      photo_content: encoded_binary
+    }
+    trip_photos_post(req)
+
+    data = {
+      station_no: current_trip_history[:station_no],
+      mission_no: current_trip_history[:mission_no]
+    }
+
+    # ミッション進行中画面へリダイレクト
+    respond_to do |format|
+      format.html { 
+        redirect_to missions_progress_path(data)
       }
     end
   end

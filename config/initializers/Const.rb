@@ -10,6 +10,8 @@ AWS_API_ENDPOINT = 'http://ec2-54-187-171-156.us-west-2.compute.amazonaws.com/me
 TRIP_INFOMATIONS = 'trip/infomations'
 ### 旅履歴関連
 TRIP_HISTORIES = 'trip/histories'
+### 旅写真関連
+TRIP_PHOTOS = 'trip/photos'
 
 ### ユーザー情報関連
 USER_INFOMATIONS = 'user/infomations'

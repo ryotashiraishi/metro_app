@@ -49,6 +49,15 @@
 
   </div>
 
+  <%= form_tag 'upload', enctype: "multipart/form-data" do %>
+    <%= hidden_field_tag 'user_no', @current_trip_info[:user_no] %>
+    <%= hidden_field_tag 'trip_no', @current_trip_info[:trip_no] %>
+    <%= hidden_field_tag 'do_no',  @current_trip_info[:do_no] %>
+    <%= hidden_field_tag 'photo_name', 'aaaa' %>
+    <input name="photo_content" type="file" accept="image/*" >
+    <%= submit_tag 'upload' %>
+  <% end %>
+
   <div class="btn-field" style="margin: 5px; padding: 5px;">
   	<div style="width: 90%; margin: 0 auto;">
       <%= link_to "ミッションを変更する",
