@@ -2,16 +2,6 @@
   <%= render 'action_histories/trip_histories_api' %>
 </div>
 
-<div>
-  <ul id="myGallery">
-    <% @upload_photos.each do |photo| %>
-    <li>
-      <img src="data:<%= photo[:photo_name] %>;base64, <%= photo[:photo_content] %>" 
-           style="width: 80px; height: 80px;">
-    </li>
-    <% end %>
-  </ul>
-</div>
 
 <script>
   $(function(){
@@ -57,13 +47,5 @@
 }
 .list-box-mission-title {
   width: 35%;
-}
-
-div.gv_galleryWrap {
-  width: 100% !important;
-}
-
-div.gv_panel > img {
-  top: 10px !important;
 }
 </style>

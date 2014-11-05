@@ -92,6 +92,19 @@ class ActionHistoriesController < ApplicationController
     # 旅履歴情報を取り出す
     @recent_action_history = get_trip_histories(@user[:user_no], @data[:trip_no])
 
+    req = {
+      user_no: @user[:user_no],
+      trip_no: @data[:trip_no]
+    }
+    @upload_photos = []
+    photo_list = trip_photos_get(req)
+    photo_list.each do |photo|
+      photo = photo.symbolize_keys
+      # TODO: photo_contentを削除せず、get_image()メソッドでcontent部分を取得する?
+      # send_dataはしない
+      # photo.delete(:photo_content)
+      @upload_photos << photo
+    end
     render :partial => 'trip_histories_api'
   end
 
