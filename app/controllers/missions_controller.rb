@@ -192,14 +192,6 @@ class MissionsController < ApplicationController
     end
   end
 
-  def capture
-    @data = {
-      station_no: params[:station_no],
-      mission_no: params[:mission_no]
-    }
-
-  end
-
   def upload
     # ユーザー情報取得(ユーザーNo取得)
     user_no = @user[:user_no]
@@ -229,19 +221,17 @@ class MissionsController < ApplicationController
       photo_name: params[:photo_content].content_type,
       photo_content: encoded_binary
     }
-    save_photo = trip_photos_post(req)
+    trip_photos_post(req)
 
-    # TODO: 駅番号を追加する
-    # TODO: ミッション番号を追加する
-    save_photo = {
-            station_no: current_trip_history[:station_no],
-            mission_no: current_trip_history[:mission_no]
-            }
+    data = {
+      station_no: current_trip_history[:station_no],
+      mission_no: current_trip_history[:mission_no]
+    }
 
-        # トップ画面へリダイレクト
+    # ミッション進行中画面へリダイレクト
     respond_to do |format|
       format.html { 
-        redirect_to missions_progress_path(save_photo)
+        redirect_to missions_progress_path(data)
       }
     end
   end
