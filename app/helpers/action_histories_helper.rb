@@ -45,7 +45,7 @@ module ActionHistoriesHelper
     trip = trip_infomations_get(req).first
     trip = trip.symbolize_keys if !trip.nil?
     first_action = {
-        station_name: get_station_name(0),
+        station_name: get_station_name(FIRST_TRAIN_NO),
         created_at: trip[:created_at],
         title: "旅スタート!",
         status: ""

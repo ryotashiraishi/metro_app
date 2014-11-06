@@ -1,19 +1,32 @@
 <div style="width: 100%; margin: 10px 0;">
   <div style="height: 100%; width: 95%; margin: 0 auto; background-color: blueviolet; color: white;">
     <div>
-      <span>現在の位置は</span><span><%= @current_station_info[:station_name] %></span><span>駅です。</span>
+      <span>ただいま</span><span>  <%= @current_station_info[:station_name] %>  </span><span>駅です。</span>
     </div>
+    <% if @next_station_info.present? %>
     <div>
-      <span>浅草方面</span>
-      <% @train_time[:up].each do |up_time| %>
-        <span><%= up_time %></span>
-      <% end %>
+      <span>次の目的地は</span><span>  <%= @next_station_info[:station_name] %>  </span><span>駅です。</span>
     </div>
-    <div>
-      <span>渋谷方面</span>
-      <% @train_time[:down].each do |down_time| %>
-        <span><%= down_time %></span>
-      <% end %>
+    <% end %>
+
+    <div style="display: table;">
+      <div style="display: table-cell; width: 110px;">
+        <span><%= @current_station_info[:station_name] %></span><span>駅発 </span>
+      </div>
+      <div style="display: table-cell;">
+        <div>
+          <span>浅草方面</span>
+          <% @train_time[:up].each do |up_time| %>
+            <span><%= up_time %></span>
+          <% end %>
+        </div>
+        <div>
+          <span>渋谷方面</span>
+          <% @train_time[:down].each do |down_time| %>
+            <span><%= down_time %></span>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -35,7 +48,8 @@
     </ul>
   </div>
   <div id="station_info" class="display-none-style"
-    data-station-no="<%= @current_station_info[:station_no] %>" >
+    data-current-station-no="<%= @current_station_info[:station_no] %>"
+    data-next-station-no="<%= @next_station_info[:station_no] if @next_station_info.present? %>" >
   </div>
 </div>
 

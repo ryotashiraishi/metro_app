@@ -7,12 +7,6 @@ class MissionsController < ApplicationController
     current_trip = current_trip(@user[:user_no])
     @progress_trip = current_trip.symbolize_keys[:status] if !current_trip.nil?
 
-    # 現在の駅番号を取得する
-    @current_station_info = {
-      station_no: current_station,
-      station_name: get_station_name(current_station)
-    }
-
     # 進行中のミッションがある場合は進行中画面へリダイレクトする
     ## 最新のミッション情報を取得する
     trip_history = current_trip_history(@user[:user_no], current_trip[:trip_no])
@@ -125,12 +119,6 @@ class MissionsController < ApplicationController
     mission_info = mission_infomations_get(@data).first.symbolize_keys
     @target_place_detail = mission_info[:target_place_info].symbolize_keys
 
-    # 現在の駅番号を取得する
-    @current_station_info = {
-      station_no: current_station,
-      station_name: get_station_name(current_station)
-    }
-
     current_trip = current_trip(@user[:user_no])
 
     current_trip_history = current_trip_history(@user[:user_no], current_trip[:trip_no])
@@ -221,8 +209,8 @@ class MissionsController < ApplicationController
     station_no = current_station + dice_no.to_i
 
     # 浅草駅を超えた数字になったら強制的に駅番号を9(終着)にする
-    if station_no > 9
-      station_no = 9 
+    if station_no > LAST_TRAIN_NO
+      station_no = LAST_TRAIN_NO 
     end
 
     @json = get_mission_list(station_no.to_s)
@@ -248,9 +236,34 @@ class MissionsController < ApplicationController
     # 現在の位置(駅)や進行中のミッション番号を設定する
     def set_current_info
 
-      # 動的に駅情報を取得する
-      target_station_key = get_station_key(current_station)
+      current_trip = current_trip(@user[:user_no])
+      current_trip_history = current_trip_history(@user[:user_no], current_trip[:trip_no])
 
+      if current_trip_history.present? && current_trip_history[:status].to_i == 1
+        # ミッションが進行中の場合
+        # 現在の駅番号を取得する
+        @current_station_info = {
+          station_no: before_station,
+          station_name: get_station_name(before_station)
+        }
+        # 目的地の駅番号を取得する
+        @next_station_info = {
+          station_no: current_station,
+          station_name: get_station_name(current_station)
+        }
+      else
+        # ミッションが進行中以外の場合
+        # 現在の駅番号を取得する
+        @current_station_info = {
+          station_no: current_station,
+          station_name: get_station_name(current_station)
+        }
+        # 目的地の駅番号を取得する
+        @next_station_info = nil
+      end
+
+      # 動的に駅情報を取得する
+      target_station_key = get_station_key(@current_station_info[:station_no])
       @train_time = acquire_train_time(target_station_key)
 
       @station_name_array = acquire_station_name

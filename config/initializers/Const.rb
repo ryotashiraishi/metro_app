@@ -21,3 +21,9 @@ MISSION_INFOMATIONS = 'mission/infomations'
 
 ### 目的地情報関連
 TARGET_PLACE_INFOMATIONS = 'target-place/infomations'
+
+# 始発駅番号
+FIRST_TRAIN_NO = 1
+
+# 終着駅番号
+LAST_TRAIN_NO = 10
