@@ -124,6 +124,13 @@ ready = ->
       return
     ), "500"
 
+  # 地図の表示をツールチップで実装する
+  $("#map_btn").darkTooltip
+    animation: "fadeIn"
+    gravity: "north"
+    theme: "light"
+    trigger: "click"
+
 # Turbolinksによるajaxページ遷移のため再度イベントを設定
 $(document).ready(ready)
 $(document).on('page:load', ready)
