@@ -12,9 +12,7 @@ class ActionHistoriesController < ApplicationController
 
     # 旅情報を取得する
     trips = trip_infomations_get(user_no: @user[:user_no])
-
-    current_trip = trips.first
-    current_trip = current_trip.symbolize_keys if !current_trip.nil?
+    current_trip = current_trip(@user[:user_no])
 
     # 最新の旅履歴情報を取得し、表示用に整形する
     @recent_action_history = get_trip_histories(@user[:user_no], current_trip[:trip_no])
@@ -47,8 +45,8 @@ class ActionHistoriesController < ApplicationController
 
     # 進行中の旅を完了にする
     ## 最新の旅情報を取得する
-    trip = trip_infomations_get(user_no: params[:user_no]).first
-    trip = trip.symbolize_keys if !trip.nil?
+    trip = current_trip(params[:user_no])
+
     param = {
       user_no: trip[:user_no],
       trip_no: trip[:trip_no],
@@ -58,22 +56,27 @@ class ActionHistoriesController < ApplicationController
 
     # 進行中のミッションを完了にする
     ## 最新の旅履歴情報を取得する
-    trip_history = trip_histories_get(user_no: params[:user_no], trip_no: trip[:trip_no]).first
-    trip_history = trip_history.symbolize_keys if !trip_history.nil?
-    param = {
-      user_no: trip_history[:user_no],
-      trip_no: trip_history[:trip_no],
-      station_no: trip_history[:station_no],
-      mission_no: trip_history[:mission_no],
-      do_no: trip_history[:do_no],
-      status: 2
-    }
-    trip_histories_put(param)
+    trip_history = current_trip_history(params[:user_no], trip[:trip_no])
+
+    if trip_history.present?
+      param = {
+        user_no: trip_history[:user_no],
+        trip_no: trip_history[:trip_no],
+        station_no: trip_history[:station_no],
+        mission_no: trip_history[:mission_no],
+        do_no: trip_history[:do_no],
+        status: 2
+      }
+      trip_histories_put(param)
+    end
 
     data = {
       user_no: params[:user_no],
       trip_no: params[:trip_no]
     }
+
+    # セッション情報を初期化
+    session[:station_no] = nil
 
     # ミッション進行中画面へリダイレクト
     respond_to do |format|

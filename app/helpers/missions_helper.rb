@@ -19,7 +19,6 @@ module MissionsHelper
     hour_minute = now_time.strftime("%H:%M") 
     day = now_time.strftime("%w")  # 0-6 日曜が0
 
-
     client = http_client(DATAPOINTS_URL)
 
     response = client.get DATAPOINTS_URL,
@@ -42,7 +41,6 @@ module MissionsHelper
       days = "odpt:holidays"
     end
 
-    # TODO: 時刻の取り方をメソッドに切り出したい
     if station == 'TokyoMetro.Ginza.Shibuya'
       # 0 渋谷方面
       up_time_array = []
@@ -118,8 +116,6 @@ module MissionsHelper
 
   # 駅名を保持するハッシュを生成する
   def acquire_station_name_hash
-    result = {}
-
     prefix = 'odpt.Station:TokyoMetro.Ginza.'
 
     result = {
@@ -162,23 +158,52 @@ module MissionsHelper
 
   # 現在の駅番号を取得する
   def current_station
-    # 旅履歴取得APIから最新の旅履歴を取得し,駅名を取得する
-    current_trip = trip_infomations_get(@user).first
-    current_trip = current_trip.symbolize_keys if !current_trip.nil?
+    current_trip = current_trip(@user[:user_no])
 
     if current_trip.present? && current_trip[:status].to_i == 1
       req = {
         user_no: @user[:user_no],
         trip_no: current_trip[:trip_no]
       }
-
-      current_trip_histories = trip_histories_get(req).first
-      current_trip_histories = current_trip_histories.symbolize_keys if !current_trip_histories.nil?
-      station_no = (current_trip_histories[:station_no].to_i if !current_trip_histories.nil?) || 0
+      current_trip_histories = current_trip_history(@user[:user_no], current_trip[:trip_no])
+      station_no = (current_trip_histories[:station_no].to_i if !current_trip_histories.nil?) || FIRST_TRAIN_NO 
     else
-      station_no = 0
+      station_no = FIRST_TRAIN_NO 
     end
+  end
 
+  # 直前の駅番号を取得する
+  def before_station
+    current_trip = current_trip(@user[:user_no])
+
+    req = {
+      user_no: @user[:user_no],
+      trip_no: current_trip[:trip_no]
+    }
+    # 旅履歴から2番目の履歴を取得する
+    before_trip_history = trip_histories_get(req)[1]
+
+    if before_trip_history.present? 
+      station_no = before_trip_history.symbolize_keys[:station_no].to_i 
+    else
+      station_no = FIRST_TRAIN_NO 
+    end
+  end
+
+  # 最新の旅情報を取得する
+  def current_trip(user_no)
+    current_trip = trip_infomations_get(user_no: user_no).first
+    current_trip = current_trip.symbolize_keys if !current_trip.nil?
+  end
+
+  # 最新の旅履歴情報を取得する
+  def current_trip_history(user_no, trip_no)
+    req = {
+      user_no: user_no,
+      trip_no: trip_no
+    }
+    current_trip_histories = trip_histories_get(req).first
+    current_trip_histories = current_trip_histories.symbolize_keys if !current_trip_histories.nil?
   end
 
   # 駅番号に対応する駅キーを返す
@@ -188,25 +213,16 @@ module MissionsHelper
 
     # 駅のキーを初期化
     station_map = {
-        0 => prefix + "Shibuya",
-        1 => prefix + "OmoteSando",
-        2 => prefix + "Gaiemmae",
+        1 => prefix + "Shibuya",
+        2 => prefix + "OmoteSando",
         3 => prefix + "AoyamaItchome",
-        4 => prefix + "AkasakaMitsuke",
-        5 => prefix + "TameikeSanno",
-        6 => prefix + "Toranomon",
-        7 => prefix + "Shimbashi",
-        8 => prefix + "Ginza",
-        9 => prefix + "Kyobashi",
-        10 => prefix + "Nihombashi",
-        11 => prefix + "Mitsukoshimae",
-        12 => prefix + "Kanda",
-        13 => prefix + "Suehirocho",
-        14 => prefix + "UenoHirokoji",
-        15 => prefix + "Ueno",
-        16 => prefix + "Inaricho",
-        17 => prefix + "Tawaramachi",
-        18 => prefix + "Asakusa"
+        4 => prefix + "Toranomon",
+        5 => prefix + "Ginza",
+        6 => prefix + "Nihombashi",
+        7 => prefix + "Suehirocho",
+        8 => prefix + "UenoHirokoji",
+        9 => prefix + "Inaricho",
+        10 => prefix + "Asakusa"
     }
 =begin
     station_map = {
@@ -238,16 +254,16 @@ module MissionsHelper
   # 駅番号に対応する駅名を返す
   def get_station_name(station_no)
     nameMap = {
-        0 => "渋谷",
-        1 => "表参道",
-        2 => "青山一丁目",
-        3 => "虎ノ門",
-        4 => "銀座",
-        5 => "日本橋",
-        6 => "末広町",
-        7 => "上野広小路",
-        8 => "稲荷町",
-        9 => "浅草"
+        1 => "渋谷",
+        2 => "表参道",
+        3 => "青山一丁目",
+        4 => "虎ノ門",
+        5 => "銀座",
+        6 => "日本橋",
+        7 => "末広町",
+        8 => "上野広小路",
+        9 => "稲荷町",
+        10 => "浅草"
     }
 =begin
     nameMap = {
