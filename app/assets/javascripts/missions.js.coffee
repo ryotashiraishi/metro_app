@@ -39,7 +39,7 @@ ready = ->
 
   # 目的地の駅の表示を強調する
   next_station_no = $('#station_info').data('next-station-no')
-  if next_station_no != undefined && next_station_no.length > 0
+  if next_station_no != undefined && next_station_no > 0
     next_station = $('.enable-station').get(next_station_no - 1)
     $(next_station).parent().css('color', 'blue')
 

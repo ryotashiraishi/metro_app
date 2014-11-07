@@ -46,31 +46,54 @@ module ActionHistoriesHelper
     trip = trip.symbolize_keys if !trip.nil?
     first_action = {
         station_name: get_station_name(FIRST_TRAIN_NO),
-        created_at: trip[:created_at],
-        title: "旅スタート!",
-        status: ""
+        missions: [{
+          mission_title: "旅スタート!",
+          status: "完了",
+          status_val: "1",
+          created_at: trip[:created_at]
+          }]
     }
     result << first_action
 
     current_trip_histories = trip_histories_get(req)
     current_trip_histories = current_trip_histories.reverse
 
+    # 駅ごとにミッションをまとめたハッシュ
+    missions = {
+      2 => [],
+      3 => [],
+      4 => [],
+      5 => [],
+      6 => [],
+      7 => [],
+      8 => [],
+      9 => [],
+      10 => []
+    }
+
+    # 到着した駅の番号を保持する配列
+    arrived_stations = []
+
     current_trip_histories.each do |history|
       history = history.symbolize_keys
-
-      # mission_noからミッション情報を取得する
       mission = mission_infomations_get(history).first.symbolize_keys
-      mission_title = mission[:target_place_info].symbolize_keys[:name]
 
-      # 取得した情報を整形する
-      action = {
-        station_name: get_station_name(history[:station_no].to_i),
-        created_at: history[:created_at],
-        title: mission_title,
+      action_detail = {
+        mission_title: mission[:mission_title],
         status: status_map(history[:status]),
+        status_val: history[:status],
+        created_at: history[:created_at]
+      }
+      missions[history[:station_no].to_i] << action_detail
+      arrived_stations << history[:station_no].to_i
+    end
+
+    arrived_stations.uniq.each do |station_no|
+      action = {
+        station_name: get_station_name(station_no),
+        missions: missions[station_no]
       }
 
-      # 情報を詰める
       result << action
     end
 
