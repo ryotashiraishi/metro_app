@@ -62,19 +62,9 @@ ready = ->
 
     img = $('#dice_img');
 
-    # 初期表示
-    if img.hasClass('ready-dice')
-      # サイコロ領域を表示する
-      $('#dice_div').css('display', '')
-      dice_anime_gif = '/assets/dice/dice_runnig.gif';
-      img.attr('src', dice_anime_gif)
-      img.toggleClass('ready-dice');
-      img.toggleClass('stop-dice');
-      $('#dice_btn').text('サイコロを止める')
-      return
-
     # サイコロストップ 
-    if img.hasClass('stop-dice') 
+    if img.hasClass('ready-dice')
+      $('#dice_div').css('display', '') 
       c_station_no = $('#station_info').data('current-station-no')
       dice_value = eval(Math.floor(Math.random() * 3) + 1)
 
@@ -93,14 +83,19 @@ ready = ->
         error: (xhr, status, error) -> 
         complete: (xhr, status) -> 
 
-      dice_stop_anime_gif = "/assets/dice/" + "16_0.1_" + dice_value + ".gif";
+      dice_stop_anime_gif = "/assets/dice/" + "21_0.1_" + dice_value + ".gif";
       # select_dice_img_path = "/assets/dice/" + "dice_" + dice_value + ".png"
       img.attr('src', dice_stop_anime_gif)
-      img.toggleClass('stop-dice')
+      img.toggleClass('ready-dice');
       img.toggleClass('show-mission')
+      $('#dice_btn').attr("disabled", true)
       $('#station_info').data('target-station-no', dice_value+c_station_no)
-      $('#dice_btn').text('マスを進む')
-      $('#operation-message').text('マスを進んでください')
+
+      setTimeout ->
+        $('#dice_btn').text('マスを進む')
+        $('#dice_btn').attr("disabled", false)
+        $('#operation-message').text('マスを進んでください')
+      , 3000
       return
 
     # ミッション一覧を表示 
@@ -143,7 +138,7 @@ ready = ->
     # ランダムでミッション一覧から番号を選ぶ
     mission_no = eval(Math.floor(Math.random() * total_mission.length) + 1)
     # ミッションを選んだエフェクトを付ける
-    $(total_mission.get(mission_no - 1)).toggleClass('select-mission')
+    $(total_mission.get(mission_no - 1)).find('.thumbnail').toggleClass('select-mission')
 
     # スマホでの表示用に時間を遅らせる
     setTimeout (->
@@ -151,7 +146,7 @@ ready = ->
         data = $(total_mission.get(mission_no - 1)).data()
 
         next_page =
-         '/missions/show?' + 'station_no=' + data.stationNo + '&target_place_no=' + data.targetPlaceNo
+         '/missions/show?' + 'station_no=' + data.stationNo + '&mission_no=' + data.missionNo
         location.href = next_page
       else
         # ミッションを選択し直す

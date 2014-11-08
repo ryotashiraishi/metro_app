@@ -99,10 +99,10 @@
 
   <div class="btn-field" style="margin: 5px; padding: 5px;">
   	<div style="width: 90%; margin: 0 auto;">
-      <%= link_to "ミッションを変更する",
+      <%= link_to "ミッション変更",
           missions_destroy_path(@data), method: :delete, class: "btn btn-primary loading-confirm",
           style: "float: left; margin-right: 10px;", confirm: "進行中のミッションを変更しますか？" %>
-      <%= button_to "ミッションを達成した", missions_complete_path(@data), class: "btn btn-primary loading-confirm", confirm: "ミッションを達成しましたか？" %>
+      <%= button_to "ミッション達成", missions_complete_path(@data), class: "btn btn-primary loading-confirm", confirm: "ミッションを達成しましたか？" %>
     </div>
   </div>
 

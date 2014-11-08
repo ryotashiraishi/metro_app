@@ -39,7 +39,6 @@ class MissionsController < ApplicationController
     # 目的地情報を表示するため必要なパラメータを取得する
     @data = {
       station_no: params[:station_no],
-      target_place_no: params[:target_place_no],
       mission_no: params[:mission_no]
     }
 

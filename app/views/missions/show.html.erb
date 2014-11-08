@@ -1,7 +1,7 @@
 <div style="background-color: white; padding-top: 1px; margin: 10px; ">
   <div>
-    <%=  image_tag 'mission/image_' + @data[:station_no] + '_' + @data[:target_place_no] + '.jpg', size: '250x200' %>
-    <%#= image_tag @target_place_detail[:image_url], border: 0, size: '250x200' %>
+    <%#=  image_tag 'mission/image_' + @data[:station_no] + '_' + @data[:target_place_no] + '.jpg', size: '250x200' %>
+    <%= image_tag @target_place_detail[:image_url], border: 0, size: '250x200' %>
   </div>
   <div class="title" style=" height: 30px; margin: 1px auto;">
     <h3 style=" margin: 5px;"><%= @target_place_detail[:name] %></h3>
