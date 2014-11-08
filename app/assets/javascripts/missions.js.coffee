@@ -37,6 +37,13 @@ ready = ->
   current_station = $('.enable-station').get(current_station_no)
   $(current_station).parent().css('color', 'red')
 
+
+  x=$(current_station).offset().left - 5; 
+  y=$(current_station).offset().top - 20;
+  # 画像を表示す
+  $('#img_user').css('left', x);
+  $('#img_user').css('top', y);
+
   # サイコロを振るボタンのイベント処理
   $('#dice_btn').click ->
 
@@ -46,23 +53,17 @@ ready = ->
     if img.hasClass('ready-dice')
       # サイコロ領域を表示する
       $('#dice_div').css('display', '')
-      img.toggleClass('ready-dice');
-      img.toggleClass('start-dice');
-      $('#dice_btn').text('start the dice roll')
-      return
-
-    # ダイスロールスタート 
-    if img.hasClass('start-dice') 
-      dice_anime_gif = '/assets/dice/dice.gif';
+      dice_anime_gif = '/assets/dice/dice_runnig.gif';
       img.attr('src', dice_anime_gif)
-      img.toggleClass('start-dice');
+      img.toggleClass('ready-dice');
       img.toggleClass('stop-dice');
-      $('#dice_btn').text('stop the dice')
+      $('#dice_btn').text('サイコロを止める')
       return
 
     # サイコロストップ 
     if img.hasClass('stop-dice') 
-      dice_value = eval(Math.floor(Math.random() * 5) + 1)
+      c_station_no = $('#station_info').data('station-no')
+      dice_value = eval(Math.floor(Math.random() * 3) + 1)
 
       # ajaxで非同期に決定した駅のミッション一覧情報を取得する
       $.ajax
@@ -79,18 +80,47 @@ ready = ->
         error: (xhr, status, error) -> 
         complete: (xhr, status) -> 
 
-
-      select_dice_img_path = "/assets/dice/" + "dice_" + dice_value + ".png"
-      img.attr('src', select_dice_img_path)
+      dice_stop_anime_gif = "/assets/dice/" + "16_0.1_" + dice_value + ".gif";
+      # select_dice_img_path = "/assets/dice/" + "dice_" + dice_value + ".png"
+      img.attr('src', dice_stop_anime_gif)
       img.toggleClass('stop-dice')
       img.toggleClass('show-mission')
-      $('#dice_btn').text('show the mission')
+      $('#station_info').data('target-station-no', dice_value+c_station_no)
+      $('#dice_btn').text('マスを進む')
+      $('#dice_btn').text(c_station_no+'test'+dice_value)
+      $('#operation-message').text('マスを進んでください')
       return
 
     # ミッション一覧を表示 
     if img.hasClass('show-mission') 
-      $('#mission_div').toggleClass('display-none-style')
-      $('#dice_div').css('display', 'none')
+
+      $('#dice_btn').attr("disabled", true)
+      # 現在の位置
+      c_station_no = $('#station_info').data('station-no')
+      c_station = $('.enable-station').get(c_station_no)
+      $(c_station).parent().css('color', 'red')
+      x_current=$(c_station).offset().left - 5;
+      y_current=$(c_station).offset().top - 20;
+
+      # 次の目的地駅
+      target_station_no = $('#station_info').data('target-station-no')
+      target_station = $('.enable-station').get(target_station_no)
+      x_target=$(target_station).offset().left - 5;
+      $(c_station).parent().css('color', '')
+      $(target_station).parent().css('color', 'red')
+
+      # 画像を表示す
+      for i in [0..(x_target-x_current)*50]
+          loop_target(i,x_current,target_station);
+
+      setTimeout ->
+           $(target_station).parent().css('color', 'red') 
+           $('#dice_btn').css('display', 'none')
+           $('#operation-message').text('ミッションを選んでください')
+           $('#dice_btn').attr("disabled", '')
+           $('#mission_div').toggleClass('display-none-style')
+           $('#dice_div').css('display', 'none')
+      , (x_target-x_current)*50+500
 
   # ミッションをランダムに決定する処理 
   $('#random_btn').on 'click', -> 
@@ -118,6 +148,16 @@ ready = ->
       return
     ), "500"
 
+loop_target = (i,x_current,target_station) ->
+
+        setTimeout ->
+          $('#img_user').css('left', x_current+i*0.02)
+          if i%1000 == 0
+            $(target_station).parent().css('color', 'red')
+          else if i%1000 == 500
+            $(target_station).parent().css('color', 'black')
+        , 1*i
+        return
 
 # Turbolinksによるajaxページ遷移のため再度イベントを設定
 $(document).ready(ready)

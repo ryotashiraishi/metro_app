@@ -31,6 +31,9 @@
   </div>
 
 <% else %>
+<p class="bg-primary" style="margin: 3px auto; font-size: 18px; vertical-align: middle;">
+  <Marquee id="operation-message"  style="vertical-align: middle;" crollamount="2" truespeed>サイコロを振ってください</Marquee>
+</p>
   <div style="margin: 10px;">
     <%= link_to "shake the dice", "#", id: "dice_btn", class: "btn btn-primary",
                 style: "margin: 0 auto; display: block; width: 50%;" %>
