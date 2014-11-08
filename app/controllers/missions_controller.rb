@@ -27,7 +27,11 @@ class MissionsController < ApplicationController
     # 既に駅番号が決まっている場合はミッションの一覧を表示する
     if session[:station_no].present?
       # パラメータの駅番号のミッションの一覧を取得する
-      @json = get_mission_list(session[:station_no].to_s) 
+      @json = get_mission_list(session[:station_no].to_s)
+      @next_station_info = { 
+        station_no: session[:station_no],
+        station_name: get_station_name(session[:station_no].to_i)
+      }
     end
   end
 
