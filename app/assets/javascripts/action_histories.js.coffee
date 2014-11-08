@@ -20,7 +20,16 @@ ready = ->
         # 取得した情報で$('#trip_histoires')領域を更新する
         trip_histories = $(data)
         $('#trip_histories').remove()
+        $('#photo_part').remove()
         $('#trip_div').append(trip_histories)
+        $("#myGallery").galleryView
+          panel_width: 300
+          panel_scale: "fit"
+          #show_panels: false
+          show_panel_nav: false
+          frame_height: 32
+          show_captions: true
+          show_filmstrip_nav: true
       error: (xhr, status, error) ->
       complete: (xhr, status) ->
 

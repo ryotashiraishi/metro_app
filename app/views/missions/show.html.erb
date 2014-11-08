@@ -20,7 +20,10 @@
           <span><%= @target_place_detail[:tel] %></span>
   	  	</div>
   	  	<div>
-          <%= link_to "地図", @target_place_detail[:map_url], class: "btn btn-info" %>
+          <%= link_to 'MAP', '#', id: "map_btn", "data-tooltip" => "#html_map", class: "btn btn-info" %>
+          <div id="html_map" style="display: none;">
+            <%=  image_tag 'map/' + @target_place_detail[:map_url], border: 0, size: '250x250' %>
+          </div>
   	  	</div>
   	  </div>
     </div>

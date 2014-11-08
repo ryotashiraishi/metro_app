@@ -1,7 +1,7 @@
 <div id="trip_histories" class="panel panel-primary" style="margin: 0 auto;">
   <% if @recent_action_history.present? %>
     <div class="panel-heading">
-      <h3 class="panel-title"><%= @recent_action_history.first[:created_at].in_time_zone('Tokyo').strftime('%Y/%m/%d') %>の旅</h3>
+      <h3 class="panel-title"><%= @recent_action_history.first[:missions].first[:created_at].in_time_zone('Tokyo').strftime('%Y/%m/%d') %>の旅</h3>
     </div>
     <div class="panel-body" style="overflow: auto; height: 180px;">
       <% @recent_action_history.each_with_index do |action, index| %>
@@ -9,14 +9,25 @@
           <div class="list-box-div list-box-station" style="border: 3px solid skyblue; border-radius: 10px; text-align: center;">
         	  <%= action[:station_name] %>
           </div>
-          <div class="list-box-div list-box-time" style="text-align: center;">
-        	  <%= DateTime.parse(action[:created_at]).in_time_zone('Tokyo').to_s(:time) %>
-          </div>
-          <div class="list-box-div list-box-mission-title">
-        	  <%= action[:title] %>
-          </div>
-          <div class="list-box-div list-box-mission-title">
-            <%= action[:status] %>
+          <div class="list-box-div">
+            <% action[:missions].each do |mission| %>
+              <% if mission[:status_val] != "3" %>
+                <div class="list-box" >
+              <% else %>
+                <div class="list-box small-font" >
+              <% end %>
+                <div class="list-box-div">
+                  <%= DateTime.parse(mission[:created_at]).in_time_zone('Tokyo').to_s(:time) %>
+                </div>
+                <div class="list-box-div">
+                  <%= mission[:mission_title] %>
+                </div>
+                <div class="list-box-div">
+                  <%= mission[:status] %>
+                </div>
+              </div>
+
+            <% end %>
           </div>
         </div>
         <% unless @recent_action_history.length == (index + 1) %>
@@ -34,3 +45,62 @@
     </div>
   <% end %>
 </div>
+<div id="photo_part">
+  <ul id="myGallery">
+    <% @upload_photos.each do |photo| %>
+    <li>
+      <img src="data:<%= photo[:photo_name] %>;base64, <%= photo[:photo_content] %>" 
+           style="width: 80px; height: 80px;">
+    </li>
+    <% end %>
+  </ul>
+</div>
+<script>
+  $(function(){
+    $('#myGallery').galleryView({
+      panel_width: 300,
+      panel_scale: 'fit',
+      //show_panels: false,
+      show_panel_nav: false,
+      frame_height: 32,
+      show_captions: true,
+      show_filmstrip_nav: true
+    });
+  })
+</script>
+<style>
+.list-box {
+  display: table;
+  width: 100%;
+}
+.list-box-div {
+  display: table-cell;
+}
+.list-box-station {
+  width: 35%;
+}
+.list-box-time {
+  width: 15%;
+}
+.list-box-mission-title {
+  width: 35%;
+}
+div.gv_galleryWrap {
+  width: 100% !important;
+}
+
+div.gv_gallery {
+  width: 100% !important;
+}
+
+div.gv_panel > img {
+  top: 10px !important;
+}
+
+div.gv_infobar {
+  left: 0px !important;
+}
+.small-font {
+  font-size: 12px;
+}
+</style>

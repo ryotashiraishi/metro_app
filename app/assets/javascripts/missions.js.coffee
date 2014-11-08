@@ -33,16 +33,28 @@ ready = ->
           complete: (xhr, status) -> 
 
   # 現在の駅の表示を強調する
-  current_station_no = $('#station_info').data('station-no')
-  current_station = $('.enable-station').get(current_station_no)
-  $(current_station).parent().css('color', 'red')
-
+  current_station_no = $('#station_info').data('current-station-no')
+  current_station = $('.enable-station').get(current_station_no - 1)
+  $(current_station).parent().css('color', 'orange')
 
   x=$(current_station).offset().left - 5; 
   y=$(current_station).offset().top - 20;
   # 画像を表示す
   $('#img_user').css('left', x);
   $('#img_user').css('top', y);
+
+  # 目的地の駅の表示を強調する
+  next_station_no = $('#station_info').data('next-station-no')
+  if next_station_no != undefined && next_station_no > 0
+    next_station = $('.enable-station').get(next_station_no - 1)
+    $(next_station).parent().css('color', 'red')
+    x_next=$(next_station).offset().left - 5;
+    y_next=$(next_station).offset().top - 20;
+    $('#img_user').css('left', x_next);
+    $('#img_user').css('top', y_next);
+  else
+    $('#img_user').css('left', x);
+    $('#img_user').css('top', y);   
 
   # サイコロを振るボタンのイベント処理
   $('#dice_btn').click ->
@@ -62,7 +74,7 @@ ready = ->
 
     # サイコロストップ 
     if img.hasClass('stop-dice') 
-      c_station_no = $('#station_info').data('station-no')
+      c_station_no = $('#station_info').data('current-station-no')
       dice_value = eval(Math.floor(Math.random() * 3) + 1)
 
       # ajaxで非同期に決定した駅のミッション一覧情報を取得する
@@ -96,17 +108,15 @@ ready = ->
 
       $('#dice_btn').attr("disabled", true)
       # 現在の位置
-      c_station_no = $('#station_info').data('station-no')
-      c_station = $('.enable-station').get(c_station_no)
-      $(c_station).parent().css('color', 'red')
+      c_station_no = $('#station_info').data('current-station-no')
+      c_station = $('.enable-station').get(c_station_no - 1)
       x_current=$(c_station).offset().left - 5;
       y_current=$(c_station).offset().top - 20;
 
       # 次の目的地駅
       target_station_no = $('#station_info').data('target-station-no')
-      target_station = $('.enable-station').get(target_station_no)
+      target_station = $('.enable-station').get(target_station_no - 1)
       x_target=$(target_station).offset().left - 5;
-      $(c_station).parent().css('color', '')
       $(target_station).parent().css('color', 'red')
 
       # 画像を表示す
@@ -117,6 +127,7 @@ ready = ->
            $(target_station).parent().css('color', 'red') 
            $('#dice_btn').css('display', 'none')
            $('#operation-message').text('ミッションを選んでください')
+           $('#operation-message').text(c_station_no + 'test' + target_station_no)
            $('#dice_btn').attr("disabled", '')
            $('#mission_div').toggleClass('display-none-style')
            $('#dice_div').css('display', 'none')
@@ -147,6 +158,13 @@ ready = ->
         $('.select-mission').toggleClass('select-mission')
       return
     ), "500"
+
+  # 地図の表示をツールチップで実装する
+  $("#map_btn").darkTooltip
+    animation: "fadeIn"
+    gravity: "north"
+    theme: "light"
+    trigger: "click"
 
 loop_target = (i,x_current,target_station) ->
 

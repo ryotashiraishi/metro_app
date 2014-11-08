@@ -2,8 +2,13 @@
   <div style="height: 100%; width: 100%; margin: 0 auto; font-size: 11px; height: 110px;">
     <div class="panel panel-success">
       <div class="panel-heading" style="background-color:#2fa4e7">
-        <span>現在の位置は</span><span><%= @current_station_info[:station_name] %></span><span>駅です。</span>
+         <span>ただいま</span><span>  <%= @current_station_info[:station_name] %>  </span><span>駅です。</span>
       </div>
+      <% if @next_station_info.present? %>
+      <div>
+      <span>次の目的地は</span><span>  <%= @next_station_info[:station_name] %>  </span><span>駅です。</span>
+      </div>
+      <% end %>
       <table class="table">
         <tbody>
           <tr>
@@ -45,7 +50,8 @@
   </div>
   <img src="/assets/tokyometro_logo.jpg" border="0" id="img_user" style="position:absolute;" height="30">
   <div id="station_info" class="display-none-style"
-    data-station-no="<%= @current_station_info[:station_no] %>" >
+    data-current-station-no="<%= @current_station_info[:station_no] %>"
+    data-next-station-no="<%= @next_station_info[:station_no] if @next_station_info.present? %>" >
   </div>
 </div>
 
