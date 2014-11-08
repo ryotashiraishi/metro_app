@@ -177,6 +177,14 @@ loop_target = (i,x_current,target_station) ->
         , 1*i
         return
 
+  $('.loading').click ->
+    nowLoadingStart()
+    return
+
+  $('.loading-confirm').on 'confirm:complete', (e, answer) ->
+    if answer
+      nowLoadingStart()
+
 # Turbolinksによるajaxページ遷移のため再度イベントを設定
 $(document).ready(ready)
 $(document).on('page:load', ready)

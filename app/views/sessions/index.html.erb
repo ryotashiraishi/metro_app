@@ -5,10 +5,10 @@
 <div class="col-xs-12" style="height: 200px; padding: 83px 0;">
   <% if session[:uid].nil? %>
   <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in",
-                class: "btn btn-primary", style: "display: block; margin: 0 auto; width: 60%;" %>
+                class: "btn btn-primary loading", style: "display: block; margin: 0 auto; width: 60%;" %>
   <% else %>
   <%= link_to "Go to Top page", missions_index_path, id: "sign_in",
-                class: "btn btn-primary", style: "display: block; margin: 0 auto; width: 60%;" %>
+                class: "btn btn-primary loading", style: "display: block; margin: 0 auto; width: 60%;" %>
   <% end %>
 </div>
 

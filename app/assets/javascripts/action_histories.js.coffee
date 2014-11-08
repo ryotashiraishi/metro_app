@@ -36,6 +36,7 @@ ready = ->
           show_filmstrip_nav: true
       error: (xhr, status, error) ->
       complete: (xhr, status) ->
+        nowLoadingStop()
 
 # Turbolinksによるajaxページ遷移のため再度イベントを設定
 $(document).ready(ready)

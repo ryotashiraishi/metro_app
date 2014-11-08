@@ -1,0 +1,38 @@
+<div id="photo_part" style="width: 300px; margin: 0 auto; padding: 15px 0;">
+  <img src="data:<%= @upload_photo[:photo_name] %>;base64, <%= @upload_photo[:photo_content] %>" width='300'>
+  <%= form_tag 'upload', enctype: "multipart/form-data" do %>
+    <%= hidden_field_tag 'user_no', @data[:user_no] %>
+    <%= hidden_field_tag 'trip_no', @data[:trip_no] %>
+    <%= hidden_field_tag 'do_no',  @data[:do_no] %>
+    <%= hidden_field_tag 'photo_content',  @upload_photo[:photo_content] %>
+    <%= hidden_field_tag 'photo_name',  @upload_photo[:photo_name] %>
+    <%= hidden_field_tag 'station_no',  @data[:station_no] %>
+    <%= hidden_field_tag 'mission_no',  @data[:mission_no] %>
+
+    <%= submit_tag 'preview', id: 'submit_btn', class: "display-none-style loading-confirm",
+                              confirm: "アップロードしてもいいですか？" %>
+  <% end %>
+</div>
+
+<div style="width: 300px; margin: 0 auto;">
+  <%= link_to "キャンセル", missions_progress_path(@data), class: "btn btn-primary loading" %>
+  <%= link_to "アップロード", '#', id: 'upload_btn',
+                            class: "btn btn-primary", style: "float: right;"%>
+</div>
+
+
+<script>
+$(function(){
+  $('nav').remove();
+  $('#footer').remove();
+
+  $('#upload_btn').click(function(){
+    $('#submit_btn').click();
+  });
+})
+</script>
+<style>
+.display-none-style {
+  display: none;
+}
+</style>
