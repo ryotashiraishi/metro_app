@@ -37,8 +37,8 @@ ready = ->
   current_station = $('.enable-station').get(current_station_no - 1)
   $(current_station).parent().css('color', 'orange')
 
-  x=$(current_station).offset().left - 5; 
-  y=$(current_station).offset().top - 20;
+  x=$(current_station).offset().left - 12; 
+  y=$(current_station).offset().top - 10;
   # 画像を表示す
   $('#img_user').css('left', x);
   $('#img_user').css('top', y);
@@ -48,8 +48,8 @@ ready = ->
   if next_station_no != undefined && next_station_no > 0
     next_station = $('.enable-station').get(next_station_no - 1)
     $(next_station).parent().css('color', 'red')
-    x_next=$(next_station).offset().left - 5;
-    y_next=$(next_station).offset().top - 20;
+    x_next=$(next_station).offset().left - 12;
+    y_next=$(next_station).offset().top - 10;
     $('#img_user').css('left', x_next);
     $('#img_user').css('top', y_next);
   else
@@ -110,13 +110,13 @@ ready = ->
       # 現在の位置
       c_station_no = $('#station_info').data('current-station-no')
       c_station = $('.enable-station').get(c_station_no - 1)
-      x_current=$(c_station).offset().left - 5;
-      y_current=$(c_station).offset().top - 20;
+      x_current=$(c_station).offset().left - 12;
+      y_current=$(c_station).offset().top - 10;
 
       # 次の目的地駅
       target_station_no = $('#station_info').data('target-station-no')
       target_station = $('.enable-station').get(target_station_no - 1)
-      x_target=$(target_station).offset().left - 5;
+      x_target=$(target_station).offset().left - 12;
       $(target_station).parent().css('color', 'red')
 
       # 画像を表示す

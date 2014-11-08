@@ -1,14 +1,17 @@
-<div id="mission_data" style="height: 160px; overflow: auto;">
+<div id="mission_data" style="height: 130px;">
   <% @json.each do |mission| %>
-  <div class="mission-info" style="border: 1px solid white; height: 37px;" 
-       data-station-no=<%= mission[:station_no]%> data-target-place-no=<%= mission[:target_place_no]%> >
-    <span><%= mission[:mission_title] %></span>
-    <span style="float: right;">
+  <div class="row">
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
       <%= link_to image_tag('mission/image_' + mission[:station_no] + '_' + mission[:target_place_no] + '.jpg',
-                             border: 0, size: '40x33'),
+                             border: 0, size: '90x72' ),
           missions_show_path(station_no: mission[:station_no], mission_no: mission[:mission_no], target_place_no: mission[:target_place_no]),
           class: "btn btn-primary", style: "padding: 0px; margin: 0px;" %>
-    </span>
+        <div class="caption">
+          <p><%= mission[:mission_title] %></p>
+        </div>
+      </div>
+    </div>
   </div>
   <% end %>
 </div>                             
