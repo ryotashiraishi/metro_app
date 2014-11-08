@@ -1,52 +1,54 @@
 <div style="width: 100%; margin: 10px 0;">
-  <div style="height: 100%; width: 95%; margin: 0 auto; background-color: blueviolet; color: white;">
-    <div>
-      <span>ただいま</span><span>  <%= @current_station_info[:station_name] %>  </span><span>駅です。</span>
-    </div>
-    <% if @next_station_info.present? %>
-    <div>
+  <div style="height: 100%; width: 100%; margin: 0 auto; font-size: 11px; height: 110px;">
+    <div class="panel panel-success">
+      <div class="panel-heading" style="background-color:#2fa4e7">
+         <span>ただいま</span><span>  <%= @current_station_info[:station_name] %>  </span><span>駅です。</span>
+      </div>
+      <% if @next_station_info.present? %>
+      <div>
       <span>次の目的地は</span><span>  <%= @next_station_info[:station_name] %>  </span><span>駅です。</span>
-    </div>
-    <% end %>
-
-    <div style="display: table;">
-      <div style="display: table-cell; width: 110px;">
-        <span><%= @current_station_info[:station_name] %></span><span>駅発 </span>
       </div>
-      <div style="display: table-cell;">
-        <div>
-          <span>浅草方面</span>
-          <% @train_time[:up].each do |up_time| %>
-            <span><%= up_time %></span>
-          <% end %>
-        </div>
-        <div>
-          <span>渋谷方面</span>
-          <% @train_time[:down].each do |down_time| %>
-            <span><%= down_time %></span>
-          <% end %>
-        </div>
-      </div>
+      <% end %>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td>浅草方面</td>
+            <% @train_time[:up].each do |up_time| %>
+            <td><%= up_time %></td>
+            <% end %>
+          </tr>
+          <tr>
+            <td>渋谷方面</td>
+            <% @train_time[:down].each do |down_time| %>
+            <td><%= down_time %></td>
+            <% end %>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
 
-<div style="height: 130px; width: 100%; margin: 10px 0;">
-  <div style="height: 100%; width: 95%; margin: 0 auto; background-color: pink; color: white; overflow-x: scroll; overflow-y: hidden;">
-    <ul class="list-box" style="padding: 0px 10px;">
+<div style="height: 165px; width: 210px; margin: 10px 0; border-color: rgb(255, 218, 192);">
+  <div style="height: 100%; width: 100%; margin: 0; border-color: rgb(255, 218, 192);">
+    <ul class="list-box" style="padding: 0px 5px;">
       <% @station_name_array.each_with_index do |station| %>
-        <li class="list-text">
-          <% if @station_name_hash[station["odpt:station"]][:enable] %>
+        <% if @station_name_hash[station["odpt:station"]][:enable] %>
+          <li class="list-text" style="width: 15px;font-size: 18px;">
             <div class="enable-station"
-                 style="background-color: orange; width: 5px; height: 10px; margin: 3px auto;">&nbsp;</div>
-          <% else %>
-            <div style="border: 1px solid orange; background-color: white; width: 5px; height: 10px; margin: 3px auto;">&nbsp;</div>
-          <% end %>
+                 style="background-color: orange; width: 18px; height: 18px; margin: 0 0;">&nbsp;</div>
           <%= @station_name_hash[station["odpt:station"]][:name] %>
-        </li>
+          </li>
+          <% if @station_name_hash[station["odpt:station"]][:name] != "浅草"%>
+            <li class="list-text" style="font-size: 3px; width: 10px;">
+                <div style="background-color: #4C4747; width: 14px; height: 5px; margin: 0 0;">&nbsp;</div>
+            </li>
+          <% end %>
+        <% end %>
       <% end %>
     </ul>
   </div>
+  <img src="/assets/tokyometro_logo.jpg" border="0" id="img_user" style="position:absolute;" height="30">
   <div id="station_info" class="display-none-style"
     data-current-station-no="<%= @current_station_info[:station_no] %>"
     data-next-station-no="<%= @next_station_info[:station_no] if @next_station_info.present? %>" >
@@ -105,7 +107,7 @@ div.tate-line-arrow{
 .list-text {
   display: table-cell;
   /*vertical-align: middle;*/
-  width: 15px;
+ /* width: 14px;*/
 }
 .display-none-style {
   display: none;
