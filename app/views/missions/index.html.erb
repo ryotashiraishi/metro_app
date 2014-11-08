@@ -57,7 +57,7 @@
 
 <div style="margin: 10px;">
   <%= link_to "End the trip", action_histories_destroy_path(user_no: @user[:user_no]),
-                              class: "btn btn-primary",
+                              class: "btn btn-primary loading-confirm",
                               method: "delete",
                               style: "display: block; margin: 0 auto; width: 50%;",
                               confirm: "旅を終了しますか？" %>

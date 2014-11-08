@@ -46,6 +46,7 @@
   <% end %>
 </div>
 <div id="photo_part">
+  <% if @upload_photos.length > 0 %>
   <ul id="myGallery">
     <% @upload_photos.each do |photo| %>
     <li>
@@ -54,6 +55,7 @@
     </li>
     <% end %>
   </ul>
+  <% end %>
 </div>
 <script>
   $(function(){

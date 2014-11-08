@@ -6,7 +6,7 @@
                                    color: white; margin: 10px; overflow: auto;">
   <% if @all_trip_info.present? %>
     <% @all_trip_info.each do |trip| %>
-    <div class="past-trip" style="background-color: darkblue; height: 50px;
+    <div class="past-trip loading" style="background-color: darkblue; height: 50px;
                                   border: 1px solid white;"
          data-trip-no=<%= trip[:trip_no] %> >
       <%= DateTime.parse(trip[:created_at]).in_time_zone('Tokyo').strftime('%Y/%m/%d') %>

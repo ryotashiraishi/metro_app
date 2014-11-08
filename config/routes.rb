@@ -1,4 +1,5 @@
 MetroApp::Application.routes.draw do
+  post "missions/capture"
   get "action_histories/get_image"
   post "missions/upload"
   delete "action_histories/destroy"
