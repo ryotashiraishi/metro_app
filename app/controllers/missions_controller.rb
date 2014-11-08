@@ -27,7 +27,11 @@ class MissionsController < ApplicationController
     # 既に駅番号が決まっている場合はミッションの一覧を表示する
     if session[:station_no].present?
       # パラメータの駅番号のミッションの一覧を取得する
-      @json = get_mission_list(session[:station_no].to_s) 
+      @json = get_mission_list(session[:station_no].to_s)
+      @next_station_info = { 
+        station_no: session[:station_no],
+        station_name: get_station_name(session[:station_no].to_i)
+      }
     end
   end
 
@@ -121,13 +125,25 @@ class MissionsController < ApplicationController
 
     current_trip = current_trip(@user[:user_no])
 
-    current_trip_history = current_trip_history(@user[:user_no], current_trip[:trip_no])
+    req = {
+      user_no: @user[:user_no],
+      trip_no: current_trip[:trip_no]
+    }
+    this_trip_history = trip_histories_get(req)
 
+    current_trip_history = this_trip_history.first.symbolize_keys
     @current_trip_info = {
       user_no: @user[:user_no],
       trip_no: current_trip[:trip_no],
       do_no: current_trip_history[:do_no]
     }
+
+    # 時刻表を設定する
+    before_trip_history = this_trip_history[1]
+    before_station_no = (before_trip_history.symbolize_keys[:station_no] if !before_trip_history.nil?) || FIRST_TRAIN_NO
+
+    target_station_key = get_station_key(before_station_no.to_i)
+    @train_time = acquire_train_time(target_station_key)
   end
 
   def complete
@@ -167,31 +183,42 @@ class MissionsController < ApplicationController
     end
   end
 
-  def upload
-
-    # 最新の旅情報取得(旅No取得)
-    current_trip = current_trip(@user[:user_no])
-    # 最新の旅旅履歴情報取得(行動履歴No取得)
-    current_trip_history = current_trip_history(@user[:user_no], current_trip[:trip_no])
-    # ファイル名を年月日時分秒
-    nowtime = Time.now
-    photo_name = nowtime.strftime("%Y%H%M%S")
+  def capture
     # バイナリデータ取得
     binary = params[:photo_content].read
     encoded_binary = CGI.escape(Base64.encode64(binary))
 
-    req = {
-      user_no: @user[:user_no],
-      trip_no: current_trip[:trip_no],
-      do_no: current_trip_history[:do_no],
+    @upload_photo = {
       photo_name: params[:photo_content].content_type,
       photo_content: encoded_binary
+    }
+    @data = {
+      user_no: params[:user_no],
+      trip_no: params[:trip_no],
+      do_no: params[:do_no],
+      station_no: params[:station_no],
+      mission_no: params[:mission_no]
+    }
+  end
+
+  def upload
+    # TODO: ファイル名とファイルタイプを別にして保存すること
+    # ファイル名を年月日時分秒
+    # nowtime = Time.now
+    #photo_name = nowtime.strftime("%Y%H%M%S")
+
+    req = {
+      user_no: params[:user_no],
+      trip_no: params[:trip_no],
+      do_no: params[:do_no],
+      photo_name: params[:photo_name],
+      photo_content: params[:photo_content]
     }
     trip_photos_post(req)
 
     data = {
-      station_no: current_trip_history[:station_no],
-      mission_no: current_trip_history[:mission_no]
+      station_no: params[:station_no],
+      mission_no: params[:mission_no]
     }
 
     # ミッション進行中画面へリダイレクト
@@ -261,10 +288,6 @@ class MissionsController < ApplicationController
         # 目的地の駅番号を取得する
         @next_station_info = nil
       end
-
-      # 動的に駅情報を取得する
-      target_station_key = get_station_key(@current_station_info[:station_no])
-      @train_time = acquire_train_time(target_station_key)
 
       @station_name_array = acquire_station_name
       @station_name_hash = acquire_station_name_hash

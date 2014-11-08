@@ -29,6 +29,9 @@
     <div style="height: 70%;">&nbsp;</div>
     <a id="getting_start_app" class="btn btn-danger" style="margin: 0 auto; display: block; width: 80%;">アプリを開始</a>
   </div>
+    <div id="loading" style="opacity: 1.0; display: none; z-index: 10;">
+      <img src=<%= asset_path "loading.gif" %> style="position: relative; top: 35%; left: 30%;">
+    </div>
 </body>
 <style>
 html, body {
@@ -52,5 +55,25 @@ body {
 	bottom: 0;
 	width: 100%;
 }
+
+#loading {
+  width: 100%; /* gif画像の幅 */
+  height: 100%; /* gif画像の高さ */
+  padding: 20px; /* gif画像を大きく */
+  position: fixed; /* gif画像をスクロールさせない */
+  top: 0; /* gif画像を画面縦中央へ */
+}
+
 </style>
+<script>
+nowLoadingStart = function() {
+    $('#wrap').css('opacity', 0.25);
+    $('#loading').css('display', '');
+}
+
+nowLoadingStop = function() {
+    $('#wrap').css('opacity', 1);
+    $('#loading').css('display', 'none');
+}
+</script>
 </html>

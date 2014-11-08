@@ -47,9 +47,9 @@
   </div>
 
   <div class="btn-field" style="margin: 0 auto; padding: 5px; width: 50%;">
-    <%= link_to "取消", missions_index_path, class: "btn btn-primary",
+    <%= link_to "取消", missions_index_path, class: "btn btn-primary loading",
         style: "margin-right: 10px; float: left;" %>
-    <%= button_to "決定", missions_create_path(@data), class: "btn btn-primary",
+    <%= button_to "決定", missions_create_path(@data), class: "btn btn-primary loading-confirm",
         confirm: "ミッションを決定してもいいですか？" %>
   </div>
 </div>
