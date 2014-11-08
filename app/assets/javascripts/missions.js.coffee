@@ -34,14 +34,15 @@ ready = ->
 
   # 現在の駅の表示を強調する
   current_station_no = $('#station_info').data('current-station-no')
-  current_station = $('.enable-station').get(current_station_no - 1)
-  $(current_station).parent().css('color', 'orange')
+  if current_station_no != undefined
+    current_station = $('.enable-station').get(current_station_no - 1)
+    $(current_station).parent().css('color', 'orange')
 
-  x=$(current_station).offset().left - 5; 
-  y=$(current_station).offset().top - 20;
-  # 画像を表示す
-  $('#img_user').css('left', x);
-  $('#img_user').css('top', y);
+    x=$(current_station).offset().left - 5; 
+    y=$(current_station).offset().top - 20;
+    # 画像を表示す
+    $('#img_user').css('left', x);
+    $('#img_user').css('top', y);
 
   # 目的地の駅の表示を強調する
   next_station_no = $('#station_info').data('next-station-no')
@@ -166,7 +167,7 @@ ready = ->
     theme: "light"
     trigger: "click"
 
-loop_target = (i,x_current,target_station) ->
+  loop_target = (i,x_current,target_station) ->
 
         setTimeout ->
           $('#img_user').css('left', x_current+i*0.02)
