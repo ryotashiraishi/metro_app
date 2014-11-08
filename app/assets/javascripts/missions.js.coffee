@@ -152,7 +152,7 @@ ready = ->
         data = $(total_mission.get(mission_no - 1)).data()
 
         next_page =
-         '/missions/show?' + 'station_no=' + data.stationNo + '&target_place_no=' + data.targetPlaceNo
+         '/missions/show?' + 'station_no=' + data.stationNo + '&mission_no=' + data.missionNo
         location.href = next_page
       else
         # ミッションを選択し直す
