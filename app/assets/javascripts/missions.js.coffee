@@ -62,19 +62,9 @@ ready = ->
 
     img = $('#dice_img');
 
-    # 初期表示
-    if img.hasClass('ready-dice')
-      # サイコロ領域を表示する
-      $('#dice_div').css('display', '')
-      dice_anime_gif = '/assets/dice/dice_runnig.gif';
-      img.attr('src', dice_anime_gif)
-      img.toggleClass('ready-dice');
-      img.toggleClass('stop-dice');
-      $('#dice_btn').text('サイコロを止める')
-      return
-
     # サイコロストップ 
-    if img.hasClass('stop-dice') 
+    if img.hasClass('ready-dice')
+      $('#dice_div').css('display', '') 
       c_station_no = $('#station_info').data('current-station-no')
       dice_value = eval(Math.floor(Math.random() * 3) + 1)
 
@@ -93,15 +83,19 @@ ready = ->
         error: (xhr, status, error) -> 
         complete: (xhr, status) -> 
 
-      dice_stop_anime_gif = "/assets/dice/" + "16_0.1_" + dice_value + ".gif";
+      dice_stop_anime_gif = "/assets/dice/" + "21_0.1_" + dice_value + ".gif";
       # select_dice_img_path = "/assets/dice/" + "dice_" + dice_value + ".png"
       img.attr('src', dice_stop_anime_gif)
-      img.toggleClass('stop-dice')
+      img.toggleClass('ready-dice');
       img.toggleClass('show-mission')
+      $('#dice_btn').attr("disabled", true)
       $('#station_info').data('target-station-no', dice_value+c_station_no)
-      $('#dice_btn').text('マスを進む')
-      $('#dice_btn').text(c_station_no+'test'+dice_value)
-      $('#operation-message').text('マスを進んでください')
+
+      setTimeout ->
+        $('#dice_btn').text('マスを進む')
+        $('#dice_btn').attr("disabled", false)
+        $('#operation-message').text('マスを進んでください')
+      , 3000
       return
 
     # ミッション一覧を表示 
@@ -125,10 +119,10 @@ ready = ->
           loop_target(i,x_current,target_station);
 
       setTimeout ->
+           $('#img_user').css('transform', 'rotate(0deg)')
            $(target_station).parent().css('color', 'red') 
            $('#dice_btn').css('display', 'none')
            $('#operation-message').text('ミッションを選んでください')
-           $('#operation-message').text(c_station_no + 'test' + target_station_no)
            $('#dice_btn').attr("disabled", '')
            $('#mission_div').toggleClass('display-none-style')
            $('#dice_div').css('display', 'none')
@@ -173,8 +167,14 @@ ready = ->
           $('#img_user').css('left', x_current+i*0.02)
           if i%1000 == 0
             $(target_station).parent().css('color', 'red')
+            $('#img_user').css('transform', 'rotate(5deg)')
+          if i%1000 == 250
+            $('#img_user').css('transform', 'rotate(0deg)')
           else if i%1000 == 500
             $(target_station).parent().css('color', 'black')
+            $('#img_user').css('transform', 'rotate(-5deg)')
+          if i%1000 == 750
+            $('#img_user').css('transform', 'rotate(0deg)')
         , 1*i
         return
 

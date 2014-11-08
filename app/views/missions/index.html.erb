@@ -9,7 +9,7 @@
     <div id="mission_div" class="" style="height: 100%; width: 100%; margin: 0 auto;
                                   color: white;">
 
-      <div id="mission_data" style="height: 175px; overflow: auto;">
+      <div id="mission_data" style="height: 135px; overflow: auto;">
         <% @json.each do |mission| %>
           <div class="col-xs-6 col-sm-6 col-md-4">
             <div class="mission-info" data-station-no=<%= mission[:station_no]%>
@@ -28,7 +28,7 @@
         <% end %>
       </div>
       <div class="btn-field">
-        <%= link_to 'at random', '#', id: "random_btn", class: "btn btn-primary", style: "float: right;" %>
+        <%= link_to 'ランダムで決める', '#', id: "random_btn", class: "btn btn-primary", style: "float: right;" %>
       </div>
     </div>
   </div>
@@ -38,7 +38,7 @@
   <Marquee id="operation-message"  style="vertical-align: middle;" crollamount="2" truespeed>サイコロを振ってください</Marquee>
 </p>
   <div style="margin: 10px;">
-    <%= link_to "shake the dice", "#", id: "dice_btn", class: "btn btn-primary",
+    <%= link_to "サイコロを振る", "#", id: "dice_btn", class: "btn btn-primary",
                 style: "margin: 0 auto; display: block; width: 50%;" %>
   </div>
 
@@ -46,12 +46,12 @@
     <div id="mission_div" class="display-none-style" style="height: 100%; width: 100%; margin: 0 auto;
                                   color: white;">
       <div class="btn-field">
-        <%= link_to 'at random', '#', id: "random_btn", class: "btn btn-primary", style: "float: right;" %>
+        <%= link_to 'ランダムで決める', '#', id: "random_btn", class: "btn btn-primary", style: "float: right;" %>
       </div>
     </div>
 
     <div id="dice_div" style="height: 100%; width: 80%; margin: 0 auto;
-                              background-color: antiquewhite; color: white; display: none;">
+                               display: none;">
       <%= image_tag "dice/dice_1.png", id: "dice_img", class: "ready-dice", alt: "サイコロ画像",
                                        name: "diceimg", style: "float:right" %>
     </div>
@@ -60,7 +60,7 @@
 
 <!--
 <div style="margin: 10px;">
-  <%= link_to "End the trip", action_histories_destroy_path(user_no: @user[:user_no]),
+  <%= link_to "旅を終了する", action_histories_destroy_path(user_no: @user[:user_no]),
                               class: "btn btn-primary loading-confirm",
                               method: "delete",
                               style: "display: block; margin: 0 auto; width: 50%;",
