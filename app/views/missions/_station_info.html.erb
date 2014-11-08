@@ -1,35 +1,4 @@
-<div style="width: 100%; margin: 10px 0;">
-  <div style="height: 100%; width: 100%; margin: 0 auto; font-size: 11px; height: 110px;">
-    <div class="panel panel-success">
-      <div class="panel-heading" style="background-color:#2fa4e7">
-         <span>ただいま</span><span>  <%= @current_station_info[:station_name] %>  </span><span>駅です。</span>
-      </div>
-      <% if @next_station_info.present? %>
-      <div>
-      <span>次の目的地は</span><span>  <%= @next_station_info[:station_name] %>  </span><span>駅です。</span>
-      </div>
-      <% end %>
-      <table class="table">
-        <tbody>
-          <tr>
-            <td>浅草方面</td>
-            <% @train_time[:up].each do |up_time| %>
-            <td><%= up_time %></td>
-            <% end %>
-          </tr>
-          <tr>
-            <td>渋谷方面</td>
-            <% @train_time[:down].each do |down_time| %>
-            <td><%= down_time %></td>
-            <% end %>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<div style="height: 165px; width: 210px; margin: 10px 0; border-color: rgb(255, 218, 192);">
+<div style="height: 165px; width: 210px; margin: 25px 0; border-color: rgb(255, 218, 192);">
   <div style="height: 100%; width: 100%; margin: 0; border-color: rgb(255, 218, 192);">
     <ul class="list-box" style="padding: 0px 5px;">
       <% @station_name_array.each_with_index do |station| %>

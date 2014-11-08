@@ -1,4 +1,32 @@
 <div>
+  <div style="width: 97%; margin: 5px auto -10px auto;">
+    <div style="height: 100%; width: 100%; margin: 0 auto; font-size: 11px; height: 110px;">
+      <div class="panel panel-success">
+        <div class="panel-heading" style="background-color:#2fa4e7">
+           <span>「<%= @current_station_info[:station_name] %></span><span>駅」から</span>
+           <span>「<%= @next_station_info[:station_name] %></span><span>駅」へ移動中</span>
+        </div>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td rowspan="2"><%= @current_station_info[:station_name] %>駅発 </td>
+              <td>浅草方面</td>
+              <% @train_time[:up].each do |up_time| %>
+                <td><%= up_time %></td>
+              <% end %>
+            </tr>
+            <tr>
+              <td>渋谷方面</td>
+              <% @train_time[:down].each do |down_time| %>
+                <td><%= down_time %></td>
+              <% end %>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <%= render 'missions/station_info' %>
 
   <div style="background-color: white; padding-top: 1px; overflow: auto;

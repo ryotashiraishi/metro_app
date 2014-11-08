@@ -125,13 +125,25 @@ class MissionsController < ApplicationController
 
     current_trip = current_trip(@user[:user_no])
 
-    current_trip_history = current_trip_history(@user[:user_no], current_trip[:trip_no])
+    req = {
+      user_no: @user[:user_no],
+      trip_no: current_trip[:trip_no]
+    }
+    this_trip_history = trip_histories_get(req)
 
+    current_trip_history = this_trip_history.first.symbolize_keys
     @current_trip_info = {
       user_no: @user[:user_no],
       trip_no: current_trip[:trip_no],
       do_no: current_trip_history[:do_no]
     }
+
+    # 時刻表を設定する
+    before_trip_history = this_trip_history[1]
+    before_station_no = (before_trip_history.symbolize_keys[:station_no] if !before_trip_history.nil?) || FIRST_TRAIN_NO
+
+    target_station_key = get_station_key(before_station_no.to_i)
+    @train_time = acquire_train_time(target_station_key)
   end
 
   def complete
@@ -276,10 +288,6 @@ class MissionsController < ApplicationController
         # 目的地の駅番号を取得する
         @next_station_info = nil
       end
-
-      # 動的に駅情報を取得する
-      target_station_key = get_station_key(@current_station_info[:station_no])
-      @train_time = acquire_train_time(target_station_key)
 
       @station_name_array = acquire_station_name
       @station_name_hash = acquire_station_name_hash
