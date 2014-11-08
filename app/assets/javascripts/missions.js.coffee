@@ -144,7 +144,7 @@ ready = ->
     # ランダムでミッション一覧から番号を選ぶ
     mission_no = eval(Math.floor(Math.random() * total_mission.length) + 1)
     # ミッションを選んだエフェクトを付ける
-    $(total_mission.get(mission_no - 1)).toggleClass('select-mission')
+    $(total_mission.get(mission_no - 1)).find('.thumbnail').toggleClass('select-mission')
 
     # スマホでの表示用に時間を遅らせる
     setTimeout (->

@@ -7,8 +7,7 @@
   <div class="destination-info" style="background-color: pink; height: 80px; color: white; margin: 10px;">
   	<div style="height: 100%;">
   	  <div style="height: 60px; width: 60px; float: left;">
-  	  	<%=  image_tag 'mission/image_' + @data[:station_no] + '_' + @data[:target_place_no] + '.jpg', border: 0, size: '60x60' %>
-  	  	<%#= image_tag @target_place_detail[:image_url], border: 0, size: '60x60' %>
+  	  	<%= image_tag @target_place_detail[:image_url], border: 0, size: '60x60' %>
   	  </div>
   	  <div style="margin-left: 80px;">
   	  	<div>
