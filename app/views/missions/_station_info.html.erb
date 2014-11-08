@@ -4,6 +4,7 @@
       <% @station_name_array.each_with_index do |station| %>
         <% if @station_name_hash[station["odpt:station"]][:enable] %>
           <li class="list-text" style="width: 15px;font-size: 18px;">
+            <img src="/assets/station/st_<%= @station_name_hash[station["odpt:station"]][:no] %>.png" border="0" id="img_station" style="position:absolute;" height="20" width="20">
             <div class="enable-station"
                  style="background-color: orange; width: 18px; height: 18px; margin: 0 0;">&nbsp;</div>
           <%= @station_name_hash[station["odpt:station"]][:name] %>

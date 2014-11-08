@@ -1,16 +1,15 @@
-<div style="background-color: white; padding-top: 1px; margin: 10px;">
-  <div class="title" style="background-color: blueviolet; height: 50px;
-                            color: white; margin: 10px;">
-    <p><%= @target_place_detail[:name] %></p>
+<div style="background-color: white; padding-top: 1px; margin: 10px; ">
+  <div>
+    <%=  image_tag 'mission/image_' + @data[:station_no] + '_' + @data[:target_place_no] + '.jpg', size: '250x200' %>
+    <%#= image_tag @target_place_detail[:image_url], border: 0, size: '250x200' %>
+  </div>
+  <div class="title" style=" height: 30px; margin: 1px auto;">
+    <h3 style=" margin: 5px;"><%= @target_place_detail[:name] %></h3>
   </div>
 
-  <div class="destination-info" style="background-color: pink; height: 80px; color: white; margin: 10px;">
+
+  <div class="destination-info" style="border: 1px; height: 80px; margin: 10px;">
   	<div style="height: 100%;">
-  	  <div style="height: 60px; width: 60px; float: left;">
-  	  	<%=  image_tag 'mission/image_' + @data[:station_no] + '_' + @data[:target_place_no] + '.jpg', border: 0, size: '60x60' %>
-  	  	<%#= image_tag @target_place_detail[:image_url], border: 0, size: '60x60' %>
-  	  </div>
-  	  <div style="margin-left: 80px;">
   	  	<div>
           <span>住所: </span>
           <span><%= @target_place_detail[:address] %></span>
@@ -24,7 +23,6 @@
           <div id="html_map" style="display: none;">
             <%=  image_tag 'map/' + @target_place_detail[:map_url], border: 0, size: '250x250' %>
           </div>
-  	  	</div>
   	  </div>
     </div>
   </div>
@@ -46,8 +44,8 @@
   	</div>
   </div>
 
-  <div class="btn-field" style="margin: 0 auto; padding: 5px; width: 50%;">
-    <%= link_to "取消", missions_index_path, class: "btn btn-primary loading",
+  <div class="btn-field" style="margin: 0 auto; padding: 5px; width: 70%;">
+    <%= link_to "キャンセル", missions_index_path, class: "btn btn-primary loading",
         style: "margin-right: 10px; float: left;" %>
     <%= button_to "決定", missions_create_path(@data), class: "btn btn-primary loading-confirm",
         confirm: "ミッションを決定してもいいですか？" %>

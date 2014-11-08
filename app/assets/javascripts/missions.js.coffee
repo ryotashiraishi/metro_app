@@ -100,7 +100,6 @@ ready = ->
       img.toggleClass('show-mission')
       $('#station_info').data('target-station-no', dice_value+c_station_no)
       $('#dice_btn').text('マスを進む')
-      $('#dice_btn').text(c_station_no+'test'+dice_value)
       $('#operation-message').text('マスを進んでください')
       return
 
@@ -125,10 +124,10 @@ ready = ->
           loop_target(i,x_current,target_station);
 
       setTimeout ->
+           $('#img_user').css('transform', 'rotate(0deg)')
            $(target_station).parent().css('color', 'red') 
            $('#dice_btn').css('display', 'none')
            $('#operation-message').text('ミッションを選んでください')
-           $('#operation-message').text(c_station_no + 'test' + target_station_no)
            $('#dice_btn').attr("disabled", '')
            $('#mission_div').toggleClass('display-none-style')
            $('#dice_div').css('display', 'none')
@@ -173,8 +172,14 @@ ready = ->
           $('#img_user').css('left', x_current+i*0.02)
           if i%1000 == 0
             $(target_station).parent().css('color', 'red')
+            $('#img_user').css('transform', 'rotate(5deg)')
+          if i%1000 == 250
+            $('#img_user').css('transform', 'rotate(0deg)')
           else if i%1000 == 500
             $(target_station).parent().css('color', 'black')
+            $('#img_user').css('transform', 'rotate(-5deg)')
+          if i%1000 == 750
+            $('#img_user').css('transform', 'rotate(0deg)')
         , 1*i
         return
 

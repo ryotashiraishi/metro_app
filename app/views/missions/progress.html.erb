@@ -102,7 +102,7 @@
       <%= link_to "ミッションを変更する",
           missions_destroy_path(@data), method: :delete, class: "btn btn-primary loading-confirm",
           style: "float: left; margin-right: 10px;", confirm: "進行中のミッションを変更しますか？" %>
-      <%= button_to "満足した", missions_complete_path(@data), class: "btn btn-primary loading-confirm", confirm: "ミッションを満足しましたか？" %>
+      <%= button_to "ミッションを達成した", missions_complete_path(@data), class: "btn btn-primary loading-confirm", confirm: "ミッションを達成しましたか？" %>
     </div>
   </div>
 
