@@ -29,55 +29,40 @@
 
   <%= render 'missions/station_info' %>
 
-  <div style="background-color: white; padding-top: 1px; overflow: auto;
-              height: 200px; margin: 0 10px;">
-  <div class="title" style="background-color: blueviolet; height: 50px;
-                            color: white; margin: 10px;">
-    <p><%= @target_place_detail[:name] %></p>
+  <div style="margin: 5px; geight: 100%; width: 100%; margin: 0 auto; font-size: 15px; height: 35px;">
+    <p class="bg-primary">実行中のミッション</p>
   </div>
 
-  <div class="destination-info" style="background-color: pink; height: 80px; color: white; margin: 10px;">
-  	<div style="height: 100%;">
-  	  <div style="height: 60px; width: 60px; float: left;">
-  	  	<%=  image_tag 'mission/image_' + @target_place_detail[:station_no] + '_' + @target_place_detail[:target_place_no] + '.jpg', border: 0, size: '60x60' %>
-  	  	<%#= image_tag @target_place_detail[:image_url], border: 0, size: '60x60' %>
-  	  </div>
-  	  <div style="margin-left: 80px;">
-  	  	<div>
+  <div style="background-color: white; padding-top: 1px; margin: 5px; ">
+    <div>
+      <%= image_tag @target_place_detail[:image_url], border: 0, size: '250x200' %>
+    </div>
+    <div class="title" style=" height: 30px; margin: 1px auto;">
+      <h4 style="margin: 5px;"><%= @target_place_detail[:name] %></h4>
+    </div>
+
+    <div class="destination-info" style="border: 1px; height: 80px; margin: 10px;">
+        <div style="height: 100%;">
+                <div>
           <span>住所: </span>
           <span><%= @target_place_detail[:address] %></span>
-  	  	</div>
-  	  	<div>
+                </div>
+                <div>
           <span>電話番号: </span>
           <span><%= @target_place_detail[:tel] %></span>
-  	  	</div>
-  	  	<div>
+                </div>
+                <div>
           <%= link_to 'MAP', '#', id: "map_btn", "data-tooltip" => "#html_map", class: "btn btn-info" %>
           <div id="html_map" style="display: none;">
             <%=  image_tag 'map/' + @target_place_detail[:map_url], border: 0, size: '250x250' %>
           </div>
-  	  	</div>
-  	  </div>
+          </div>
+      </div>
     </div>
-  </div>
 
-  <div class="mission-detail" style="background-color: skyblue; height: 200px;
-                                     color: white; margin: 10px; overflow: auto;">
-  	<div class="mission-abstract" 
-  	     style="background-color: darkblue; height: 50px; margin: 10px;">
-  	  <p><%= @target_place_detail[:abustract] %></p>
-  	</div>
-  	<div class="mission-pr1" style="background-color: gray; height: 50px; margin: 10px;">
-  	  <p><%= @target_place_detail[:pr1] %></p>
-  	</div>
-  	<div class="mission-pr2" style="background-color: gray; height: 50px; margin: 10px;">
-  	  <p><%= @target_place_detail[:pr2] %></p>
-  	</div>
-  	<div class="mission-pr3" style="background-color: gray; height: 50px; margin: 10px;">
-  	  <p><%= @target_place_detail[:pr3] %></p>
-  	</div>
-  </div>
-
+    <div class="mission-detail" style=" height: 100px; margin: 10px;">
+        <p><%= @target_place_detail[:abustract] %></p>
+    </div>
   </div>
 
   <%= form_tag 'capture', enctype: "multipart/form-data" do %>
