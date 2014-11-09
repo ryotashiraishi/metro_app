@@ -122,7 +122,7 @@ ready = ->
            $('#img_user').css('transform', 'rotate(0deg)')
            $(target_station).parent().css('color', 'red') 
            $('#dice_btn').css('display', 'none')
-           $('#operation-message').text('ミッションを選んでください')
+           $('#operation-message').text('ミッションを一つ選んでください')
            $('#dice_btn').attr("disabled", '')
            $('#mission_div').toggleClass('display-none-style')
            $('#dice_div').css('display', 'none')
@@ -160,6 +160,19 @@ ready = ->
     gravity: "north"
     theme: "light"
     trigger: "click"
+
+  $(".navbar-toggle").on 'click', ->
+
+    $('#img_user').css('display', 'none')
+
+    setTimeout ->
+      # 現在の位置
+      c_station_move_no = $('#station_info').data('current-station-no')
+      c_station_move = $('.enable-station').get(c_station_move_no - 1)
+      y_move=$(c_station_move).offset().top - 10;
+      $('#img_user').css('top', y_move)
+      $('#img_user').css('display', '')
+    , 300
 
   loop_target = (i,x_current,target_station) ->
 
