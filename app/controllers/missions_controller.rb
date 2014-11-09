@@ -174,6 +174,27 @@ class MissionsController < ApplicationController
     }
     trip_histories_put(req)
 
+    # 浅草のミッションだったら旅も終了させて旅履歴画面にリダイレクト
+    if @data[:station_no].to_i == LAST_TRAIN_NO
+      req = {
+        user_no: trip[:user_no],
+        trip_no: trip[:trip_no],
+        status: 2
+      }
+      trip_infomations_put(req)
+
+      # セッション情報を初期化
+      session[:station_no] = nil
+
+      # 旅履歴画面へリダイレクト
+      respond_to do |format|
+        format.html { 
+          redirect_to action_histories_index_path(param)
+        }
+      end
+      return
+    end
+
     # トップ画面へリダイレクト
     respond_to do |format|
       format.html { 
