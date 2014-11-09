@@ -119,25 +119,25 @@ module MissionsHelper
     prefix = 'odpt.Station:TokyoMetro.Ginza.'
 
     result = {
-        prefix + "Shibuya" => { name: "渋谷", enable: true },
-        prefix + "OmoteSando" => { name: "表参道", enable: true },
-        prefix + "Gaiemmae" => { name: "外苑前", enable: false },
-        prefix + "AoyamaItchome" => { name: "青山一丁目", enable: true },
-        prefix + "AkasakaMitsuke" => { name: "赤坂見附", enable: false },
-        prefix + "TameikeSanno" => { name: "溜池山王", enable: false },
-        prefix + "Toranomon" => { name: "虎ノ門", enable: true },
-        prefix + "Shimbashi" => { name: "新橋", enable: false },
-        prefix + "Ginza" => { name: "銀座", enable: true },
-        prefix + "Kyobashi" => { name: "京橋", enable: false },
-        prefix + "Nihombashi" => { name: "日本橋", enable: true },
-        prefix + "Mitsukoshimae" => { name: "三越前", enable: false },
-        prefix + "Kanda" => { name: "神田", enable: false },
-        prefix + "Suehirocho" => { name: "末広町", enable: true },
-        prefix + "UenoHirokoji" => { name: "上野広小路", enable: true },
-        prefix + "Ueno" => { name: "上野", enable: false },
-        prefix + "Inaricho" => { name: "稲荷町", enable: true },
-        prefix + "Tawaramachi" => { name: "田原町", enable: false },
-        prefix + "Asakusa" => { name: "浅草", enable: true }
+        prefix + "Shibuya" => { name: "渋谷", enable: true, no: '01' },
+        prefix + "OmoteSando" => { name: "表参道", enable: true, no: '02' },
+        prefix + "Gaiemmae" => { name: "外苑前", enable: false, no: '03' },
+        prefix + "AoyamaItchome" => { name: "青山一丁目", enable: true, no: '04' },
+        prefix + "AkasakaMitsuke" => { name: "赤坂見附", enable: false, no: '05' },
+        prefix + "TameikeSanno" => { name: "溜池山王", enable: false, no: '06' },
+        prefix + "Toranomon" => { name: "虎ノ門", enable: true, no: '07' },
+        prefix + "Shimbashi" => { name: "新橋", enable: false, no: '08' },
+        prefix + "Ginza" => { name: "銀座", enable: true, no: '09' },
+        prefix + "Kyobashi" => { name: "京橋", enable: false, no: '10' },
+        prefix + "Nihombashi" => { name: "日本橋", enable: true, no: '11' },
+        prefix + "Mitsukoshimae" => { name: "三越前", enable: false, no: '12' },
+        prefix + "Kanda" => { name: "神田", enable: false, no: '13' },
+        prefix + "Suehirocho" => { name: "末広町", enable: true, no: '14' },
+        prefix + "UenoHirokoji" => { name: "上野広小路", enable: true, no: '15' },
+        prefix + "Ueno" => { name: "上野", enable: false, no: '16' },
+        prefix + "Inaricho" => { name: "稲荷町", enable: true, no: '17' },
+        prefix + "Tawaramachi" => { name: "田原町", enable: false, no: '18' },
+        prefix + "Asakusa" => { name: "浅草", enable: true, no: '19' }
     }
   end
 
