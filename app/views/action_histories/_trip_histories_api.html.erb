@@ -1,4 +1,4 @@
-<div id="trip_histories" class="panel panel-primary" style="margin: 0 auto;">
+<div id="trip_histories" class="panel panel-primary" style="margin: 0 auto; margin-bottom: 10px;">
   <% if @recent_action_history.present? %>
     <div class="panel-heading">
       <h3 class="panel-title"><%= @recent_action_history.first[:missions].first[:created_at].in_time_zone('Tokyo').strftime('%Y/%m/%d') %>の旅</h3>

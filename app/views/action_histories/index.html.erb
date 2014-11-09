@@ -2,6 +2,11 @@
   <%= render 'action_histories/trip_histories_api' %>
 </div>
 
+<% if @all_trip_info.present? %>
+  <p class="bg-primary" style="margin: 3px auto; font-size: 18px; vertical-align: middle;">
+    <Marquee style="vertical-align: middle;" crollamount="2" truespeed>以下の日付を押すと過去の履歴を確認できます。</Marquee>
+  </p>
+<% end %>
 <div class="mission-detail" style="height: 200px; padding: 5px;
                                    color: white; margin: 5px; overflow: auto;">
   <% if @all_trip_info.present? %>
