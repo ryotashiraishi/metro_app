@@ -1,15 +1,33 @@
-<div style="background-color: white; padding-top: 1px; margin: 10px; ">
+<div style="margin: 5px; height: 100%; width: 100%; margin: 0 auto; font-size: 15px; height: 25px;">
+  <p class="bg-primary">ミッション情報</p>
+</div>
+
+<div style="margin: 5px height: 40px; width: 85%; margin: 10px 25px; font-size: 15px;">
+  <div class="caption" style="padding: 0;">
+     <h4><%= @mission_info[:mission_title] %></h4>
+  </div>
+  <%= link_to image_tag(@mission_info[:mission_image_url],
+                      border: 0, size: '90x72', style:'border-radius: 5px'),
+                      missions_show_path(@mission_info),
+                      style: "display: block; padding: 0px; margin: 3px;" %>
+  <div style="margin: 10px;">
+     <p><%= @mission_info[:mission_summary] %></p>
+  </div>
+</div>
+
+<div style="margin: 5px; height: 100%; width: 100%; margin: 10px 0 auto; font-size: 15px; height: 25px;">
+  <p class="bg-primary">目的地情報</p>
+</div>
+<div style="background-color: white; padding-top: 1px; margin: 10px 25px; ">
   <div>
-    <%#=  image_tag 'mission/image_' + @data[:station_no] + '_' + @data[:target_place_no] + '.jpg', size: '250x200' %>
-    <%= image_tag @target_place_detail[:image_url], border: 0, size: '250x200' %>
+    <%= image_tag @target_place_detail[:target_place_image_url], border: 0, size: '272x146', style:'border-radius: 10px' %>
   </div>
-  <div class="title" style=" height: 30px; margin: 1px auto;">
-    <h3 style=" margin: 5px;"><%= @target_place_detail[:name] %></h3>
+  <div class="title" style=" height: 20px; margin: 1px auto;">
+    <h4 style=" margin: 5px;"><%= @target_place_detail[:name] %></h4>
   </div>
 
-
-  <div class="destination-info" style="border: 1px; height: 80px; margin: 10px;">
-  	<div style="height: 100%;">
+  <div class="destination-info" style="border: 1px; height: 80px; margin: 5px;">
+  	<div style="height: 100%; margin: 5px;">
   	  	<div>
           <span>住所: </span>
           <span><%= @target_place_detail[:address] %></span>
@@ -27,7 +45,7 @@
     </div>
   </div>
 
-  <div class="mission-detail" style=" height: 100px; margin: 10px;">
+  <div class="mission-detail" style=" height: 50px; margin: 10px;">
       <p><%= @target_place_detail[:abustract] %></p>
   </div>
 
