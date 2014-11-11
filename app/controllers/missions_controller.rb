@@ -43,8 +43,8 @@ class MissionsController < ApplicationController
     }
 
     # AWS APIにミッション(目的地)情報をリクエストする
-    mission_info = mission_infomations_get(@data).first.symbolize_keys
-    @target_place_detail = mission_info[:target_place_info].symbolize_keys
+    @mission_info = mission_infomations_get(@data).first.symbolize_keys
+    @target_place_detail = @mission_info[:target_place_info].symbolize_keys
 
     # 一時的に駅番号を記録する
     session[:station_no] = @data[:station_no]
@@ -119,8 +119,8 @@ class MissionsController < ApplicationController
     }
 
     # ミッション情報取得APIから目的地情報を取得する
-    mission_info = mission_infomations_get(@data).first.symbolize_keys
-    @target_place_detail = mission_info[:target_place_info].symbolize_keys
+    @mission_info = mission_infomations_get(@data).first.symbolize_keys
+    @target_place_detail = @mission_info[:target_place_info].symbolize_keys
 
     current_trip = current_trip(@user[:user_no])
 
