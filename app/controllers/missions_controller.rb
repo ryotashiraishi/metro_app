@@ -1,15 +1,14 @@
 class MissionsController < ApplicationController
-  before_action :set_current_user, only: [:index, :progress, :destroy, :create, :complete, :upload, :mission_list_api]
   before_action :set_current_info, only: [:index, :progress]
 
   def index
     # 最新の旅情報を取得し、ステータス値を渡す
-    current_trip = current_trip(@user[:user_no])
+    current_trip = current_trip(current_user[:user_no])
     @progress_trip = current_trip.symbolize_keys[:status] if !current_trip.nil?
 
     # 進行中のミッションがある場合は進行中画面へリダイレクトする
     ## 最新のミッション情報を取得する
-    trip_history = current_trip_history(@user[:user_no], current_trip[:trip_no])
+    trip_history = current_trip_history(current_user[:user_no], current_trip[:trip_no])
 
     if trip_history.present? && trip_history[:status].to_s == "1" 
       # 目的地情報を表示するため必要なパラメータを取得する
@@ -60,10 +59,10 @@ class MissionsController < ApplicationController
 
     # 旅履歴を登録する処理
     ## 最新の旅情報の取得
-    trip = current_trip(@user[:user_no])
+    trip = current_trip(current_user[:user_no])
     ## リクエストパラメータの設定
     req = {
-      user_no: @user[:user_no],
+      user_no: current_user[:user_no],
       trip_no: trip[:trip_no],
       station_no: @data[:station_no],
       mission_no: @data[:mission_no]
@@ -91,7 +90,7 @@ class MissionsController < ApplicationController
     }
 
     # 最新の旅情報を取得する
-    current_trip = current_trip(@user[:user_no])
+    current_trip = current_trip(current_user[:user_no])
 
     # 最新の旅履歴を取得する
     current_trip_history = current_trip_history(@user[:user_no], current_trip[:trip_no])
@@ -122,17 +121,17 @@ class MissionsController < ApplicationController
     @mission_info = mission_infomations_get(@data).first.symbolize_keys
     @target_place_detail = @mission_info[:target_place_info].symbolize_keys
 
-    current_trip = current_trip(@user[:user_no])
+    current_trip = current_trip(current_user[:user_no])
 
     req = {
-      user_no: @user[:user_no],
+      user_no: current_user[:user_no],
       trip_no: current_trip[:trip_no]
     }
     this_trip_history = trip_histories_get(req)
 
     current_trip_history = this_trip_history.first.symbolize_keys
     @current_trip_info = {
-      user_no: @user[:user_no],
+      user_no: current_user[:user_no],
       trip_no: current_trip[:trip_no],
       do_no: current_trip_history[:do_no]
     }
@@ -155,17 +154,17 @@ class MissionsController < ApplicationController
 
     # 旅履歴を完了で更新する処理
     ## 最新の旅情報の取得
-    trip = current_trip(@user[:user_no])
+    trip = current_trip(current_user[:user_no])
     ## 最新の旅履歴情報の取得
     param = {
-      user_no: @user[:user_no],
+      user_no: current_user[:user_no],
       trip_no: trip[:trip_no]
     }
 
-    trip_history = current_trip_history(@user[:user_no], trip[:trip_no])
+    trip_history = current_trip_history(current_user[:user_no], trip[:trip_no])
     ## リクエストパラメータの設定
     req = {
-      user_no: @user[:user_no],
+      user_no: current_user[:user_no],
       trip_no: trip[:trip_no],
       station_no: @data[:station_no],
       mission_no: @data[:mission_no],
@@ -274,17 +273,11 @@ class MissionsController < ApplicationController
 
     private
 
-    # ユーザー情報を取得する
-    def set_current_user
-      # ユーザー情報の取得
-      @user = user_infomations_get(uid: session[:uid]).symbolize_keys
-    end
-
     # 現在の位置(駅)や進行中のミッション番号を設定する
     def set_current_info
 
-      current_trip = current_trip(@user[:user_no])
-      current_trip_history = current_trip_history(@user[:user_no], current_trip[:trip_no])
+      current_trip = current_trip(current_user[:user_no])
+      current_trip_history = current_trip_history(current_user[:user_no], current_trip[:trip_no])
 
       if current_trip_history.present? && current_trip_history[:status].to_i == 1
         # ミッションが進行中の場合
