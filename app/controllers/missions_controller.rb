@@ -93,7 +93,7 @@ class MissionsController < ApplicationController
     current_trip = current_trip(current_user[:user_no])
 
     # 最新の旅履歴を取得する
-    current_trip_history = current_trip_history(@user[:user_no], current_trip[:trip_no])
+    current_trip_history = current_trip_history(current_user[:user_no], current_trip[:trip_no])
 
     current_trip_history[:status] = "3"
 
