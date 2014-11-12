@@ -58,19 +58,10 @@
   </div>
 <% end %>
 
-<div style="margin: 10px;">
-  <%= link_to "旅を終了する", action_histories_destroy_path(user_no: @user[:user_no]),
-                              class: "btn btn-primary loading-confirm",
-                              method: "delete",
-                              style: "display: block; margin: 0 auto; width: 50%;",
-                              confirm: "旅を終了しますか？" %>
-</div>
-
 <div class="display-none-style">
   <div id="user_info"
-    data-user-no="<%= @user[:user_no] %>"
-    data-uid="<%= @user[:uid] %>"
-    data-user-name="<%= @user[:user_name] %>" 
+    data-user-no="<%= current_user[:user_no] %>"
+    data-uid="<%= current_user[:uid] %>"
     data-progress-trip="<%= @progress_trip %>" >
   </div>
 </div>

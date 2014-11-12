@@ -21,7 +21,10 @@ class SessionsController < ApplicationController
     ## ユーザー情報の取得
     user = user_infomations_get(uid: session[:uid])
     ## ユーザーがnilの場合、ユーザー情報を登録する 
-    user_infomations_post(session) if user.nil?
+    user = user_infomations_post(session) if user.nil?
+
+    # ユーザーNoをセッションに保持する
+    session[:user_no] = user["user_no"]
 
     redirect_to missions_index_path
   end
@@ -36,6 +39,7 @@ class SessionsController < ApplicationController
     session[:first_name] = nil
     session[:last_name] = nil
     session[:image_url] = nil
+    session[:user_no] = nil
 
     redirect_to root_path, notice: 'Signed out.'
   end

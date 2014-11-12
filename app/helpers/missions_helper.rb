@@ -158,14 +158,14 @@ module MissionsHelper
 
   # 現在の駅番号を取得する
   def current_station
-    current_trip = current_trip(@user[:user_no])
+    current_trip = current_trip(current_user[:user_no])
 
     if current_trip.present? && current_trip[:status].to_i == 1
       req = {
-        user_no: @user[:user_no],
+        user_no: current_user[:user_no],
         trip_no: current_trip[:trip_no]
       }
-      current_trip_histories = current_trip_history(@user[:user_no], current_trip[:trip_no])
+      current_trip_histories = current_trip_history(current_user[:user_no], current_trip[:trip_no])
       station_no = (current_trip_histories[:station_no].to_i if !current_trip_histories.nil?) || FIRST_TRAIN_NO 
     else
       station_no = FIRST_TRAIN_NO 
@@ -174,10 +174,10 @@ module MissionsHelper
 
   # 直前の駅番号を取得する
   def before_station
-    current_trip = current_trip(@user[:user_no])
+    current_trip = current_trip(current_user[:user_no])
 
     req = {
-      user_no: @user[:user_no],
+      user_no: current_user[:user_no],
       trip_no: current_trip[:trip_no]
     }
     # 旅履歴から2番目の履歴を取得する

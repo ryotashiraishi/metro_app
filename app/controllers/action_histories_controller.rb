@@ -1,7 +1,4 @@
-# encoding: utf-8
 class ActionHistoriesController < ApplicationController
-  before_action :set_current_user, only: [:index, :trip_histories_api]
-
   def index
     # 目的地情報を表示するため必要なパラメータを取得する
     @data = {
@@ -11,11 +8,11 @@ class ActionHistoriesController < ApplicationController
     }
 
     # 旅情報を取得する
-    trips = trip_infomations_get(user_no: @user[:user_no])
-    current_trip = current_trip(@user[:user_no])
+    trips = trip_infomations_get(user_no: current_user[:user_no])
+    current_trip = current_trip(current_user[:user_no])
 
     # 最新の旅履歴情報を取得し、表示用に整形する
-    @recent_action_history = get_trip_histories(@user[:user_no], current_trip[:trip_no])
+    @recent_action_history = get_trip_histories(current_user[:user_no], current_trip[:trip_no])
 
     # 旅情報を表示用に整形する
     @all_trip_info = []
@@ -25,7 +22,7 @@ class ActionHistoriesController < ApplicationController
 
     # アップロードした写真を取得する
     req = {
-      user_no: @user[:user_no],
+      user_no: current_user[:user_no],
       trip_no: current_trip[:trip_no]
     }
     @upload_photos = []
@@ -93,10 +90,10 @@ class ActionHistoriesController < ApplicationController
     }
 
     # 旅履歴情報を取り出す
-    @recent_action_history = get_trip_histories(@user[:user_no], @data[:trip_no])
+    @recent_action_history = get_trip_histories(current_user[:user_no], @data[:trip_no])
 
     req = {
-      user_no: @user[:user_no],
+      user_no: current_user[:user_no],
       trip_no: @data[:trip_no]
     }
     @upload_photos = []
@@ -110,13 +107,4 @@ class ActionHistoriesController < ApplicationController
     end
     render :partial => 'trip_histories_api'
   end
-
-    private
-
-    # ユーザー情報を取得する
-    def set_current_user
-      # ユーザー情報の取得
-      @user = user_infomations_get(uid: session[:uid]).symbolize_keys
-    end
-
 end
