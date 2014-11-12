@@ -157,7 +157,7 @@ ready = ->
   # 地図の表示をツールチップで実装する
   $("#map_btn").darkTooltip
     animation: "fadeIn"
-    gravity: "north"
+    gravity: "left"
     theme: "light"
     trigger: "click"
 
