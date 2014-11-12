@@ -12,21 +12,30 @@
           <div class="list-box-div">
             <% action[:missions].each do |mission| %>
               <% if mission[:status_val] != "3" %>
-                <div class="list-box" >
-              <% else %>
-                <div class="list-box small-font" >
-              <% end %>
+              <div class="list-box" >
                 <div class="list-box-div">
                   <%= DateTime.parse(mission[:created_at]).in_time_zone('Tokyo').to_s(:time) %>
                 </div>
                 <div class="list-box-div">
                   <%= mission[:mission_title] %>
                 </div>
-                <div class="list-box-div">
+                <div class="list-box-div complete-status">
                   <%= mission[:status] %>
                 </div>
               </div>
-
+              <% else %>
+              <div class="list-box small-font" >
+                <div class="list-box-div">
+                  <%= DateTime.parse(mission[:created_at]).in_time_zone('Tokyo').to_s(:time) %>
+                </div>
+                <div class="list-box-div">
+                  <%= mission[:mission_title] %>
+                </div>
+                <div class="list-box-div cancel-status">
+                  <%= mission[:status] %>
+                </div>
+              </div>
+              <% end %>
             <% end %>
           </div>
         </div>
@@ -74,12 +83,14 @@
 .list-box {
   display: table;
   width: 100%;
+  margin: 2px 0 2px 0;
 }
 .list-box-div {
   display: table-cell;
 }
 .list-box-station {
   width: 35%;
+  vertical-align: middle;
 }
 .list-box-time {
   width: 15%;
@@ -104,5 +115,19 @@ div.gv_infobar {
 }
 .small-font {
   font-size: 12px;
+}
+.complete-status {
+  border: 2px solid orange;
+  background-color: orange;
+  color: white; 
+  border-radius: 10px;
+  text-align: center;
+}
+.cancel-status {
+  border: 2px solid brown; 
+  background-color: brown; 
+  color: white; 
+  border-radius: 10px; 
+  text-align: center;
 }
 </style>

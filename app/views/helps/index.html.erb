@@ -1,4 +1,5 @@
 <div id="page_top" style="height: 415px; overflow: auto;">
+  <!-- メニューの一覧 -->
   <div id="menu_top" class="panel panel-primary" style="width: 90%; margin: 5px auto;">
     <div class="panel-heading">
       <h3 class="panel-title">各画面の使い方</h3>
@@ -7,21 +8,77 @@
       <ul>
         <li><a href="#top">トップ画面</a></li>
         <li><a href="#mission_index">ミッション選択画面</a></li>
+        <li><a href="#mission_detail">ミッション詳細画面</a></li>
         <li><a href="#mission_progress">ミッション進行中画面</a></li>
+        <li><a href="#trip_histories">旅履歴画面</a></li>
+        <li><a href="#header_menu">その他 メニュー</a></li>
       </ul>
     </div>
   </div>
 
   <div id="mission_top" class="col-xs-12 col-sm-12 col-md-12" style="height: 450px;">
-	トップ画面<span style="float: right;"><a href="#menu_top">▲メニューへ戻る</a></span>
-    <img src="url" style="width: 100%; height: 400px;">
+  	<div class="title">
+	  トップ画面<span style="float: right;"><a href="#menu_top">▲メニューへ戻る</a></span>
+  	</div>
+    <img class="capture" src="<%= asset_path("manual/mission_top.png") %>">
   </div>
+
+  <div id="#" class="col-xs-12 col-sm-12 col-md-12" style="height: 450px;">
+  	<div class="title">
+	  サイコロ振り終わった後<span style="float: right;"><a href="#menu_top">▲メニューへ戻る</a></span>
+  	</div>
+    <img class="capture" src="<%= asset_path("manual/mission_top_after_dice_shaked.png") %>">
+  </div>
+
   <div id="mission_index" class="col-xs-12 col-sm-12 col-md-12" style="height: 450px;">
-	ミッション選択画面<span style="float: right;"><a href="#menu_top">▲メニューへ戻る</a></span>
-    <img src="url" style="width: 100%; height: 400px;">
+  	<div class="title">
+	  ミッション選択画面<span style="float: right;"><a href="#menu_top">▲メニューへ戻る</a></span>
+  	</div>
+    <img class="capture" src="<%= asset_path("manual/mission_index.png") %>">
   </div>
+
+  <div id="mission_detail" class="col-xs-12 col-sm-12 col-md-12" style="height: 450px;">
+  	<div class="title">
+	  ミッション詳細画面<span style="float: right;"><a href="#menu_top">▲メニューへ戻る</a></span>
+  	</div>
+    <img class="capture" src="<%= asset_path("manual/mission_detail.png") %>">
+  </div>
+
   <div id="mission_progress" class="col-xs-12 col-sm-12 col-md-12" style="height: 450px;">
-	ミッション進行中画面<span style="float: right;"><a href="#menu_top">▲メニューへ戻る</a></span>
-    <img src="url" style="width: 100%; height: 400px;">
+  	<div class="title">
+	  ミッション進行中画面<span style="float: right;"><a href="#menu_top">▲メニューへ戻る</a></span>
+  	</div>
+    <img class="capture" src="<%= asset_path("manual/mission_progress.png") %>">
+  </div>
+
+  <div id="mission_histories" class="col-xs-12 col-sm-12 col-md-12" style="height: 450px;">
+  	<div class="title">
+	  旅履歴画面<span style="float: right;"><a href="#menu_top">▲メニューへ戻る</a></span>
+  	</div>
+    <img class="capture" src="<%= asset_path("manual/mission_histories.png") %>">
+  </div>
+
+  <div id="header_menu" class="col-xs-12 col-sm-12 col-md-12" style="height: 450px;">
+  	<div class="title">
+	  その他 メニュー<span style="float: right;"><a href="#menu_top">▲メニューへ戻る</a></span>
+  	</div>
+    <img class="capture" src="<%= asset_path("manual/header_menu.png") %>">
   </div>
 </div>
+
+<style>
+.title {
+  margin-top: 10px;
+}
+.manual_div {
+  height: 450px;
+}
+/* TODO: manual_divのクラスを上のdivに適用すること*/
+img.capture {
+  height: 400px;
+  display: block;
+  margin: 0 auto;
+  border: 1px solid green;
+}
+
+</style>
