@@ -2,20 +2,20 @@
   <p class="bg-primary">ミッション情報</p>
 </div>
 
-<div style="margin: 5px height: 40px; width: 85%; margin: 10px 25px; font-size: 15px;">
+<div style="margin: 5px; height: 140px; width: 85%; margin: 10px 25px; font-size: 15px;">
   <div class="caption" style="padding: 0;">
      <h4><%= @mission_info[:mission_title] %></h4>
   </div>
-  <%= link_to image_tag(@mission_info[:mission_image_url],
-                      border: 0, size: '90x72', style:'border-radius: 5px'),
+       <%= link_to image_tag(@mission_info[:mission_image_url],
+                      border: 0, size: '119x95', style:'border-radius: 5px'),
                       missions_show_path(@mission_info),
-                      style: "display: block; padding: 0px; margin: 3px;" %>
-  <div style="margin: 10px;">
-     <p><%= @mission_info[:mission_summary] %></p>
-  </div>
+                      style: "display: block; padding: 0px; margin: 3px;float:left;" %>
+       <div style="margin: 10px;float:left; width: 125px;">
+         <p><%= @mission_info[:mission_summary] %></p>
+       </div>
 </div>
 
-<div style="margin: 5px; height: 100%; width: 100%; margin: 10px 0 auto; font-size: 15px; height: 25px;">
+<div style="margin: 5px; height: 100%; width: 100%; margin: 10px 0 auto; font-size: 15px; height: 25px;clear:left;">
   <p class="bg-primary">目的地情報</p>
 </div>
 <div style="background-color: white; padding-top: 1px; margin: 10px 25px; ">
