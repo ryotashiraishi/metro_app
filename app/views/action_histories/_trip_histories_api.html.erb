@@ -3,7 +3,7 @@
     <div class="panel-heading">
       <h3 class="panel-title"><%= @recent_action_history.first[:missions].first[:created_at].in_time_zone('Tokyo').strftime('%Y/%m/%d') %>の旅</h3>
     </div>
-    <div class="panel-body" style="overflow: auto; height: 180px;">
+    <div class="panel-body" style="overflow: auto; height: 180px; padding: 3px;">
       <% @recent_action_history.each_with_index do |action, index| %>
         <div class="list-box">
           <div class="list-box-div list-box-station" style="border: 3px solid skyblue; border-radius: 10px; text-align: center;">
@@ -12,26 +12,26 @@
           <div class="list-box-div">
             <% action[:missions].each do |mission| %>
               <% if mission[:status_val] != "3" %>
-              <div class="list-box" >
-                <div class="list-box-div">
+              <div class="" style="display: table; width: 100%;" >
+                <div class="list-box-time">
                   <%= DateTime.parse(mission[:created_at]).in_time_zone('Tokyo').to_s(:time) %>
                 </div>
-                <div class="list-box-div">
+                <div class="list-box-mission-title">
                   <%= mission[:mission_title] %>
                 </div>
-                <div class="list-box-div complete-status">
+                <div class="complete-status">
                   <%= mission[:status] %>
                 </div>
               </div>
               <% else %>
-              <div class="list-box small-font" >
-                <div class="list-box-div">
+              <div class="small-font" style="display: table; width: 100%; margin: 2px;" >
+                <div class="list-box-time">
                   <%= DateTime.parse(mission[:created_at]).in_time_zone('Tokyo').to_s(:time) %>
                 </div>
-                <div class="list-box-div">
+                <div class="list-box-mission-title">
                   <%= mission[:mission_title] %>
                 </div>
-                <div class="list-box-div cancel-status">
+                <div class="cancel-status">
                   <%= mission[:status] %>
                 </div>
               </div>
@@ -81,22 +81,51 @@
 </script>
 <style>
 .list-box {
-  display: table;
   width: 100%;
+  display: table;
   margin: 2px 0 2px 0;
 }
 .list-box-div {
   display: table-cell;
+  width: 200px;
 }
 .list-box-station {
-  width: 35%;
+  width: 90px; 
   vertical-align: middle;
 }
 .list-box-time {
-  width: 15%;
+  width: 40px;
+  margin-right: 3px;
+  text-align: center;
+  display: table-cell;
 }
 .list-box-mission-title {
-  width: 35%;
+  min-width: 100px;
+  max-width: 100px;
+  overflow: hidden;
+  display: table-cell;
+}
+.complete-status {
+  border: 2px solid #FF9500;
+  background-color: #FF9500;
+  color: white; 
+  border-radius: 10px;
+  text-align: center;
+  min-width: 50px;
+  max-width: 50px;
+  vertical-align: middle;
+  display: table-cell;
+}
+.cancel-status {
+  border: 2px solid #696969; 
+  background-color: #696969; 
+  color: white; 
+  border-radius: 10px; 
+  text-align: center;
+  min-width: 50px;
+  max-width: 50px;
+  vertical-align: middle;
+  display: table-cell;
 }
 div.gv_galleryWrap {
   width: 100% !important;
@@ -115,19 +144,5 @@ div.gv_infobar {
 }
 .small-font {
   font-size: 12px;
-}
-.complete-status {
-  border: 2px solid orange;
-  background-color: orange;
-  color: white; 
-  border-radius: 10px;
-  text-align: center;
-}
-.cancel-status {
-  border: 2px solid brown; 
-  background-color: brown; 
-  color: white; 
-  border-radius: 10px; 
-  text-align: center;
 }
 </style>

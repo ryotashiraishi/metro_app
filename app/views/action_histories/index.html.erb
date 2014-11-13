@@ -1,4 +1,4 @@
-<div id="trip_div" style="padding: 15px;">
+<div id="trip_div" style="padding: 10px;">
   <%= render 'action_histories/trip_histories_api' %>
 </div>
 
@@ -13,7 +13,7 @@
     <% @all_trip_info.each do |trip| %>
     <div class="col-xs-4 col-sm-3 col-md-2 past-trip loading" style="height: 80px; border: 0px;"
          data-trip-no=<%= trip[:trip_no] %> >
-      <div class="img-circle" style="width: 70px; height: 70px; text-align: center; background-color: orange;">
+      <div class="img-circle" style="width: 70px; height: 70px; text-align: center; background-color: #FF9500;">
         <div style="vertical-align: middle; height: 70px; line-height: 70px;">
           <p style="line-height: 25px;"><%= DateTime.parse(trip[:created_at]).in_time_zone('Tokyo').strftime('%Y') %></p>
           <p style="line-height: 5px;"><%= DateTime.parse(trip[:created_at]).in_time_zone('Tokyo').strftime('%m / %d') %></p>
