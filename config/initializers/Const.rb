@@ -27,3 +27,7 @@ FIRST_TRAIN_NO = 1
 
 # 終着駅番号
 LAST_TRAIN_NO = 10
+
+## ステータス関連
+PROGRESS = "1"
+CANCEL = "3"

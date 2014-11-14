@@ -2,15 +2,20 @@ class MissionsController < ApplicationController
   before_action :set_current_info, only: [:index, :progress]
 
   def index
-    # 最新の旅情報を取得し、ステータス値を渡す
+    # 最新の旅情報を取得
     current_trip = current_trip(current_user[:user_no])
-    @progress_trip = current_trip.symbolize_keys[:status] if !current_trip.nil?
+
+    # 初回利用はここでviewに移る
+    if current_trip.nil?
+      render and return
+    end
 
     # 進行中のミッションがある場合は進行中画面へリダイレクトする
+    @progress_trip = current_trip.symbolize_keys[:status]
     ## 最新のミッション情報を取得する
     trip_history = current_trip_history(current_user[:user_no], current_trip[:trip_no])
 
-    if trip_history.present? && trip_history[:status].to_s == "1" 
+    if trip_history.present? && trip_history[:status].to_s == PROGRESS
       # 目的地情報を表示するため必要なパラメータを取得する
       @data = {
         station_no: trip_history[:station_no],
@@ -95,7 +100,7 @@ class MissionsController < ApplicationController
     # 最新の旅履歴を取得する
     current_trip_history = current_trip_history(current_user[:user_no], current_trip[:trip_no])
 
-    current_trip_history[:status] = "3"
+    current_trip_history[:status] = CANCEL
 
     trip_histories_put(current_trip_history)
 
@@ -275,11 +280,34 @@ class MissionsController < ApplicationController
 
     # 現在の位置(駅)や進行中のミッション番号を設定する
     def set_current_info
+      @station_name_array = acquire_station_name
+      @station_name_hash = acquire_station_name_hash
 
       current_trip = current_trip(current_user[:user_no])
-      current_trip_history = current_trip_history(current_user[:user_no], current_trip[:trip_no])
+      if current_trip.nil?
+        # 始発駅の情報を設定する
+        @current_station_info = {
+          station_no: FIRST_TRAIN_NO,
+          station_name: get_station_name(FIRST_TRAIN_NO)
+        }
+        # 目的地の駅番号を取得する
+        @next_station_info = nil
+        return
+      end
 
-      if current_trip_history.present? && current_trip_history[:status].to_i == 1
+      current_trip_history = current_trip_history(current_user[:user_no], current_trip[:trip_no])
+      if current_trip_history.nil?
+        # 現在の駅番号を取得する
+        @current_station_info = {
+          station_no: FIRST_TRAIN_NO,
+          station_name: get_station_name(FIRST_TRAIN_NO)
+        }
+        # 目的地の駅番号を取得する
+        @next_station_info = nil
+        return
+      end
+
+      if current_trip_history[:status] == PROGRESS
         # ミッションが進行中の場合
         # 現在の駅番号を取得する
         @current_station_info = {
@@ -301,8 +329,5 @@ class MissionsController < ApplicationController
         # 目的地の駅番号を取得する
         @next_station_info = nil
       end
-
-      @station_name_array = acquire_station_name
-      @station_name_hash = acquire_station_name_hash
     end
 end

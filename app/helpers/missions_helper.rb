@@ -160,7 +160,7 @@ module MissionsHelper
   def current_station
     current_trip = current_trip(current_user[:user_no])
 
-    if current_trip.present? && current_trip[:status].to_i == 1
+    if current_trip.present? && current_trip[:status] == PROGRESS
       req = {
         user_no: current_user[:user_no],
         trip_no: current_trip[:trip_no]
