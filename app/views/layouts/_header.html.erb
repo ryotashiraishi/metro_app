@@ -20,7 +20,10 @@
         <% if session[:uid].present? %>
           <li><%= link_to "トップ画面", missions_index_path(@data), class: "nav-link text-center loading" %></li>
           <li><%= link_to "旅の履歴", action_histories_index_path(@data), class: "nav-link text-center loading" %></li>
-          <li><%= link_to "現在の旅を終了する", action_histories_destroy_path(current_user), class: "nav-link text-center loading-confirm", method: "delete", confirm: "旅を終了しますか?" %></li>
+          <% if current_trip(current_user[:user_no]).present? && current_trip(current_user[:user_no])[:status] == "1"  %>
+            <li><%= link_to "現在の旅を終了する", action_histories_destroy_path(current_user),
+                    class: "nav-link text-center loading-confirm", method: "delete", confirm: "旅を終了しますか?" %></li>
+          <% end %>
           <li><%= link_to "ヘルプ", helps_index_path, class: "nav-link text-center loading" %></li>
           <li><%= link_to "ログアウト", signout_path, method: "delete", class: "nav-link text-center loading-confirm", confirm: "ログアウトしますか?" %></li>
         <% else %>
