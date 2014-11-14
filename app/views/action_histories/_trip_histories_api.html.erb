@@ -19,9 +19,11 @@
                 <div class="list-box-mission-title">
                   <%= mission[:mission_title] %>
                 </div>
+                <% if mission[:status].present? %>
                 <div class="complete-status">
                   <%= mission[:status] %>
                 </div>
+                <% end %>
               </div>
               <% else %>
               <div class="small-font" style="display: table; width: 100%; margin: 2px;" >

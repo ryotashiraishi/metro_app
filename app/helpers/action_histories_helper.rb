@@ -48,8 +48,8 @@ module ActionHistoriesHelper
         station_name: get_station_name(FIRST_TRAIN_NO),
         missions: [{
           mission_title: "旅スタート!",
-          status: "完了",
-          status_val: "1",
+          status: "",
+          status_val: "",
           created_at: trip[:created_at]
           }]
     }
