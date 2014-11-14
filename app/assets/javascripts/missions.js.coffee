@@ -110,6 +110,8 @@ ready = ->
 
       # 次の目的地駅
       target_station_no = $('#station_info').data('target-station-no')
+      if target_station_no > 10
+        target_station_no = 10
       target_station = $('.enable-station').get(target_station_no - 1)
       x_target=$(target_station).offset().left - 12;
       $(target_station).parent().css('color', 'red')
