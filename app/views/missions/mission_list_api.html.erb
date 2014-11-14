@@ -6,7 +6,7 @@
         <div class="thumbnail" style="">
           <%= link_to image_tag(mission[:mission_image_url],
                       border: 0, size: '119x95', style:'border-radius: 5px'),
-                      missions_show_path(mission),
+                      missions_show_path(station_no: mission[:station_no], mission_no: mission[:mission_no]),
                       style: "display: block; padding: 0px; margin: 0px;" %>
           <div class="caption" style="padding: 0; text-align: center; min-height: 40px;">
             <p><%= mission[:mission_title] %></p>
