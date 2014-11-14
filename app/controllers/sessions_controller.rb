@@ -41,6 +41,6 @@ class SessionsController < ApplicationController
     session[:image_url] = nil
     session[:user_no] = nil
 
-    redirect_to root_path, notice: 'Signed out.'
+    redirect_to root_path
   end
 end
