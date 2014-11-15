@@ -29,6 +29,10 @@ class SessionsController < ApplicationController
     redirect_to missions_index_path
   end
 
+  def failure
+    redirect_to root_path
+  end
+
   def destroy
     session[:oauth_token] = nil
     session[:oauth_token_secret] = nil
