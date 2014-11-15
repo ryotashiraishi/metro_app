@@ -29,7 +29,35 @@
 
   <%= render 'missions/station_info' %>
 
-  <div style="margin: 5px; height: 100%; width: 100%; margin: 0 auto; font-size: 15px; height: 25px;">
+  <div style="margin: 5px 0px; height: 100%; width: 100%; font-size: 15px; height: 25px;">
+    <p class="bg-primary">思い出を記録</p>
+  </div>
+
+    <div class="box_camera" style="display: table;">
+      <div style="display: table-cell">
+        <%= form_tag 'capture', enctype: "multipart/form-data" do %>
+          <%= hidden_field_tag 'user_no', @current_trip_info[:user_no] %>
+          <%= hidden_field_tag 'trip_no', @current_trip_info[:trip_no] %>
+          <%= hidden_field_tag 'do_no',  @current_trip_info[:do_no] %>
+          <%= hidden_field_tag 'station_no',  @data[:station_no] %>
+          <%= hidden_field_tag 'mission_no',  @data[:mission_no] %>
+
+          <div style="height:1px;width:1px;overflow:hidden;margin-left:-999px">
+            <input id="photo_content" name="photo_content" type="file" accept="image/*">
+          </div>
+          <div>
+            <%= image_tag asset_path("camera.png"), {id: 'camera_btn', width: '60'} %>
+          </div>
+          <%= submit_tag 'preview', id: 'submit_btn', class: "display-none-style loading" %>
+        <% end %>
+      </div>
+      <div style="display: table-cell">
+        <p style="margin: 0 5px 0;">カメラで撮影して、</p>
+        <p style="margin: 0 5px;">思い出に残そう！</p>
+      </div>
+    </div>
+
+  <div style="margin: 5px 0px; height: 100%; width: 100%; font-size: 15px; height: 25px;">
     <p class="bg-primary">実行中のミッション</p>
   </div>
 
@@ -42,23 +70,6 @@
         <%= link_to image_tag(@mission_info[:mission_image_url], border: 0, size: '90x72', style:'border-radius: 5px'),
                     missions_show_path(@mission_info),
                     style: "display: block; padding: 0px; margin: 3px;" %>
-      </div>
-      <div style="display: table-cell">
-        <%= form_tag 'capture', enctype: "multipart/form-data" do %>
-          <%= hidden_field_tag 'user_no', @current_trip_info[:user_no] %>
-          <%= hidden_field_tag 'trip_no', @current_trip_info[:trip_no] %>
-          <%= hidden_field_tag 'do_no',  @current_trip_info[:do_no] %>
-          <%= hidden_field_tag 'station_no',  @data[:station_no] %>
-          <%= hidden_field_tag 'mission_no',  @data[:mission_no] %>
-
-          <div style="height:1px;width:1px;overflow:hidden;margin-left:-999px">
-            <input id="photo_content" name="photo_content" type="file" accept="image/*">
-          </div>
-          <div class="box_camera">
-            <%= image_tag asset_path("camera.png"), {id: 'camera_btn', width: '60'} %>
-          </div>
-          <%= submit_tag 'preview', id: 'submit_btn', class: "display-none-style loading" %>
-        <% end %>
       </div>
     </div>
     <div style="margin: 10px;">
@@ -168,10 +179,6 @@ div.tate-line-arrow{
   margin-bottom: 5px;
 }
 div.box_camera {
-  position: relative;
-  top: 145px;
-  left: 130px;
-  text-align: center;
-  vertical-align: middle;
+  margin-left:20px;
 }
 </style>
