@@ -95,7 +95,7 @@ ready = ->
         $('#dice_btn').text('マスを進む')
         $('#dice_btn').attr("disabled", false)
         $('#operation-message').text('マスを進んでください')
-      , 3000
+      , 4500
       return
 
     # ミッション一覧を表示 
@@ -175,7 +175,7 @@ ready = ->
       y_move=$(c_station_move).offset().top - 10;
       $('#img_user').css('top', y_move)
       $('#img_user').css('display', '')
-    , 300
+    , 350
 
   loop_target = (i,x_current,target_station) ->
 
