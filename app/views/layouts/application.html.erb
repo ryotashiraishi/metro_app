@@ -35,7 +35,12 @@
     <a id="getting_start_app" class="btn btn-danger" style="margin: 0 auto; display: block; width: 80%;">アプリを開始</a>
   </div>
     <div id="loading" style="opacity: 1.0; display: none; z-index: 10;">
-      <img src=<%= asset_path "loading.gif" %> style="position: relative; top: 35%; left: 30%;">
+      <div style="background-color: white; width: 200px; height: 200px; border-radius: 20px; margin: 0 auto; position: relative; top: 25%;">
+        <div style="text-align: center; height: 40%; width: 100px; margin: 0 auto; padding-top: 40px;">Now Loading...</div>
+        <div style="width: 100px; margin: 0 auto;">
+          <img src=<%= asset_path "loading.gif" %> style="display: block; margin: 0 auto;">
+        </div>
+      </div>
     </div>
 </body>
 <style>
