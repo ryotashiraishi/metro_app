@@ -145,6 +145,7 @@ ready = ->
     # スマホでの表示用に時間を遅らせる
     setTimeout (->
       if confirm('このミッションの詳細を見ますか？')
+        nowLoadingStart();
         data = $(total_mission.get(mission_no - 1)).data()
 
         next_page =
