@@ -27,7 +27,7 @@
           <li><%= link_to "ヘルプ", helps_index_path, class: "nav-link text-center loading" %></li>
           <li><%= link_to "ログアウト", signout_path, method: "delete", class: "nav-link text-center loading-confirm", confirm: "ログアウトしますか?" %></li>
         <% else %>
-          <li><%= link_to "ファイスブックのアカウントでログイン", "/auth/facebook", class: "nav-link text-center loading" %></li>
+          <li><%= link_to "Facebookのアカウントでログイン", "/auth/facebook", class: "nav-link text-center loading" %></li>
         <% end %>
       </ul>
     </div>
