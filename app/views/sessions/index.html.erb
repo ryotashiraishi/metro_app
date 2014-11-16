@@ -4,7 +4,7 @@
 </div>
 <div class="col-xs-12" style="height: 200px; padding: 83px 0;">
   <% if session[:uid].nil? %>
-  <%= link_to "Facebookのアカウントでログイン", "/auth/facebook", id: "sign_in",
+  <%= link_to "Facebookでログイン", "/auth/facebook", id: "sign_in",
                 class: "btn btn-primary loading", style: "display: block; margin: 0 auto; width: 60%;" %>
   <% else %>
   <%= link_to "スタート", missions_index_path, id: "sign_in",
