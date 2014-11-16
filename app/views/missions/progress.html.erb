@@ -36,7 +36,6 @@
     <div class="box_camera" style="display: table;">
       <div style="display: table-cell">
         <%= form_tag 'capture', enctype: "multipart/form-data" do %>
-          <%= hidden_field_tag 'user_no', @current_trip_info[:user_no] %>
           <%= hidden_field_tag 'trip_no', @current_trip_info[:trip_no] %>
           <%= hidden_field_tag 'do_no',  @current_trip_info[:do_no] %>
           <%= hidden_field_tag 'station_no',  @data[:station_no] %>
