@@ -194,7 +194,7 @@ ready = ->
         , 1*i
         return
 
-  $('.loading').click ->
+  $(document).on 'click', '.loading', ->
     nowLoadingStart()
     return
 
