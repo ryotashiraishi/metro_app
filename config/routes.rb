@@ -1,4 +1,5 @@
 MetroApp::Application.routes.draw do
+  get "missions/cancel"
   get "helps/index"
   post "missions/capture"
   get "action_histories/get_image"

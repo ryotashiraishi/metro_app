@@ -163,4 +163,20 @@ module ApisHelper
     response = client.get url, param
     parse_result = JSON.parse(response.body)
   end
+
+  # 旅写真削除API
+  def trip_photos_delete(req)
+    url = AWS_API_ENDPOINT + TRIP_PHOTOS
+
+    client = http_client(url)
+    param = {
+      user_no: req[:user_no],
+      trip_no: req[:trip_no],
+      do_no: req[:do_no],
+      photo_no: req[:photo_no]
+    }
+
+    response = client.delete url, param
+    parse_result = JSON.parse(response.body)
+  end
 end

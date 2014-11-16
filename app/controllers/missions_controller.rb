@@ -217,12 +217,23 @@ class MissionsController < ApplicationController
       photo_content: encoded_binary
     }
     @data = {
-      user_no: params[:user_no],
+      user_no: current_user[:user_no],
       trip_no: params[:trip_no],
       do_no: params[:do_no],
       station_no: params[:station_no],
       mission_no: params[:mission_no]
     }
+
+    ## このタイミングで一度登録する
+    req = {
+      user_no: current_user[:user_no],
+      trip_no: params[:trip_no],
+      do_no: params[:do_no],
+      photo_name: params[:photo_content].content_type,
+      photo_content: encoded_binary
+    }
+    response = trip_photos_post(req)
+    session[:photo] = response.first.symbolize_keys
   end
 
   def upload
@@ -231,20 +242,37 @@ class MissionsController < ApplicationController
     # nowtime = Time.now
     #photo_name = nowtime.strftime("%Y%H%M%S")
 
-    req = {
-      user_no: params[:user_no],
-      trip_no: params[:trip_no],
-      do_no: params[:do_no],
-      photo_name: params[:photo_name],
-      photo_content: params[:photo_content]
-    }
-    trip_photos_post(req)
-
+    session[:photo] = nil
     data = {
       station_no: params[:station_no],
       mission_no: params[:mission_no]
     }
 
+    # ミッション進行中画面へリダイレクト
+    respond_to do |format|
+      format.html { 
+        redirect_to missions_progress_path(data)
+      }
+    end
+  end
+
+  def cancel 
+    ## 仮登録した情報を削除する
+
+    req = {
+      user_no: current_user[:user_no],
+      trip_no: session[:photo][:trip_no],
+      do_no: session[:photo][:do_no],
+      photo_no: session[:photo][:photo_no]
+    }
+
+#    trip_photos_delete(req)
+
+    session[:photo] = nil
+    data = {
+      station_no: params[:station_no],
+      mission_no: params[:mission_no]
+    }
     # ミッション進行中画面へリダイレクト
     respond_to do |format|
       format.html { 
