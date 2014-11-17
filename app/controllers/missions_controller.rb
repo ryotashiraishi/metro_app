@@ -224,7 +224,7 @@ class MissionsController < ApplicationController
       mission_no: params[:mission_no]
     }
 
-    ## このタイミングで一度登録する
+    # このタイミングで一度登録する
     req = {
       user_no: current_user[:user_no],
       trip_no: params[:trip_no],
@@ -257,16 +257,14 @@ class MissionsController < ApplicationController
   end
 
   def cancel 
-    ## 仮登録した情報を削除する
-
     req = {
       user_no: current_user[:user_no],
       trip_no: session[:photo][:trip_no],
       do_no: session[:photo][:do_no],
       photo_no: session[:photo][:photo_no]
     }
-
-#    trip_photos_delete(req)
+    # 仮登録した情報を削除する
+    trip_photos_delete(req)
 
     session[:photo] = nil
     data = {
