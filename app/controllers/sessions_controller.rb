@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
     ## ユーザー情報の取得
     user = user_infomations_get(uid: session[:uid])
     ## ユーザーがnilの場合、ユーザー情報を登録する 
-    user = user_infomations_post(session) if user.nil?
+    user = user_infomations_post(session).first if user.nil?
 
     # ユーザーNoをセッションに保持する
     session[:user_no] = user["user_no"]
